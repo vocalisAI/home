@@ -8,19 +8,19 @@ const MainBody = React.forwardRef((props, ref) => {
     window.location.reload();
   };
 
-  return (
-    <Jumbotron
-      fluid
-      id="home"
-      style={{
+    return (
+      <Jumbotron
+        fluid
+        id="home"
+        style={{
         background: `linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%)`,
         backgroundSize: "400% 400%",
         animation: "gradientShift 15s ease infinite",
         position: "relative"
-      }}
+        }}
       className="title bg-transparent bgstyle text-white min-vh-100 d-flex align-content-center align-items-center flex-wrap m-0"
-    >
-      <div id="stars"></div>
+      >
+        <div id="stars"></div>
       <Container className="text-center py-5">
         {/* Introducing Vocalis - Made Larger and More Prominent */}
         <div className="mb-4">
@@ -62,7 +62,7 @@ const MainBody = React.forwardRef((props, ref) => {
           AI Voice Receptionist
           <br />
           <span style={{fontSize: '0.85em', opacity: 0.95}}>for Modern Clinics</span>
-        </h1>
+          </h1>
 
         {/* Mission Statement - Concise and Powerful */}
         <div className="lead mb-5 text-white" style={{
@@ -77,7 +77,7 @@ const MainBody = React.forwardRef((props, ref) => {
           Answer calls. Book appointments. Handle questions.
           <br />
           <span style={{fontSize: '0.9em', opacity: 0.9}}>Automatically. Around the clock.</span>
-        </div>
+            </div>
 
         {/* Call to Action - Smaller than Introducing Vocalis */}
         <div className="d-flex flex-column flex-md-row justify-content-center gap-4">
@@ -103,9 +103,9 @@ const MainBody = React.forwardRef((props, ref) => {
             Schedule a Demo
           </a>
         </div>
-      </Container>
-    </Jumbotron>
-  );
+        </Container>
+      </Jumbotron>
+    );
 });
 
 export default MainBody;
