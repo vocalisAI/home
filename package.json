@@ -1,7 +1,7 @@
 {
   "name": "vocalis-website",
   "description": "Vocalis - AI Voice Receptionist for Modern Clinics. Professional landing page for our AI-powered voice receptionist product.",
-  "homepage": "https://vocalisAI.github.io/home",
+  "homepage": "https://vocalisAI.github.io/vocalis-website-githubpages",
   "version": "1.0.0",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
