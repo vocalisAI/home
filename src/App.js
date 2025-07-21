@@ -588,7 +588,7 @@ const About = () => (
               </div>
               <h5 className="card-title text-center mb-3 fw-semibold">Mahdi Khan — Co-Founder</h5>
               <p className="text-muted text-center mb-3">Growth Lead</p>
-              <p className="card-text">Hello, I'm Mahdi — a Biochemistry student deeply committed to improving how care is delivered by solving the everyday challenges clinics face. My background bridges academic research and frontline care, giving me a unique, hands-on understanding of how clinical systems work — and where they fall short.</p>
+              <p className="card-text">Hello, I'm Mahdi — a Biochemistry student at Case Western Reserve University (CWRU) deeply committed to improving how care is delivered by solving the everyday challenges clinics face. My background bridges academic research and frontline care, giving me a unique, hands-on understanding of how clinical systems work — and where they fall short.</p>
               <p className="card-text">At Northwestern's Feinberg School of Medicine, I conduct research on DNA damage response using zebrafish models in the Parvez Lab. Outside the lab, I work at APPNA, a free family medicine clinic, rotating between front desk and medical assistant roles.</p>
             </div>
           </div>
@@ -615,7 +615,7 @@ const About = () => (
               </div>
               <h5 className="card-title text-center mb-3 fw-semibold">Somesh Saini — Co-Founder</h5>
               <p className="text-muted text-center mb-3">Technical Lead</p>
-              <p className="card-text">Hi, I'm Somesh — a Computer Science and Chemistry student at Case Western Reserve University with a deep passion for healthcare and machine learning. My academic and professional journey has been driven by one goal: to make a real-world impact at the intersection of technology and medicine.</p>
+              <p className="card-text">Hi, I'm Somesh — a Computer Science and Chemistry student at Case Western Reserve University (CWRU) with a deep passion for healthcare and machine learning. My academic and professional journey has been driven by one goal: to make a real-world impact at the intersection of technology and medicine.</p>
               <p className="card-text">I currently work as a Machine Learning Researcher at the Cleveland Clinic, where I'm developing AI solutions to help detect Chagas disease using ECG data. I've also served as an R&D intern at Procter & Gamble, focusing on innovation within everyday products.</p>
             </div>
           </div>
