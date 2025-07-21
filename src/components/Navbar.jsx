@@ -3,11 +3,8 @@ import { useScrollPosition } from "../hooks/useScrollPosition";
 import useResizeObserver from "../hooks/useResizeObserver";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { mainBody, repos, about, skills } from "../editable-stuff/config.js";
-import { NavLink } from "./home/migration";
 
 const Navigation = React.forwardRef((props, ref) => {
-  // const { showBlog, FirstName } = config;
   const [isTop, setIsTop] = useState(true);
   const [scrollPosition, setScrollPosition] = useState(0);
   const navbarMenuRef = React.useRef();
@@ -31,56 +28,41 @@ const Navigation = React.forwardRef((props, ref) => {
       : setIsTop(true);
   }, [navBottom, navbarDimensions, ref, scrollPosition]);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <Navbar
       ref={navbarMenuRef}
-      className={`px-3 fixed-top  ${!isTop ? "navbar-white" : "navbar-transparent"
-        }`}
+      className={`px-3 fixed-top  ${!isTop ? "navbar-white" : "navbar-transparent"}`}
       expand="lg"
     >
-      <Navbar.Brand className="navbar-brand" href={process.env.PUBLIC_URL + "/#home"}>
-        {`<${mainBody.firstName} />`}
+      <Navbar.Brand 
+        className="navbar-brand d-flex align-items-center" 
+        onClick={scrollToTop}
+        style={{cursor: 'pointer'}}
+      >
+        <img 
+          src={process.env.PUBLIC_URL + "/logo.png"} 
+          alt="Vocalis Logo" 
+          height="40" 
+          className="me-2"
+          style={{objectFit: 'contain'}}
+        />
+        <span className="fw-bold fs-4">Vocalis</span>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="toggler" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="navbar-nav mr-auto">
-          {/* {
-            <NavLink className="nav-item lead">
-              <Link to={process.env.PUBLIC_URL + "/blog"}>Blog</Link>
-            </NavLink>
-          } */}
-          {repos.show && (
-
-            <NavLink
-              href={process.env.PUBLIC_URL + "/#projects"}
-            >
-              Projects
-            </NavLink>
-          )}
-          <NavLink
-            className="nav-item lead"
-            href={about.resume}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Resume
-          </NavLink>
-          {about.show && (
-            <NavLink
-              className="nav-item lead"
-              href={process.env.PUBLIC_URL + "/#aboutme"}
-            >
-              About
-            </NavLink>
-          )}
-          {skills.show && (
-            <NavLink
-              className="nav-item lead"
-              href={process.env.PUBLIC_URL + "/#skills"}
-            >
-              Skills
-            </NavLink>
-          )}
+        <Nav className="ms-auto">
+          <Nav.Link href="#benefits" className="nav-link mx-2">Benefits</Nav.Link>
+          <Nav.Link href="#features" className="nav-link mx-2">Features</Nav.Link>
+          <Nav.Link href="#pricing" className="nav-link mx-2">Pricing</Nav.Link>
+          <Nav.Link href="#about" className="nav-link mx-2">About</Nav.Link>
+          <Nav.Link href="#faq" className="nav-link mx-2">FAQ</Nav.Link>
+          <Nav.Link href="#contact" className="btn btn-primary text-white px-4 rounded-pill">
+            Contact Us
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

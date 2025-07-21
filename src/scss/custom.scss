@@ -3,3 +3,1242 @@
 @import "./index";
 @import "./stars";
 @import "./typography";
+
+// Gradient animation for hero section
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+// Updated color scheme - more vibrant
+:root {
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --accent-color: #f093fb;
+  --success-color: #4facfe;
+  --warning-color: #f5576c;
+  --light-bg: #f8fafc;
+  --white: #ffffff;
+  --dark-text: #2d3748;
+  --muted-text: #718096;
+}
+
+body, html {
+  font-family: 'Montserrat', 'Inter', Arial, sans-serif;
+  background-color: var(--light-bg);
+  color: var(--dark-text);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', 'Inter', Arial, sans-serif;
+  font-weight: 600;
+}
+
+section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+// Updated button styles
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.btn-outline-primary {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.bg-white {
+  background-color: var(--white) !important;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+// Cleaner card styles
+.card {
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-title {
+  font-weight: 600;
+  color: var(--dark-text);
+}
+
+// Improved navbar
+.navbar {
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: var(--primary-color) !important;
+}
+
+// Pricing section improvements
+#pricing .card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#pricing .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+}
+
+// Logo styling
+.navbar-brand img {
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar-brand:hover img {
+  transform: scale(1.05);
+}
+
+// Progress bar styling for pricing breakdown
+.pricing-breakdown {
+  height: 32px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+// Check icon styling
+.text-success {
+  color: #10b981 !important;
+}
+
+// Section backgrounds with subtle gradients
+.bg-light {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+}
+
+// Improved spacing and typography
+.display-5 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+// Cleaner form styles
+.form-control {
+  border-radius: 0.75rem;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+// Improved accordion
+.accordion-button {
+  font-family: 'Montserrat', 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  background: var(--light-bg);
+  color: var(--primary-color);
+  border-radius: 0.75rem !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+}
+
+.accordion-item {
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e2e8f0;
+}
+
+// Profile picture styling
+.profile-picture {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-picture:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
+}
+
+// Ensure profile pictures are properly cropped and centered
+.rounded-circle {
+  &.profile-pic {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+// About section improvements
+#about .card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#about .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12) !important;
+}
+
+// About section color pops - very minimal
+#about .col-md-6:nth-child(1) .card {
+  border-left: 3px solid #764ba2 !important;
+  border-right: 3px solid #764ba2 !important;
+}
+
+#about .col-md-6:nth-child(2) .card {
+  border-left: 3px solid #4facfe !important;
+  border-right: 3px solid #4facfe !important;
+}
+
+// How It Works section improvements
+#how-it-works .rounded-circle {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#how-it-works .rounded-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2) !important;
+}
+
+// Process flow improvements for single line
+.process-flow-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 0.75rem;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.process-flow-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+// Compact process flow for single line
+@media (min-width: 768px) {
+  .process-flow-card {
+    min-height: 70px;
+    padding: 0.75rem !important;
+  }
+  
+  .process-flow-card i {
+    font-size: 1.25rem !important;
+  }
+  
+  .process-flow-card p {
+    font-size: 0.75rem !important;
+    line-height: 1.2;
+  }
+}
+
+// Technical architecture cards
+.tech-arch-card {
+  transition: all 0.3s ease;
+}
+
+.tech-arch-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12) !important;
+}
+
+// Badge styling
+.badge {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+// Connection line animation
+@keyframes flowAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.flow-line {
+  animation: flowAnimation 3s ease infinite;
+  background-size: 200% 200%;
+}
+
+// Website overview section in hero
+.hero-overview-card {
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.hero-overview-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.2) !important;
+  border-color: rgba(255,255,255,0.4);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+// Cost comparison section
+.cost-comparison-card {
+  transition: transform 0.3s ease;
+}
+
+.cost-comparison-card:hover {
+  transform: scale(1.02);
+}
+
+// Benefits section improvements
+#benefits .card {
+  transition: all 0.3s ease;
+}
+
+#benefits .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+}
+
+
+
+// Process flow arrows
+.process-arrow {
+  color: #6c757d;
+  transition: color 0.3s ease;
+}
+
+.process-flow-card:hover + .process-arrow,
+.process-arrow:hover {
+  color: #495057;
+}
+
+// Navbar improvements
+.navbar-nav .nav-link {
+  color: #495057 !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #667eea !important;
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+}
+
+.navbar-brand {
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05);
+}
+
+// Contact Us button in navbar
+.navbar-nav .btn-primary {
+  color: white !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
+  color: white !important;
+}
+
+// Progress indicator improvements
+.progress-indicator-btn {
+  transition: all 0.3s ease;
+}
+
+.progress-indicator-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.progress-indicator-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+// Technical process flow improvements
+.technical-flow-card {
+  transition: all 0.3s ease;
+  border-radius: 0.75rem;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.technical-flow-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.technical-flow-card:hover::before {
+  opacity: 1;
+}
+
+.technical-flow-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+}
+
+// Compact technical flow for single line
+@media (min-width: 768px) {
+  .technical-flow-card {
+    min-height: 80px;
+    padding: 0.75rem !important;
+  }
+  
+  .technical-flow-card i {
+    font-size: 1.25rem !important;
+  }
+  
+  .technical-flow-card p {
+    font-size: 0.75rem !important;
+    line-height: 1.2;
+  }
+}
+
+// Email button improvements
+.contact-email-btn {
+  transition: all 0.3s ease;
+  border-width: 2px;
+  font-weight: 500;
+}
+
+.contact-email-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(13, 110, 253, 0.3);
+  border-width: 2px;
+}
+
+// Introducing Vocalis badge
+.intro-badge {
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.intro-badge:hover {
+  background: rgba(255,255,255,0.3) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+}
+
+// FAQ Section Styling
+.accordion-button {
+  &:not(.collapsed) {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    
+    &::after {
+      filter: brightness(0) invert(1);
+    }
+    
+    &:hover {
+      background: linear-gradient(135deg, #667eea, #764ba2) !important;
+      color: white !important;
+    }
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+  }
+  
+  &:hover:not(.collapsed) {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    color: white !important;
+  }
+  
+  &:hover.collapsed {
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0) !important;
+    color: #333 !important;
+  }
+}
+
+.accordion-item {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.accordion-body {
+  line-height: 1.6;
+  color: #555;
+}
+
+// Loading Animation Styles
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-container {
+  text-align: center;
+  color: white;
+}
+
+.logo-container {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.show {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.logo-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.name-container {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 30px;
+  
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.company-name {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  letter-spacing: 2px;
+}
+
+.company-tagline {
+  font-size: 1.2rem;
+  margin: 10px 0 0 0;
+  opacity: 0.9;
+  font-weight: 300;
+  font-family: 'Montserrat', 'Inter', sans-serif;
+}
+
+.loading-dots {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  
+  &.show {
+    opacity: 1;
+  }
+}
+
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  margin: 0 6px;
+  animation: dotPulse 1.4s ease-in-out infinite both;
+  
+  &:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+  
+  &:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+}
+
+@keyframes dotPulse {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Fade in animation for main content
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Apply fade in to main content when loading is complete
+.loading-complete {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+// Pipeline Arrows Styling
+.technical-flow-card {
+  position: relative;
+  z-index: 1;
+}
+
+// Ensure LeaderLine arrows appear on top
+.leader-line {
+  z-index: 1000 !important;
+}
+
+// Custom Bootstrap columns for pipeline
+@media (min-width: 768px) {
+  .col-md-1-8 {
+    flex: 0 0 auto;
+    width: 15%;
+  }
+  
+  .col-md-0-5 {
+    flex: 0 0 auto;
+    width: 2%;
+  }
+}
+
+// Pipeline Flip Cards
+.pipeline-card-container {
+  perspective: 1000px;
+  height: 70px;
+}
+
+.pipeline-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.pipeline-card:hover {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+// Process Arrows
+.process-arrow {
+  animation: pulse 2s infinite;
+  opacity: 0.7;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+// Technical Flow Cards
+.technical-flow-card {
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+}
+
+// ===== MOBILE RESPONSIVENESS =====
+
+// General mobile improvements
+@media (max-width: 768px) {
+  // Typography adjustments
+  .display-5 {
+    font-size: 2.5rem !important;
+    line-height: 1.2;
+  }
+  
+  .display-4 {
+    font-size: 2rem !important;
+  }
+  
+  h1 {
+    font-size: 2rem !important;
+  }
+  
+  h2 {
+    font-size: 1.75rem !important;
+  }
+  
+  h3 {
+    font-size: 1.5rem !important;
+  }
+  
+  .lead {
+    font-size: 1.1rem !important;
+  }
+  
+  // Section padding adjustments
+  section {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  // Container padding
+  .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  // Card improvements
+  .card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem !important;
+  }
+  
+  // Button improvements
+  .btn-lg {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+  
+  .btn {
+    width: 100% !important;
+    margin-bottom: 0.5rem;
+  }
+  
+  // Navbar mobile improvements
+  .navbar-brand {
+    font-size: 1.5rem !important;
+  }
+  
+  .navbar-nav .btn-primary {
+    margin-top: 0.5rem;
+    width: 100% !important;
+  }
+  
+  // Progress indicator mobile
+  .progress-indicator-btn {
+    width: 35px !important;
+    height: 35px !important;
+  }
+  
+  // Hide progress indicator on very small screens
+  @media (max-width: 576px) {
+    .position-fixed.top-50.end-0 {
+      display: none !important;
+    }
+  }
+}
+
+// Hero section mobile improvements
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 100vh !important;
+    padding: 2rem 0 !important;
+  }
+  
+  .hero-content {
+    text-align: center !important;
+    padding: 1rem !important;
+  }
+  
+  .hero-badges {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+  
+  .hero-badge {
+    width: 100% !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .intro-badge {
+    font-size: 0.9rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+}
+
+// Benefits section mobile
+@media (max-width: 768px) {
+  #benefits .row {
+    margin: 0 !important;
+  }
+  
+  #benefits .col-md-6,
+  #benefits .col-lg-4 {
+    padding: 0 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  #benefits .card {
+    height: auto !important;
+    min-height: 300px !important;
+  }
+  
+  // Cost comparison mobile
+  .cost-comparison-card {
+    margin-bottom: 1rem !important;
+  }
+  
+  .cost-comparison-card .h2 {
+    font-size: 1.75rem !important;
+  }
+}
+
+// Features section mobile
+@media (max-width: 768px) {
+  // Pipeline cards mobile layout
+  .pipeline-card-container {
+    height: 60px !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .technical-flow-card {
+    min-height: 60px !important;
+    padding: 0.5rem !important;
+  }
+  
+  .technical-flow-card i {
+    font-size: 1rem !important;
+  }
+  
+  .technical-flow-card p {
+    font-size: 0.7rem !important;
+    line-height: 1.1 !important;
+  }
+  
+  // Pipeline arrows mobile
+  .process-arrow {
+    display: none !important;
+  }
+  
+  // Pipeline layout mobile - stack vertically
+  #features .row.g-0 {
+    flex-direction: column !important;
+  }
+  
+  #features .col-md-1-8,
+  #features .col-md-0-5 {
+    width: 100% !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  // Key capabilities mobile
+  #features .col-md-4 {
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+// Pricing section mobile
+@media (max-width: 768px) {
+  #pricing .col-lg-5,
+  #pricing .col-lg-6 {
+    margin-bottom: 2rem !important;
+  }
+  
+  #pricing .card {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  #pricing .display-4 {
+    font-size: 2.5rem !important;
+  }
+  
+  // Pricing breakdown mobile
+  .pricing-breakdown {
+    height: 24px !important;
+  }
+  
+  .pricing-breakdown .small {
+    font-size: 0.7rem !important;
+  }
+}
+
+// About section mobile
+@media (max-width: 768px) {
+  #about .col-md-6 {
+    margin-bottom: 2rem !important;
+  }
+  
+  .profile-picture {
+    width: 120px !important;
+    height: 120px !important;
+  }
+  
+  #about .card {
+    text-align: center !important;
+  }
+  
+  #about .card-text {
+    text-align: left !important;
+  }
+}
+
+// HIPAA section improvements
+#hipaa .card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#hipaa .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+}
+
+// HIPAA section color pops - very minimal
+#hipaa .col-md-6:nth-child(1) .card {
+  border-left: 3px solid #ff9a9e !important;
+}
+
+#hipaa .col-md-6:nth-child(2) .card {
+  border-left: 3px solid #4facfe !important;
+}
+
+#hipaa .col-md-6:nth-child(3) .card {
+  border-left: 3px solid #43e97b !important;
+}
+
+#hipaa .col-md-6:nth-child(4) .card {
+  border-left: 3px solid #f5576c !important;
+}
+
+// HIPAA section mobile
+@media (max-width: 768px) {
+  #hipaa .col-md-6 {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  #hipaa .card {
+    height: auto !important;
+    min-height: 200px !important;
+  }
+}
+
+// FAQ section mobile
+@media (max-width: 768px) {
+  #faq .col-lg-8 {
+    padding: 0 0.5rem !important;
+  }
+  
+  .accordion-button {
+    font-size: 0.95rem !important;
+    padding: 1rem !important;
+  }
+  
+  .accordion-body {
+    padding: 1rem !important;
+  }
+  
+  .accordion-body p {
+    font-size: 0.9rem !important;
+  }
+}
+
+// Contact section mobile
+@media (max-width: 768px) {
+  #contact .col-lg-8 {
+    padding: 0 0.5rem !important;
+  }
+  
+  .contact-email-btn {
+    width: 100% !important;
+    margin-bottom: 1rem !important;
+    font-size: 0.9rem !important;
+    padding: 0.75rem 1rem !important;
+  }
+  
+  #contact .card-body {
+    padding: 2rem 1.5rem !important;
+  }
+  
+  #contact form .col-md-6 {
+    margin-bottom: 1rem !important;
+  }
+}
+
+// Form improvements mobile
+@media (max-width: 768px) {
+  .form-control {
+    font-size: 1rem !important;
+    padding: 0.75rem !important;
+  }
+  
+  .form-label {
+    font-size: 0.9rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  textarea.form-control {
+    min-height: 100px !important;
+  }
+}
+
+// Loading animation mobile
+@media (max-width: 768px) {
+  .logo-circle {
+    width: 80px !important;
+    height: 80px !important;
+  }
+  
+  .company-name {
+    font-size: 2.5rem !important;
+  }
+  
+  .company-tagline {
+    font-size: 1rem !important;
+  }
+  
+  .logo-circle i {
+    font-size: 2rem !important;
+  }
+}
+
+// Extra small devices (phones, 576px and down)
+@media (max-width: 576px) {
+  .display-5 {
+    font-size: 2rem !important;
+  }
+  
+  .display-4 {
+    font-size: 1.75rem !important;
+  }
+  
+  h1 {
+    font-size: 1.75rem !important;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+  }
+  
+  section {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  .container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .card-body {
+    padding: 1rem !important;
+  }
+  
+  .btn-lg {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.9rem !important;
+  }
+  
+  // Pipeline cards extra small
+  .pipeline-card-container {
+    height: 50px !important;
+  }
+  
+  .technical-flow-card {
+    min-height: 50px !important;
+    padding: 0.25rem !important;
+  }
+  
+  .technical-flow-card i {
+    font-size: 0.8rem !important;
+  }
+  
+  .technical-flow-card p {
+    font-size: 0.6rem !important;
+  }
+  
+  // Profile pictures extra small
+  .profile-picture {
+    width: 100px !important;
+    height: 100px !important;
+  }
+  
+  // Contact email button extra small
+  .contact-email-btn {
+    font-size: 0.8rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+}
+
+// Landscape orientation adjustments
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-section {
+    min-height: 80vh !important;
+  }
+  
+  section {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  .pipeline-card-container {
+    height: 45px !important;
+  }
+  
+  .technical-flow-card {
+    min-height: 45px !important;
+  }
+}
+
+// High DPI displays
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .card {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  }
+  
+  .btn {
+    border-width: 0.5px;
+  }
+}
+
+// Accessibility improvements for mobile
+@media (max-width: 768px) {
+  // Increase touch targets
+  .btn, .nav-link, .accordion-button {
+    min-height: 44px !important;
+  }
+  
+  // Improve focus states
+  .btn:focus,
+  .nav-link:focus,
+  .accordion-button:focus {
+    outline: 2px solid var(--primary-color) !important;
+    outline-offset: 2px !important;
+  }
+  
+  // Better contrast for small text
+  .small, .text-muted {
+    color: #6c757d !important;
+  }
+  
+  // Improve form accessibility
+  .form-control:focus {
+    outline: 2px solid var(--primary-color) !important;
+    outline-offset: 2px !important;
+  }
+}
+
+// Print styles
+@media print {
+  .navbar,
+  .progress-indicator-btn,
+  .btn,
+  .accordion-button {
+    display: none !important;
+  }
+  
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+  
+  section {
+    page-break-inside: avoid;
+  }
+}
