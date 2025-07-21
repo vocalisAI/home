@@ -1,7 +1,7 @@
 {
   "name": "vocalis-website",
   "description": "Vocalis - AI Voice Receptionist for Modern Clinics. Professional landing page for our AI-powered voice receptionist product.",
-  "homepage": "https://vocalis-ai.github.io",
+  "homepage": "https://vocalisAI.github.io/home",
   "version": "1.0.0",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -9,7 +9,6 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
-    "gh-pages": "^4.0.0",
     "leader-line": "^1.0.8",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
@@ -23,13 +22,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "custom-deploy": "node pages.js"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "engines": {
     "npm": "^10.9.0",
@@ -52,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
