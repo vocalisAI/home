@@ -588,7 +588,7 @@ const About = () => (
               </div>
               <h5 className="card-title text-center mb-3 fw-semibold">Mahdi Khan — Co-Founder</h5>
               <p className="text-muted text-center mb-3">Growth Lead</p>
-              <p className="card-text">Hello, I'm Mahdi — a Biochemistry student at Case Western Reserve University deeply committed to improving how care is delivered by solving the everyday challenges clinics face. My background bridges academic research and frontline care, giving me a unique, hands-on understanding of how clinical systems work — and where they fall short.</p>
+              <p className="card-text">Hello, I'm Mahdi — a Biochemistry student at Case Western Reserve University, deeply committed to improving how care is delivered by solving the everyday challenges clinics face. My background bridges academic research and frontline care, giving me a unique, hands-on understanding of how clinical systems work — and where they fall short.</p>
               <p className="card-text">At Northwestern's Feinberg School of Medicine, I conduct research on DNA damage response using zebrafish models in the Parvez Lab. Outside the lab, I work at APPNA, a free family medicine clinic, rotating between front desk and medical assistant roles.</p>
             </div>
           </div>
