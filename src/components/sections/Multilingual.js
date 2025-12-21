@@ -93,8 +93,8 @@ const Multilingual = () => {
               
               {/* Central Active Interaction */}
               <div 
-                className="position-absolute top-50 start-50 translate-middle bg-white shadow-lg p-4 rounded-4 text-start"
-                style={{zIndex: 10, minWidth: '340px', border: '1px solid rgba(0,0,0,0.1)'}}
+                className="position-absolute top-50 start-50 translate-middle bg-white shadow-lg p-3 p-md-4 rounded-4 text-start"
+                style={{zIndex: 10, width: '90%', maxWidth: '340px', border: '1px solid rgba(0,0,0,0.1)'}}
               >
                  <div className="d-flex mb-3 justify-content-end">
                     <div className="bg-primary text-white p-3 rounded-4" style={{borderBottomRightRadius: '4px'}}>
