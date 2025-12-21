@@ -36,7 +36,7 @@ const ProgressIndicator = () => {
     { id: 'home', label: 'Home', icon: 'fas fa-home' },
     { id: 'benefits', label: 'Benefits', icon: 'fas fa-star' },
     { id: 'features', label: 'Features', icon: 'fas fa-list-ul' },
-    { id: 'demo', label: 'No More Holds', icon: 'fas fa-phone-alt' },
+    { id: 'demo', label: 'No More Holds', icon: 'fas fa-phone' },
     { id: 'multilingual', label: 'Multilingual', icon: 'fas fa-language' },
     { id: 'pricing', label: 'Pricing', icon: 'fas fa-tags' },
     { id: 'about', label: 'About', icon: 'fas fa-info-circle' },
