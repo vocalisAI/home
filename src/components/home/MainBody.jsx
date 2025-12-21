@@ -46,7 +46,9 @@ const MainBody = React.forwardRef((props, ref) => {
           maxWidth: '800px',
           margin: '0 auto'
         }}>
-          {t('hero.mission')}
+          The first-of-its-class, most affordable AI receptionist.
+          <br />
+          <span style={{fontSize: '0.9em', opacity: 0.9}}>Automate intake and scheduling so you can focus on care.</span>
         </div>
 
         {/* Call to Action */}
@@ -73,29 +75,6 @@ const MainBody = React.forwardRef((props, ref) => {
             {t('hero.cta')}
           </a>
         </div>
-
-        {/* Visual Explanation Icons */}
-        <div className="row justify-content-center g-4 text-white mt-4">
-          <div className="col-auto text-center" style={{opacity: 0.9}}>
-            <i className="fas fa-comments fa-2x mb-2"></i>
-            <p className="small mb-0 fw-semibold">Conversational AI</p>
-          </div>
-          <div className="col-auto d-flex align-items-center">
-             <i className="fas fa-arrow-right fa-lg opacity-50"></i>
-          </div>
-          <div className="col-auto text-center" style={{opacity: 0.9}}>
-            <i className="fas fa-calendar-check fa-2x mb-2"></i>
-            <p className="small mb-0 fw-semibold">Smart Scheduling</p>
-          </div>
-          <div className="col-auto d-flex align-items-center">
-             <i className="fas fa-arrow-right fa-lg opacity-50"></i>
-          </div>
-          <div className="col-auto text-center" style={{opacity: 0.9}}>
-            <i className="fas fa-language fa-2x mb-2"></i>
-            <p className="small mb-0 fw-semibold">Multilingual</p>
-          </div>
-        </div>
-
       </Container>
     </Jumbotron>
   );
