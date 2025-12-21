@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import MainBody from "./components/home/MainBody";
 import Footer from "./components/Footer";
 import LoadingAnimation from "./components/ui/LoadingAnimation";
-import ProgressIndicator from "./components/ui/ProgressIndicator";
 
 // Sections
 import Benefits from "./components/sections/Benefits";
@@ -50,7 +49,6 @@ function App() {
       {!isLoading && (
         <div className="loading-complete">
           <Navbar ref={titleRef} />
-          <ProgressIndicator />
           <Routes>
             <Route path="/" exact element={<Home ref={titleRef} />} />
           </Routes>
