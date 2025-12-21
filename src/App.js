@@ -23,9 +23,9 @@ const Home = React.forwardRef((props, ref) => {
   return (
     <>
       <MainBody ref={ref} />
-      <ProductDemo />
       <Benefits />
       <Features />
+      <ProductDemo />
       <Multilingual />
       <Pricing />
       <About />

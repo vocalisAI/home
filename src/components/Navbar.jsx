@@ -3,17 +3,12 @@ import { useScrollPosition } from "../hooks/useScrollPosition";
 import useResizeObserver from "../hooks/useResizeObserver";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import { useTranslation } from "react-i18next";
-
 const Navigation = React.forwardRef((props, ref) => {
   const [isTop, setIsTop] = useState(true);
   const [scrollPosition, setScrollPosition] = useState(0);
   const navbarMenuRef = React.useRef();
   const navbarDimensions = useResizeObserver(navbarMenuRef);
   const navBottom = navbarDimensions ? navbarDimensions.bottom : 0;
-  
-  const { i18n } = useTranslation();
 
   useScrollPosition(
     ({ prevPos, currPos }) => {
@@ -66,19 +61,6 @@ const Navigation = React.forwardRef((props, ref) => {
           <Nav.Link href="#about" className="nav-link mx-2">About</Nav.Link>
           <Nav.Link href="#faq" className="nav-link mx-2">FAQ</Nav.Link>
           
-          <NavDropdown 
-            title={
-              <span className="text-dark fw-bold">
-                 {i18n.language ? i18n.language.toUpperCase().split('-')[0] : 'EN'}
-              </span>
-            } 
-            id="language-nav-dropdown"
-            className="mx-2"
-          >
-            <NavDropdown.Item onClick={() => i18n.changeLanguage('en')}>English</NavDropdown.Item>
-            <NavDropdown.Item onClick={() => i18n.changeLanguage('es')}>Español</NavDropdown.Item>
-          </NavDropdown>
-
           <Nav.Link href="#contact" className="btn btn-primary text-white px-4 rounded-pill ms-2">
             Contact Us
           </Nav.Link>

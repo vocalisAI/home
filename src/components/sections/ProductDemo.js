@@ -10,23 +10,22 @@ const conversation1 = [
 ];
 
 const conversation2 = [
-  { role: 'user', text: "Hola, quisiera cancelar mi cita.", time: "10:00 AM" },
-  { role: 'ai', text: "Entiendo. ¿Cuál es su nombre y fecha de nacimiento?", time: "10:00 AM" },
+  { role: 'user', text: "Hello, I'd like to cancel my appointment.", time: "10:00 AM" },
+  { role: 'ai', text: "I understand. Can I have your name and date of birth?", time: "10:00 AM" },
   { role: 'user', text: "Maria Garcia, 05/12/1985.", time: "10:01 AM" },
-  { role: 'ai', text: "Gracias Maria. Veo su cita para le viernes. ¿Quiere cancelarla?", time: "10:01 AM" },
-  { role: 'user', text: "Sí, por favor.", time: "10:01 AM" },
-  { role: 'ai', text: "Su cita ha sido cancelada. ¿Necesita algo más?", time: "10:02 AM" }
+  { role: 'ai', text: "Thanks Maria. I see your appointment for Friday. Would you like to cancel it?", time: "10:01 AM" },
+  { role: 'user', text: "Yes, please.", time: "10:01 AM" },
+  { role: 'ai', text: "Your appointment has been cancelled. Anything else?", time: "10:02 AM" }
 ];
 
 const ChatCard = ({ conversation, step, title, color }) => {
   const messagesEndRef = useRef(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollContainerRef = useRef(null);
 
   useEffect(() => {
-    scrollToBottom();
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+    }
   }, [step]);
 
   return (
@@ -43,7 +42,11 @@ const ChatCard = ({ conversation, step, title, color }) => {
         </div>
       </div>
       
-      <div className="card-body bg-light" style={{height: '350px', overflowY: 'auto'}}>
+      <div 
+        className="card-body bg-light" 
+        style={{height: '350px', overflowY: 'auto'}}
+        ref={scrollContainerRef}
+      >
         {conversation.slice(0, step).map((msg, idx) => (
           <div key={idx} className={`d-flex mb-3 ${msg.role === 'user' ? 'justify-content-end' : ''}`}>
             <div 
@@ -60,7 +63,6 @@ const ChatCard = ({ conversation, step, title, color }) => {
             <i className="fas fa-ellipsis-h fa-bounce"></i> Typing...
           </div>
         )}
-        <div ref={messagesEndRef} />
       </div>
     </div>
   );
