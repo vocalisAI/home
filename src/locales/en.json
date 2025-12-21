@@ -1,0 +1,15 @@
+{
+  "hero": {
+    "title": "Vocalis",
+    "subtitle": "The AI Receptionist That Never Sleeps",
+    "mission": "Vocalis is the intelligent, multilingual voice receptionist that handles calls, schedules appointments, and manages intake—so your team can focus on patient care.",
+    "cta": "Schedule a Demo",
+    "cta_secondary": "Listen to Examples"
+  },
+  "benefits": {
+    "title": "Why Choose Vocalis?"
+  },
+  "features": {
+    "title": "Technical Architecture"
+  }
+}

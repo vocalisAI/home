@@ -1,0 +1,15 @@
+{
+  "hero": {
+    "title": "Vocalis",
+    "subtitle": "La Recepcionista con IA que Nunca Duerme",
+    "mission": "Vocalis es la recepcionista de voz inteligente y multilingüe que atiende llamadas, agenda citas y gestiona la admisión, para que su equipo pueda centrarse en la atención al paciente.",
+    "cta": "Programar una Demo",
+    "cta_secondary": "Escuchar Ejemplos"
+  },
+  "benefits": {
+    "title": "¿Por qué elegir Vocalis?"
+  },
+  "features": {
+    "title": "Arquitectura Técnica"
+  }
+}
