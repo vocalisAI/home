@@ -21,7 +21,7 @@ const About = () => (
               <div className="text-center mb-4">
                 <div className="position-relative d-inline-block">
                   <img
-                    src={process.env.PUBLIC_URL + "/mahdikhan.jpeg"}
+                    src={process.env.PUBLIC_URL + "/mahdi2.jpg"}
                     alt="Mahdi Khan - Co-Founder"
                     className="rounded-circle profile-picture"
                     style={{
@@ -48,7 +48,7 @@ const About = () => (
               <div className="text-center mb-4">
                 <div className="position-relative d-inline-block">
                   <img
-                    src={process.env.PUBLIC_URL + "/someshsaini.jpg"}
+                    src={process.env.PUBLIC_URL + "/somesh2.jpg"}
                     alt="Somesh Saini - Co-Founder"
                     className="rounded-circle profile-picture"
                     style={{
