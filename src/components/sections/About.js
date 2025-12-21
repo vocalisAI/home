@@ -46,15 +46,18 @@ const About = () => (
           <div className="card h-100 border-0 shadow-sm">
             <div className="card-body p-4">
               <div className="text-center mb-4">
-                <div className="position-relative d-inline-block rounded-circle" style={{ width: '150px', height: '150px', border: '4px solid #f8fafc', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', overflow: 'hidden' }}>
+                <div className="position-relative d-inline-block">
                   <img
                     src={process.env.PUBLIC_URL + "/somesh2.jpg"}
                     alt="Somesh Saini - Co-Founder"
-                    className="w-100 h-100"
+                    className="rounded-circle profile-picture"
                     style={{
+                      width: '150px',
+                      height: '150px',
                       objectFit: 'cover',
                       objectPosition: 'center 30%',
-                      transform: 'scale(1.2)'
+                      border: '4px solid #f8fafc',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
                     }}
                   />
                 </div>
