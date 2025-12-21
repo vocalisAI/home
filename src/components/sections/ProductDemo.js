@@ -27,9 +27,10 @@ const ProductDemo = () => {
           <p className="lead mb-4">See how Vocalis handles complex scheduling conversations naturally.</p>
         </div>
 
-        <div className="row justify-content-center">
-          <div className="col-md-8 col-lg-6">
-            <div className="card border-0 shadow-lg overflow-hidden" style={{borderRadius: '20px'}}>
+        <div className="row justify-content-center align-items-center">
+          {/* Chat Interface - Shifted to side */}
+          <div className="col-lg-5 offset-lg-1 mb-4 mb-lg-0 order-lg-2">
+             <div className="card border-0 shadow-lg overflow-hidden" style={{borderRadius: '20px', transform: 'scale(1.02)'}}>
               <div className="card-header bg-white border-0 py-3 px-4 d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
                    <div className="text-white rounded-circle d-flex align-items-center justify-content-center me-3" style={{width: '40px', height: '40px', background: 'linear-gradient(135deg, #667eea, #764ba2)'}}>
@@ -63,6 +64,62 @@ const ProductDemo = () => {
               </div>
             </div>
           </div>
+
+          {/* Live Analysis Panel - Captivating Side Content */}
+          <div className="col-lg-5 order-lg-1">
+             <div className="p-4">
+                <div className="mb-4">
+                  <h6 className="text-uppercase text-muted fw-bold small mb-3">Live Call Analysis</h6>
+                  <div className="d-flex align-items-center gap-2 mb-2">
+                     <div className="spinner-border text-primary spinner-border-sm" role="status"></div>
+                     <span className="fw-bold text-primary">Processing Audio...</span>
+                  </div>
+                   {/* Fake Waveform Visual */}
+                  <div className="d-flex align-items-end gap-1 mb-4" style={{height: '40px'}}>
+                      {[...Array(20)].map((_, i) => (
+                        <div 
+                          key={i} 
+                          className="bg-primary rounded-pill opacity-75"
+                          style={{
+                            width: '4px', 
+                            height: `${Math.random() * 100}%`,
+                            animation: `wave 0.5s ease-in-out infinite alternate`,
+                            animationDelay: `${i * 0.05}s`
+                          }}
+                        ></div>
+                      ))}
+                  </div>
+                </div>
+
+                {/* Analysis Cards */}
+                <div className="d-flex flex-column gap-3">
+                   <div className="bg-white p-3 rounded-3 shadow-sm border-start border-4 border-success">
+                      <div className="d-flex justify-content-between align-items-center mb-1">
+                        <small className="text-muted">Intent Detected</small>
+                        <i className="fas fa-check-circle text-success"></i>
+                      </div>
+                      <p className="fw-bold mb-0">Schedule Application</p>
+                   </div>
+
+                   <div className="bg-white p-3 rounded-3 shadow-sm border-start border-4 border-info">
+                      <div className="d-flex justify-content-between align-items-center mb-1">
+                        <small className="text-muted">Patient Status</small>
+                        <i className="fas fa-user-plus text-info"></i>
+                      </div>
+                      <p className="fw-bold mb-0">New Patient</p>
+                   </div>
+
+                   <div className="bg-white p-3 rounded-3 shadow-sm border-start border-4 border-warning">
+                      <div className="d-flex justify-content-between align-items-center mb-1">
+                        <small className="text-muted">Action Taken</small>
+                        <i className="fas fa-calendar-alt text-warning"></i>
+                      </div>
+                      <p className="fw-bold mb-0">Checked Availability: Tomorrow 2PM</p>
+                   </div>
+                </div>
+             </div>
+          </div>
+
         </div>
       </div>
     </section>

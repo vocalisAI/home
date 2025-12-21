@@ -1,23 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const Multilingual = () => {
   const { i18n } = useTranslation();
+  const [activeLangIndex, setActiveLangIndex] = useState(0);
 
   const languages = [
-    { code: 'en', name: 'English', native: 'English', flag: '🇺🇸' },
-    { code: 'es', name: 'Spanish', native: 'Español', flag: '🇪🇸' },
-    { code: 'fr', name: 'French', native: 'Français', flag: '🇫🇷' },
-    { code: 'de', name: 'German', native: 'Deutsch', flag: '🇩🇪' },
-    { code: 'it', name: 'Italian', native: 'Italiano', flag: '🇮🇹' },
-    { code: 'pt', name: 'Portuguese', native: 'Português', flag: '🇵🇹' },
-    { code: 'ru', name: 'Russian', native: 'Русский', flag: '🇷🇺' },
-    { code: 'zh', name: 'Chinese', native: '中文', flag: '🇨🇳' },
-    { code: 'ja', name: 'Japanese', native: '日本語', flag: '🇯🇵' },
-    { code: 'ko', name: 'Korean', native: '한국어', flag: '🇰🇷' },
-    { code: 'hi', name: 'Hindi', native: 'हिन्दी', flag: '🇮🇳' },
-    { code: 'ar', name: 'Arabic', native: 'العربية', flag: '🇸🇦' },
+    "Afrikaans", "Arabic", "Armenian", "Azerbaijani", "Belarusian", "Bosnian", "Bulgarian", 
+    "Catalan", "Chinese", "Croatian", "Czech", "Danish", "Dutch", "English", "Estonian", 
+    "Finnish", "French", "Galician", "German", "Greek", "Hebrew", "Hindi", "Hungarian", 
+    "Icelandic", "Indonesian", "Italian", "Japanese", "Kannada", "Kazakh", "Korean", 
+    "Latvian", "Lithuanian", "Macedonian", "Malay", "Marathi", "Maori", "Nepali", 
+    "Norwegian", "Persian", "Polish", "Portuguese", "Romanian", "Russian", "Serbian", 
+    "Slovak", "Slovenian", "Spanish", "Swahili", "Swedish", "Tagalog", "Tamil", "Thai", 
+    "Turkish", "Ukrainian", "Urdu", "Vietnamese", "Welsh"
   ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveLangIndex((prev) => (prev + 1) % languages.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [languages.length]);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -55,31 +59,65 @@ const Multilingual = () => {
           </div>
           
           <div className="col-lg-6">
-            <div className="position-relative p-5 text-center">
-              {/* Animated Language Globe/Cloud */}
+            <div className="position-relative p-5 text-center" style={{minHeight: '450px'}}>
+              {/* Central Active Interaction */}
               <div 
-                className="language-cloud p-4 rounded-circle shadow-lg d-flex align-items-center justify-content-center flex-wrap gap-3"
+                className="position-absolute top-50 start-50 translate-middle bg-white shadow-lg p-4 rounded-4 text-center"
+                style={{zIndex: 10, minWidth: '300px', border: '1px solid rgba(0,0,0,0.1)'}}
+              >
+                <div className="mb-3">
+                   <div 
+                     className="rounded-circle d-flex align-items-center justify-content-center mx-auto text-white"
+                     style={{width: '60px', height: '60px', background: 'linear-gradient(135deg, #667eea, #764ba2)'}}
+                   >
+                     <i className="fas fa-microphone fa-xl"></i>
+                   </div>
+                </div>
+                <h5 className="text-muted mb-2">User</h5>
+                <p className="fw-bold mb-3 fs-5" style={{color: '#495057'}}>
+                  "Respond in <span className="text-primary">{languages[activeLangIndex]}</span>"
+                </p>
+                <hr className="my-3 opacity-25" />
+                <h5 className="text-muted mb-2">Vocalis</h5>
+                <div className="d-flex align-items-center justify-content-center gap-2">
+                   <div className="spinner-grow text-primary spinner-grow-sm" role="status"></div>
+                   <p className="fw-bold mb-0 text-success">
+                     Responding in {languages[activeLangIndex]}...
+                   </p>
+                </div>
+              </div>
+
+              {/* Background Rotating Cloud */}
+              <div 
+                className="language-cloud w-100 h-100 position-absolute top-0 start-0"
                 style={{
-                  background: 'linear-gradient(135deg, #f8fafc, #e2e8f0)',
-                  minHeight: '400px',
-                  position: 'relative',
-                  overflow: 'hidden'
+                  zIndex: 1, 
+                  opacity: 0.15, 
+                  overflow: 'hidden',
+                  pointerEvents: 'none'
                 }}
               >
-                {languages.map((lang, index) => (
-                  <span 
-                    key={lang.code}
-                    className="badge rounded-pill bg-white text-dark border shadow-sm p-3 m-1 language-badge"
-                    style={{
-                      fontSize: '1rem',
-                      animation: `float 6s ease-in-out infinite`,
-                      animationDelay: `${index * 0.5}s`
-                    }}
-                  >
-                    <span className="me-2">{lang.flag}</span>
-                    {lang.native}
-                  </span>
-                ))}
+                {languages.map((lang, index) => {
+                  // Distribute randomly for cloud effect
+                  const top = Math.random() * 80 + 10 + '%';
+                  const left = Math.random() * 80 + 10 + '%';
+                  const animDuration = Math.random() * 10 + 10 + 's';
+                  
+                  return (
+                    <span 
+                      key={lang}
+                      className="position-absolute fs-5 fw-bold text-dark"
+                      style={{
+                        top: top,
+                        left: left,
+                        animation: `float ${animDuration} ease-in-out infinite`,
+                        transform: `scale(${Math.random() * 0.5 + 0.8})`
+                      }}
+                    >
+                      {lang}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </div>
