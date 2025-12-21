@@ -33,16 +33,16 @@ const ProgressIndicator = () => {
   }, []);
 
   const sections = [
-    { id: 'home', label: 'Home', icon: 'fa-home' },
-    { id: 'benefits', label: 'Benefits', icon: 'fa-star' },
-    { id: 'features', label: 'Features', icon: 'fa-list-ul' },
-    { id: 'demo', label: 'No More Holds', icon: 'fa-phone-alt' },
-    { id: 'multilingual', label: 'Multilingual', icon: 'fa-language' },
-    { id: 'pricing', label: 'Pricing', icon: 'fa-tags' },
-    { id: 'about', label: 'About', icon: 'fa-info-circle' },
-    { id: 'hipaa', label: 'Security', icon: 'fa-shield-alt' },
-    { id: 'faq', label: 'FAQ', icon: 'fa-question-circle' },
-    { id: 'contact', label: 'Contact', icon: 'fa-envelope' }
+    { id: 'home', label: 'Home', icon: 'fas fa-home' },
+    { id: 'benefits', label: 'Benefits', icon: 'fas fa-star' },
+    { id: 'features', label: 'Features', icon: 'fas fa-list-ul' },
+    { id: 'demo', label: 'No More Holds', icon: 'fas fa-phone-alt' },
+    { id: 'multilingual', label: 'Multilingual', icon: 'fas fa-language' },
+    { id: 'pricing', label: 'Pricing', icon: 'fas fa-tags' },
+    { id: 'about', label: 'About', icon: 'fas fa-info-circle' },
+    { id: 'hipaa', label: 'Security', icon: 'fas fa-shield-alt' },
+    { id: 'faq', label: 'FAQ', icon: 'fas fa-question-circle' },
+    { id: 'contact', label: 'Contact', icon: 'fas fa-envelope' }
   ];
 
   const handleSectionClick = (sectionId) => {
