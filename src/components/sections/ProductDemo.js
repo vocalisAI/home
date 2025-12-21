@@ -73,7 +73,13 @@ const ProductDemo = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setStep((prev) => (prev < Math.max(conversation1.length, conversation2.length) ? prev + 1 : 0));
+      setStep((prev) => {
+        // Reset to 1 (first message) immediately after the last message to avoid "empty" typing state
+        if (prev >= Math.max(conversation1.length, conversation2.length)) {
+          return 1; 
+        }
+        return prev + 1;
+      });
     }, 3000); // Slower pace
     return () => clearInterval(timer);
   }, []);
@@ -83,8 +89,11 @@ const ProductDemo = () => {
       <div className="container">
         <div className="text-center mb-5">
           <h2 className="display-5 mb-3 fw-bold">No More Holds</h2>
-          <p className="lead mb-4">
+          <p className="lead mb-2">
             Vocalis handles multiple calls simultaneously, ensuring your patients never wait in line again.
+          </p>
+          <p className="text-muted small fw-bold">
+            <i className="fas fa-headset me-2"></i> Supports 20+ calls at once
           </p>
         </div>
 

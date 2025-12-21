@@ -33,16 +33,16 @@ const ProgressIndicator = () => {
   }, []);
 
   const sections = [
-    { id: 'hero', label: 'Home', icon: 'fas fa-home' },
-    { id: 'demo', label: 'Demo', icon: 'fas fa-laptop-medical' },
-    { id: 'benefits', label: 'Benefits', icon: 'fas fa-chart-line' },
-    { id: 'features', label: 'Features', icon: 'fas fa-star' },
-    { id: 'multilingual', label: 'Languages', icon: 'fas fa-language' },
-    { id: 'pricing', label: 'Pricing', icon: 'fas fa-dollar-sign' },
-    { id: 'about', label: 'About', icon: 'fas fa-users' },
-    { id: 'hipaa', label: 'HIPAA', icon: 'fas fa-shield-alt' },
-    { id: 'faq', label: 'FAQ', icon: 'fas fa-question-circle' },
-    { id: 'contact', label: 'Contact', icon: 'fas fa-envelope' }
+    { id: 'home', label: 'Home', icon: 'fa-home' },
+    { id: 'benefits', label: 'Benefits', icon: 'fa-star' },
+    { id: 'features', label: 'Features', icon: 'fa-list-ul' },
+    { id: 'demo', label: 'No More Holds', icon: 'fa-phone-alt' },
+    { id: 'multilingual', label: 'Multilingual', icon: 'fa-language' },
+    { id: 'pricing', label: 'Pricing', icon: 'fa-tags' },
+    { id: 'about', label: 'About', icon: 'fa-info-circle' },
+    { id: 'hipaa', label: 'Security', icon: 'fa-shield-alt' },
+    { id: 'faq', label: 'FAQ', icon: 'fa-question-circle' },
+    { id: 'contact', label: 'Contact', icon: 'fa-envelope' }
   ];
 
   const handleSectionClick = (sectionId) => {

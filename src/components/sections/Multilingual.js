@@ -72,7 +72,10 @@ const Multilingual = () => {
           <div className="col-lg-5 mb-5 mb-lg-0">
             <h2 className="display-5 mb-4 fw-bold">We Speak Your Patient's Language</h2>
             <p className="lead mb-4">
-              Vocalis fluently speaks and understands over 50 languages. Provide equitable care to diverse populations without the need for expensive interpreters.
+              Vocalis fluently speaks and understands over 50 languages.
+            </p>
+            <p className="text-muted">
+               <i className="fas fa-check-circle text-success me-2"></i> Provide equitable care without expensive interpreters
             </p>
             <p className="text-muted">
                <i className="fas fa-check-circle text-success me-2"></i> Automatic Language Detection
