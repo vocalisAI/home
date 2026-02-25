@@ -770,6 +770,86 @@ section {
   }
 }
 
+// ===== VOCALIS DEFINITION SECTION =====
+.vocalis-definition-section {
+  margin-top: 4rem;
+  padding: 4rem 0 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.vocalis-definition-left {
+  padding-right: 2rem;
+}
+
+.vocalis-word {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 3rem;
+  font-weight: 400;
+  font-style: italic;
+  color: #2d3748;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.02em;
+}
+
+.vocalis-phonetic {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.1rem;
+  color: #a0aec0;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+.vocalis-meaning {
+  font-family: 'Inter', 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  color: #718096;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  max-width: 460px;
+}
+
+.vocalis-anatomy-img-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.vocalis-anatomy-img {
+  max-width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  opacity: 0.92;
+  transition: opacity 0.3s ease;
+  
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.vocalis-definition-right {
+  display: flex;
+  align-items: center;
+  min-height: 100%;
+  padding-left: 2rem;
+  border-left: 2px solid rgba(102, 126, 234, 0.15);
+}
+
+.vocalis-brand-text {
+  font-family: 'Inter', 'Montserrat', sans-serif;
+  font-size: 1.15rem;
+  color: #4a5568;
+  line-height: 1.9;
+  font-weight: 400;
+  
+  strong {
+    color: #2d3748;
+    font-weight: 600;
+  }
+}
+
 // ===== MOBILE RESPONSIVENESS =====
 
 // General mobile improvements
@@ -1056,6 +1136,44 @@ section {
   
   .accordion-body p {
     font-size: 0.9rem !important;
+  }
+}
+
+// Vocalis definition section mobile
+@media (max-width: 768px) {
+  .vocalis-definition-section {
+    margin-top: 2rem;
+    padding: 2rem 0 1rem;
+  }
+
+  .vocalis-definition-left {
+    padding-right: 0;
+    text-align: center;
+  }
+
+  .vocalis-word {
+    font-size: 2.2rem;
+  }
+
+  .vocalis-meaning {
+    max-width: 100%;
+  }
+
+  .vocalis-anatomy-img {
+    max-height: 200px;
+  }
+
+  .vocalis-definition-right {
+    padding-left: 0;
+    border-left: none;
+    border-top: 2px solid rgba(102, 126, 234, 0.15);
+    padding-top: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .vocalis-brand-text {
+    font-size: 1.05rem;
+    text-align: center;
   }
 }
 
