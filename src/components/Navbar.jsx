@@ -44,7 +44,7 @@ const Navigation = React.forwardRef((props, ref) => {
         style={{cursor: 'pointer'}}
       >
         <img 
-          src={process.env.PUBLIC_URL + "/logo.png"} 
+          src={process.env.PUBLIC_URL + "/newestlogo.jpg"} 
           alt="Vocalis Logo" 
           height="40" 
           className="me-2"

@@ -39,7 +39,7 @@ const Pricing = () => (
                 </li>
                 <li className="d-flex align-items-center mb-3">
                   <CheckIcon />
-                  <span className="ms-3">Google Calendar Integration</span>
+                  <span className="ms-3">EHR Calendar Integration</span>
                 </li>
                 <li className="d-flex align-items-center mb-3">
                   <CheckIcon />
@@ -89,7 +89,7 @@ const Pricing = () => (
               <div className="border-top pt-4">
                 <h4 className="h5 mb-2 fw-semibold">Giving Back</h4>
                 <p className="text-muted small mb-0">
-                  We donate 5% of our profit to <a href="https://www.doctorswithoutborders.org/" target="_blank" rel="noopener noreferrer" className="text-primary text-decoration-none">Doctors Without Borders</a> to support their mission of providing impartial medical care in crisis zones.
+                  We donate 5% of our profits to global medical relief organizations.
                 </p>
               </div>
             </div>
