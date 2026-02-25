@@ -73,30 +73,30 @@ const About = () => (
 
       {/* Vocalis Definition Section */}
       <div className="vocalis-definition-section">
-        <div className="row align-items-center g-5">
-          <div className="col-lg-6">
+        <div className="row align-items-start g-4">
+          <div className="col-lg-5">
             <div className="vocalis-definition-left">
               <h3 className="vocalis-word">vocalis</h3>
               <p className="vocalis-phonetic">/ˈvoʊkælɪs/ — [vo·cal·is]</p>
               <p className="vocalis-meaning">
                 The vocalis is the thin, innermost muscle of the vocal folds (part of the thyroarytenoid) that regulates vocal cord tension and pitch.
               </p>
-              <div className="vocalis-anatomy-img-wrapper">
-                <img
-                  src={process.env.PUBLIC_URL + "/vocalisanatomy.png"}
-                  alt="Vocalis muscle anatomy — vocal folds diagram"
-                  className="vocalis-anatomy-img"
-                />
-              </div>
             </div>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-7">
             <div className="vocalis-definition-right">
               <p className="vocalis-brand-text">
                 We chose the name <strong>Vocalis</strong> because we build leading voice production models with hyper-realistic, human-centered speech. Just as the vocalis muscle fine-tunes pitch and tone, our technology refines communication — helping healthcare systems sound clear, natural, and present at every moment.
               </p>
             </div>
           </div>
+        </div>
+        <div className="vocalis-anatomy-img-wrapper">
+          <img
+            src={process.env.PUBLIC_URL + "/vocalisanatomy.png"}
+            alt="Vocalis muscle anatomy — vocal folds diagram"
+            className="vocalis-anatomy-img"
+          />
         </div>
       </div>
     </div>
