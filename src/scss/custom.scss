@@ -779,6 +779,7 @@ section {
 
 .vocalis-definition-left {
   padding-right: 2rem;
+  border-right: 2px solid rgba(102, 126, 234, 0.15);
 }
 
 .vocalis-word {
@@ -814,7 +815,6 @@ section {
   justify-content: center;
   align-items: center;
   padding: 0;
-  margin-top: 2rem;
 }
 
 .vocalis-anatomy-img {
@@ -833,8 +833,8 @@ section {
 .vocalis-definition-right {
   display: flex;
   align-items: flex-start;
-  padding-left: 2rem;
-  padding-top: 0.5rem;
+  padding-left: 1rem;
+  padding-top: 0;
   border-left: 2px solid rgba(102, 126, 234, 0.15);
 }
 
@@ -1150,6 +1150,7 @@ section {
   .vocalis-definition-left {
     padding-right: 0;
     text-align: center;
+    border-right: none;
   }
 
   .vocalis-word {
@@ -1167,7 +1168,6 @@ section {
   .vocalis-definition-right {
     padding-left: 0;
     border-left: none;
-    border-top: 2px solid rgba(102, 126, 234, 0.15);
     padding-top: 1.5rem;
     margin-top: 1rem;
   }
