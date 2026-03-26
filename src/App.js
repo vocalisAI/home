@@ -44,7 +44,7 @@ function App() {
   };
 
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL + "/"}>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <LoadingAnimation onComplete={handleLoadingComplete} />
       {!isLoading && (
         <div className="loading-complete">
