@@ -296,7 +296,7 @@ const EHRShowcase = ({ isActive, isMobile }) => {
       width: '100%',
       maxWidth: '1200px', 
       height: 'auto',
-      minHeight: isMobile ? 'auto' : '650px',
+      minHeight: isMobile ? 'auto' : '600px',
       display: 'flex',
       flexDirection: isMobile ? 'column' : 'row', 
       alignItems: 'stretch',
@@ -345,14 +345,15 @@ const EHRShowcase = ({ isActive, isMobile }) => {
       )}
 
       <div className={styles.ehrRight} style={{ 
-        padding: isMobile ? '1rem 0.75rem' : '3rem', 
+        padding: isMobile ? '1rem 0.75rem' : '1.5rem 2rem', 
         flex: 1, 
         minWidth: 0, 
         display: 'flex', 
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        position: 'relative'
       }}>
         <div className={styles.calendarHeader} style={{ 
           display: 'grid',
@@ -383,8 +384,8 @@ const EHRShowcase = ({ isActive, isMobile }) => {
 
             return (
               <div key={i} className={`${styles.slot} ${isEmpty ? styles.emptySlot : ""}`} style={{ 
-                height: isMobile ? '42px' : 'clamp(60px, 9vh, 90px)', 
-                padding: isMobile ? '2px' : '8px',
+                height: isMobile ? '42px' : 'clamp(45px, 7.5vh, 75px)', 
+                padding: isMobile ? '2px' : '6px',
                 borderRadius: isMobile ? '0.5rem' : '1rem',
                 border: isEmpty ? (isMobile ? '1px dashed #e2e8f0' : '2px dashed #e2e8f0') : 'none',
                 background: isEmpty ? 'transparent' : (isFilled ? '#38b2ac' : '#f8fafc'),
@@ -438,7 +439,7 @@ const EHRShowcase = ({ isActive, isMobile }) => {
 
         <div className={`${styles.ehrToast} ${showToast ? styles.toastVisible : ""}`} style={{ 
           position: 'absolute',
-          bottom: '2.5rem',
+          bottom: '1.25rem',
           left: '50%',
           transform: showToast ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(20px)',
           opacity: showToast ? 1 : 0,
