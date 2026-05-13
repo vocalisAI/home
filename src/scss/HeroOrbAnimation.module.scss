@@ -1,0 +1,317 @@
+/* =================================================================
+   HeroOrbAnimation — SCSS Module
+   Full-screen, Apple-style scroll-driven frame sequence hero
+   ================================================================= */
+
+/* ── Design tokens ──────────────────────────── */
+$teal:           #0ABFBC;
+$teal-dark:      #089E9C;
+$teal-glow:      rgba(10, 191, 188, 0.35);
+$dark-bg:        #e8e0d6;
+$text-primary:   #ffffff;
+$text-secondary: rgba(255, 255, 255, 0.75);
+$radius-pill:    100px;
+$radius-md:      12px;
+$font-display:   'Montserrat', 'Inter', system-ui, -apple-system, sans-serif;
+
+/* ── Animations ─────────────────────────────── */
+@keyframes heroFadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px $teal-glow, 0 0 60px rgba(10, 191, 188, 0.15); }
+  50%      { box-shadow: 0 0 30px $teal-glow, 0 0 80px rgba(10, 191, 188, 0.25); }
+}
+
+@keyframes bobDown {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ═════════════════════════════════════════════
+   DESKTOP — full-screen scroll-driven animation
+   ═════════════════════════════════════════════ */
+
+/* Tall outer wrapper — gives the user scrolling room to scrub
+   through all 171 frames */
+.wrapper {
+  position: relative;
+  height: 500vh;
+  background: $dark-bg;
+  padding: 0 !important;
+}
+
+/* Inner sticky viewport — fills the screen and stays pinned */
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  will-change: transform;
+  background: $dark-bg;
+}
+
+/* ── Canvas — covers the full viewport ─────── */
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  z-index: 1;
+  filter: contrast(1.05) saturate(1.05);
+}
+
+.canvasVisible {
+  opacity: 1;
+}
+
+/* ── Blurred placeholder while loading ─────── */
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  transition: opacity 0.5s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Loading progress ────────────────────────── */
+.loadingIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 5;
+}
+
+.loadingBar {
+  width: 200px;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.loadingFill {
+  height: 100%;
+  background: linear-gradient(90deg, $teal, lighten($teal, 15%));
+  border-radius: 3px;
+  transition: width 0.15s ease-out;
+}
+
+.loadingText {
+  font-family: $font-display;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Floating CTA — appears near end of scroll ─ */
+.floatingCta {
+  position: absolute;
+  bottom: 8vh;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.floatingCtaVisible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── CTA buttons ─────────────────────────────── */
+.ctaGroup {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 40px;
+  font-family: $font-display;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #111;
+  background: linear-gradient(135deg, $teal, lighten($teal, 12%));
+  border: none;
+  border-radius: $radius-pill;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: pulseGlow 3s ease-in-out infinite;
+
+  &:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 30px $teal-glow;
+    color: #111;
+    text-decoration: none;
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 40px;
+  font-family: $font-display;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: $text-primary;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: $radius-pill;
+  text-decoration: none;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: $teal;
+    color: $teal;
+    background: rgba(10, 191, 188, 0.1);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* ── Scroll-down hint ────────────────────────── */
+.scrollHint {
+  position: absolute;
+  bottom: 3vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: heroFadeInUp 0.8s ease-out both;
+  animation-delay: 1s;
+}
+
+.scrollHintText {
+  font-family: $font-display;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.45);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.scrollHintChevron {
+  color: rgba(0, 0, 0, 0.35);
+  font-size: 0.9rem;
+  animation: bobDown 1.8s ease-in-out infinite;
+}
+
+/* ═════════════════════════════════════════════
+   MOBILE — static full-screen fallback (≤768px)
+   ═════════════════════════════════════════════ */
+.mobileWrapper {
+  background: $dark-bg;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 80px 20px 40px; /* navbar clearance */
+  gap: 2rem;
+}
+
+.mobileImageWrap {
+  width: 100%;
+  max-width: 600px;
+  border-radius: $radius-md;
+  overflow: hidden;
+  animation: heroFadeInUp 0.6s ease-out both;
+}
+
+.mobileImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: $radius-md;
+}
+
+.mobileCta {
+  width: 100%;
+  max-width: 400px;
+  animation: heroFadeInUp 0.6s ease-out both;
+  animation-delay: 0.15s;
+
+  .ctaGroup {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .cta,
+  .ctaSecondary {
+    width: 100%;
+    text-align: center;
+    padding: 16px 24px;
+  }
+}
+
+/* ═════════════════════════════════════════════
+   Responsive fine-tuning
+   ═════════════════════════════════════════════ */
+
+/* Short viewports — bring CTAs up */
+@media (max-height: 600px) and (min-width: 769px) {
+  .floatingCta {
+    bottom: 4vh;
+  }
+
+  .cta,
+  .ctaSecondary {
+    padding: 12px 32px;
+    font-size: 0.95rem;
+  }
+}

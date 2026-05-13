@@ -1,34 +1,28 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import MainBody from "./components/home/MainBody";
+// import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import LoadingAnimation from "./components/ui/LoadingAnimation";
+import useScrollSnap from "./hooks/useScrollSnap";
 
 // Sections
-import Benefits from "./components/sections/Benefits";
-import Features from "./components/sections/Features";
+import HeroOrbAnimation from "./components/sections/HeroOrbAnimation";
+import WhatIsVocalis from "./components/sections/WhatIsVocalis";
+import VocalisCapabilities from "./components/sections/VocalisCapabilities";
 import Pricing from "./components/sections/Pricing";
 import About from "./components/sections/About";
-import HIPAA from "./components/sections/HIPAA";
 import FAQ from "./components/sections/FAQ";
 import Contact from "./components/sections/Contact";
-import ProductDemo from "./components/sections/ProductDemo";
-import Multilingual from "./components/sections/Multilingual";
 
 import "./scss/custom.scss";
 
-const Home = React.forwardRef((props, ref) => {
+const Home = React.forwardRef(({ onHeroProgress }, ref) => {
   return (
     <>
-      <MainBody ref={ref} />
-      <Benefits />
-      <Features />
-      <ProductDemo />
-      <Multilingual />
+      <HeroOrbAnimation onProgressChange={onHeroProgress} />
+      <WhatIsVocalis />
+      <VocalisCapabilities />
       <Pricing />
       <About />
-      <HIPAA />
       <FAQ />
       <Contact />
     </>
@@ -37,24 +31,54 @@ const Home = React.forwardRef((props, ref) => {
 
 function App() {
   const titleRef = useRef();
-  const [isLoading, setIsLoading] = useState(true);
+  
+  // Dynamic Snap Points calculation
+  const [snapPoints, setSnapPoints] = useState([]);
 
-  const handleLoadingComplete = () => {
-    setIsLoading(false);
-  };
+  React.useEffect(() => {
+    const calcSnaps = () => {
+      const vh = window.innerHeight;
+      const heroHeight = vh * 5;
+      const anatomyHeight = vh * 3;
+      
+      const snaps = [
+        0,                            // 1. Hero Start
+        heroHeight - vh,              // 2. Hero Conclusion / CTAs
+        heroHeight,                   // 3. What is Vocalis (Start)
+        heroHeight + (vh * 1.5),      // 4. What is Vocalis (Part 2)
+        heroHeight + anatomyHeight,   // 5. Capabilities Start
+      ];
+
+      // Add snap points for each of the 10 capabilities (every 100vh)
+      for (let i = 1; i <= 10; i++) {
+        snaps.push(heroHeight + anatomyHeight + (vh * i));
+      }
+
+      setSnapPoints(snaps);
+    };
+
+    calcSnaps();
+    window.addEventListener('resize', calcSnaps);
+    return () => window.removeEventListener('resize', calcSnaps);
+  }, []);
+
+  useScrollSnap({ snapPoints, threshold: 40 });
+
+  const handleHeroProgress = useCallback((progress) => {
+    // Progress callback for Hero animation
+  }, []);
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <LoadingAnimation onComplete={handleLoadingComplete} />
-      {!isLoading && (
-        <div className="loading-complete">
-          <Navbar ref={titleRef} />
-          <Routes>
-            <Route path="/" exact element={<Home ref={titleRef} />} />
-          </Routes>
-          <Footer />
-        </div>
-      )}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home ref={titleRef} onHeroProgress={handleHeroProgress} />
+          }
+        />
+      </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

@@ -39,11 +39,11 @@
 
 // Updated color scheme - more vibrant
 :root {
-  --primary-color: #667eea;
-  --secondary-color: #764ba2;
-  --accent-color: #f093fb;
-  --success-color: #4facfe;
-  --warning-color: #f5576c;
+  --primary-color: #38b2ac;
+  --secondary-color: #319795;
+  --accent-color: #4fd1c5;
+  --success-color: #2c7a7b;
+  --warning-color: #f56565;
   --light-bg: #f8fafc;
   --white: #ffffff;
   --dark-text: #2d3748;
@@ -513,26 +513,26 @@ section {
 // FAQ Section Styling
 .accordion-button {
   &:not(.collapsed) {
-    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    background: linear-gradient(135deg, #38b2ac, #2c7a7b) !important;
     color: white !important;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 15px rgba(56, 178, 172, 0.3);
     
     &::after {
       filter: brightness(0) invert(1);
     }
     
     &:hover {
-      background: linear-gradient(135deg, #667eea, #764ba2) !important;
+      background: linear-gradient(135deg, #38b2ac, #2c7a7b) !important;
       color: white !important;
     }
   }
   
   &:focus {
-    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+    box-shadow: 0 0 0 0.25rem rgba(56, 178, 172, 0.25);
   }
   
   &:hover:not(.collapsed) {
-    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    background: linear-gradient(135deg, #38b2ac, #2c7a7b) !important;
     color: white !important;
   }
   
@@ -562,7 +562,7 @@ section {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+  background: linear-gradient(135deg, #38b2ac 0%, #2c7a7b 25%, #4fd1c5 50%, #81e6d9 75%, #319795 100%);
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite;
   z-index: 9999;
@@ -779,7 +779,7 @@ section {
 
 .vocalis-definition-left {
   padding-right: 2rem;
-  border-right: 2px solid rgba(102, 126, 234, 0.15);
+  border-right: 2px solid rgba(56, 178, 172, 0.15);
 }
 
 .vocalis-word {
@@ -835,7 +835,7 @@ section {
   align-items: flex-start;
   padding-left: 1rem;
   padding-top: 0;
-  border-left: 2px solid rgba(102, 126, 234, 0.15);
+  border-left: 2px solid rgba(56, 178, 172, 0.15);
 }
 
 .vocalis-brand-text {

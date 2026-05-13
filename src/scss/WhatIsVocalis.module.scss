@@ -1,0 +1,150 @@
+.wrapper {
+  position: relative;
+  height: 300vh;
+  background: #ffffff;
+  padding: 0 !important;
+  color: #2d3748;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  background: #ffffff;
+  padding-left: 5%;
+}
+
+/* ── Canvas Half (Left) ── */
+.canvasContainer {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  /* Enhance the white background integration */
+  mix-blend-mode: multiply; 
+}
+
+.canvasVisible {
+  opacity: 1;
+}
+
+/* ── Text Half (Right) ── */
+.textContainer {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 4rem 6rem 4rem 2rem;
+  position: relative;
+}
+
+.textSection {
+  position: absolute;
+  max-width: 600px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  pointer-events: none;
+}
+
+.textSectionVisible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Typography specifics based on the screenshots */
+.definitionHeader {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 6.5rem;
+  font-style: italic;
+  font-weight: 400;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.phonetic {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 2rem;
+  color: #a0aec0;
+  font-style: italic;
+  margin-bottom: 2.5rem;
+}
+
+.bodyText {
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: #4a5568;
+  font-weight: 450;
+}
+
+.bodyText strong {
+  color: #2d3748;
+  font-weight: 700;
+}
+
+/* ── Mobile Fallback ── */
+.mobileWrapper {
+  padding: 4rem 2rem;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mobileImageWrap {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 3rem;
+}
+
+.mobileImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mobileTextWrap {
+  width: 100%;
+  max-width: 600px;
+}
+
+.mobileTextSection {
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 992px) {
+  .sticky {
+    flex-direction: column;
+  }
+  .canvasContainer {
+    flex: 1;
+    width: 100%;
+  }
+  .textContainer {
+    flex: 1;
+    width: 100%;
+    padding: 2rem;
+    align-items: flex-start;
+  }
+  .definitionHeader {
+    font-size: 3rem;
+  }
+}

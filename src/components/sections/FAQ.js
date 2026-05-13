@@ -40,8 +40,24 @@ const FAQ = () => {
     setOpenItem(openItem === id ? null : id);
   };
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(item => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer
+      }
+    }))
+  };
+
   return (
     <section id="faq" className="py-5" style={{background:'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'}}>
+      <script type="application/ld+json">
+        {JSON.stringify(schemaData)}
+      </script>
       <div className="container">
         <div className="text-center mb-5">
           <h2 className="display-5 mb-3 fw-bold">Frequently Asked Questions (FAQ)</h2>

@@ -13,7 +13,8 @@ const Navigation = React.forwardRef((props, ref) => {
   useScrollPosition(
     ({ prevPos, currPos }) => {
       if (!navbarDimensions) return;
-      currPos.y + ref.current.offsetTop - navbarDimensions.bottom > 5
+      const refTop = ref.current ? ref.current.offsetTop : 0;
+      currPos.y + refTop - navbarDimensions.bottom > 5
         ? setIsTop(true)
         : setIsTop(false);
       setScrollPosition(currPos.y);
@@ -23,7 +24,8 @@ const Navigation = React.forwardRef((props, ref) => {
 
   React.useEffect(() => {
     if (!navbarDimensions) return;
-    navBottom - scrollPosition >= ref.current.offsetTop
+    const refTop = ref.current ? ref.current.offsetTop : 0;
+    navBottom - scrollPosition >= refTop
       ? setIsTop(false)
       : setIsTop(true);
   }, [navBottom, navbarDimensions, ref, scrollPosition]);
@@ -35,7 +37,7 @@ const Navigation = React.forwardRef((props, ref) => {
   return (
     <Navbar
       ref={navbarMenuRef}
-      className={`px-3 fixed-top  ${!isTop ? "navbar-white" : "navbar-transparent"}`}
+      className={`px-3 fixed-top ${!isTop ? "navbar-white" : "navbar-transparent"} ${props.heroActive ? "d-none" : "d-flex"}`}
       expand="lg"
     >
       <Navbar.Brand 
@@ -45,7 +47,7 @@ const Navigation = React.forwardRef((props, ref) => {
       >
         <img 
           src={process.env.PUBLIC_URL + "/newestlogo.jpg"} 
-          alt="Vocalis Logo" 
+          alt="Vocalis Health AI Receptionist Logo - Medical Clinic Automation" 
           height="40" 
           className="me-2"
           style={{objectFit: 'contain'}}
