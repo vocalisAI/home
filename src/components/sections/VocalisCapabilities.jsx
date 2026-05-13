@@ -1144,7 +1144,7 @@ const VocalisCapabilities = () => {
                     {!isMobile && (
                       <div style={{ 
                         position: 'absolute', 
-                        bottom: `calc(${i === 0 ? 'clamp(250px, 45vh, 450px)' : i === 1 ? 'clamp(120px, 25vh, 220px)' : 'clamp(60px, 15vh, 100px)'} + 45px)`,
+                        bottom: `calc(${i === 0 ? 'clamp(250px, 45vh, 450px)' : i === 1 ? 'clamp(120px, 25vh, 220px)' : 'clamp(60px, 15vh, 100px)'} + 15px)`,
                         left: '50%',
                         transform: 'translateX(-50%) translateY(-10px)',
                         fontWeight: 900, 
