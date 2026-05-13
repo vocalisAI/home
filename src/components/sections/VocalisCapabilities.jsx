@@ -384,7 +384,7 @@ const EHRShowcase = ({ isActive, isMobile }) => {
 
             return (
               <div key={i} className={`${styles.slot} ${isEmpty ? styles.emptySlot : ""}`} style={{ 
-                height: isMobile ? '42px' : 'clamp(45px, 7.5vh, 75px)', 
+                height: isMobile ? '42px' : 'clamp(55px, 8vh, 85px)', 
                 padding: isMobile ? '2px' : '6px',
                 borderRadius: isMobile ? '0.5rem' : '1rem',
                 border: isEmpty ? (isMobile ? '1px dashed #e2e8f0' : '2px dashed #e2e8f0') : 'none',
@@ -416,7 +416,7 @@ const EHRShowcase = ({ isActive, isMobile }) => {
                       textOverflow: 'ellipsis',
                       width: '100%',
                       textAlign: 'center',
-                      lineHeight: 1
+                      lineHeight: 1.2
                     }}>{isMobile ? patient.split(' ')[0] : patient}</div>
                     <div style={{ 
                       fontSize: isMobile ? '0.42rem' : '0.75rem', 
