@@ -384,8 +384,8 @@ const EHRShowcase = ({ isActive, isMobile }) => {
 
             return (
               <div key={i} className={`${styles.slot} ${isEmpty ? styles.emptySlot : ""}`} style={{ 
-                height: isMobile ? '42px' : 'clamp(60px, 8.5vh, 90px)', 
-                padding: isMobile ? '2px' : '8px',
+                height: isMobile ? '42px' : 'clamp(70px, 9vh, 95px)', 
+                padding: isMobile ? '2px' : '0',
                 borderRadius: isMobile ? '0.5rem' : '1rem',
                 border: isEmpty ? (isMobile ? '1px dashed #e2e8f0' : '2px dashed #e2e8f0') : 'none',
                 background: isEmpty ? 'transparent' : (isFilled ? '#38b2ac' : '#f8fafc'),
@@ -399,32 +399,39 @@ const EHRShowcase = ({ isActive, isMobile }) => {
                 ) : isFilled ? (
                   <div className={styles.appointmentPill} style={{ 
                     width: '100%',
+                    height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    gap: isMobile ? '0px' : '2px',
                     color: 'white',
+                    position: 'relative',
+                    zIndex: 2,
                     animation: 'slotPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
                   }}>
                     <div className={styles.patientName} style={{ 
-                      fontSize: isMobile ? '0.55rem' : '0.95rem', 
-                      fontWeight: 700,
+                      fontSize: isMobile ? '0.55rem' : '1.05rem', 
+                      fontWeight: 800,
                       color: 'white',
                       textAlign: 'center',
                       lineHeight: '1.2',
-                      marginBottom: '2px'
+                      position: 'relative',
+                      zIndex: 10,
+                      marginBottom: isMobile ? '0px' : '4px',
+                      textShadow: '0 1px 2px rgba(0,0,0,0.1)'
                     }}>{isMobile ? patient.split(' ')[0] : patient}</div>
                     <div style={{ 
-                      fontSize: isMobile ? '0.42rem' : '0.75rem', 
-                      opacity: 0.9,
+                      fontSize: isMobile ? '0.42rem' : '0.8rem', 
+                      opacity: 0.95,
                       whiteSpace: 'nowrap',
-                      marginTop: isMobile ? '1px' : '4px',
+                      marginTop: isMobile ? '1px' : '8px',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '2px'
+                      gap: '4px',
+                      position: 'relative',
+                      zIndex: 5
                     }}>
-                      {!isMobile && <span style={{ fontSize: '0.8rem' }}>🕒</span>}
+                      {!isMobile && <span style={{ fontSize: '0.85rem' }}>🕒</span>}
                       {time}
                     </div>
                   </div>
