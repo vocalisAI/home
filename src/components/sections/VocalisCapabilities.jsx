@@ -384,8 +384,8 @@ const EHRShowcase = ({ isActive, isMobile }) => {
 
             return (
               <div key={i} className={`${styles.slot} ${isEmpty ? styles.emptySlot : ""}`} style={{ 
-                height: isMobile ? '42px' : 'clamp(55px, 8vh, 85px)', 
-                padding: isMobile ? '2px' : '6px',
+                height: isMobile ? '42px' : 'clamp(60px, 8.5vh, 90px)', 
+                padding: isMobile ? '2px' : '8px',
                 borderRadius: isMobile ? '0.5rem' : '1rem',
                 border: isEmpty ? (isMobile ? '1px dashed #e2e8f0' : '2px dashed #e2e8f0') : 'none',
                 background: isEmpty ? 'transparent' : (isFilled ? '#38b2ac' : '#f8fafc'),
@@ -399,7 +399,6 @@ const EHRShowcase = ({ isActive, isMobile }) => {
                 ) : isFilled ? (
                   <div className={styles.appointmentPill} style={{ 
                     width: '100%',
-                    height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
@@ -410,13 +409,11 @@ const EHRShowcase = ({ isActive, isMobile }) => {
                   }}>
                     <div className={styles.patientName} style={{ 
                       fontSize: isMobile ? '0.55rem' : '0.95rem', 
-                      fontWeight: 700, 
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      width: '100%',
+                      fontWeight: 700,
+                      color: 'white',
                       textAlign: 'center',
-                      lineHeight: 1.2
+                      lineHeight: '1.2',
+                      marginBottom: '2px'
                     }}>{isMobile ? patient.split(' ')[0] : patient}</div>
                     <div style={{ 
                       fontSize: isMobile ? '0.42rem' : '0.75rem', 
