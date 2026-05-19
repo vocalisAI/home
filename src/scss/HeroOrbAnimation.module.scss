@@ -20,6 +20,11 @@ $font-display:   'Montserrat', 'Inter', system-ui, -apple-system, sans-serif;
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes scrollHintFadeInUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(24px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
 @keyframes pulseGlow {
   0%, 100% { box-shadow: 0 0 20px $teal-glow, 0 0 60px rgba(10, 191, 188, 0.15); }
   50%      { box-shadow: 0 0 30px $teal-glow, 0 0 80px rgba(10, 191, 188, 0.25); }
@@ -230,7 +235,7 @@ $font-display:   'Montserrat', 'Inter', system-ui, -apple-system, sans-serif;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  animation: heroFadeInUp 0.8s ease-out both;
+  animation: scrollHintFadeInUp 0.8s ease-out both;
   animation-delay: 1s;
 }
 
