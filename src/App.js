@@ -9,6 +9,7 @@ import HeroOrbAnimation from "./components/sections/HeroOrbAnimation";
 import WhatIsVocalis from "./components/sections/WhatIsVocalis";
 import VocalisCapabilities from "./components/sections/VocalisCapabilities";
 import Pricing from "./components/sections/Pricing";
+import Security from "./components/sections/Security";
 import About from "./components/sections/About";
 import FAQ from "./components/sections/FAQ";
 import Contact from "./components/sections/Contact";
@@ -22,6 +23,7 @@ const Home = React.forwardRef(({ onHeroProgress }, ref) => {
       <WhatIsVocalis />
       <VocalisCapabilities />
       <Pricing />
+      <Security />
       <About />
       <FAQ />
       <Contact />
