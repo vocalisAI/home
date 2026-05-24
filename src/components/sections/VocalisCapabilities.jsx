@@ -860,6 +860,7 @@ const VocalisCapabilities = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [mobileIndex, setMobileIndex] = useState(0);
   const [showSwipeHint, setShowSwipeHint] = useState(true);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     if (isMobile && showSwipeHint) {
@@ -1105,107 +1106,222 @@ const VocalisCapabilities = () => {
             justifyContent: 'center',
             overflow: 'hidden',
             boxSizing: 'border-box',
-            gap: isMobile ? '1.5rem' : 'clamp(1rem, 3vw, 4rem)',
-            padding: isMobile ? '1.5rem' : '2rem',
+            padding: isMobile ? '1rem' : '2rem',
             minHeight: 0
           }}>
-            <div className={styles.chartArea} style={{ 
-              display: 'flex', 
-              flexDirection: isMobile ? 'column' : 'row', 
-              alignItems: isMobile ? 'center' : 'flex-end', 
-              gap: isMobile ? '1rem' : 'clamp(2rem, 5vw, 6rem)', 
-              height: isMobile ? 'auto' : 'clamp(350px, 60vh, 650px)',
+            {/* Premium Card Container */}
+            <div style={{
               width: '100%',
-              justifyContent: 'center',
-              position: 'relative'
+              maxWidth: isMobile ? '100%' : '760px',
+              background: '#ffffff',
+              borderRadius: isMobile ? '1.5rem' : '2rem',
+              padding: isMobile ? '1.25rem 1rem' : '2.5rem 3rem',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.03), 0 1px 3px rgba(0,0,0,0.02)',
+              border: '1px solid #edf2f7',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              position: 'relative',
+              overflow: 'hidden'
             }}>
-              {[
-                { label: "Receptionist", start: 0, end: 5000, color: "#cbd5e0", mobileWidth: "85%" },
-                { label: "Call Center", start: 0, end: 1500, color: "#a0aec0", mobileWidth: "45%" },
-                { label: "Vocalis", start: 0, end: 500, color: "#38b2ac", isVocalis: true, mobileWidth: "15%" }
-              ].map((bar, i) => (
-                <div key={bar.label} className={styles.barWrapper} style={{ 
-                  flexDirection: isMobile ? 'row' : 'column',
-                  alignItems: 'center',
-                  gap: isMobile ? '0.75rem' : '0.75rem',
-                  width: isMobile ? '100%' : 'auto',
-                  justifyContent: 'center'
+              {!isMobile ? (
+                /* Desktop Chart Layout */
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'space-around',
+                  width: '100%',
+                  height: '320px',
+                  marginBottom: '2rem',
+                  gap: '2.5rem'
                 }}>
-                  {isMobile && <div style={{ width: '80px', fontSize: '0.75rem', fontWeight: 800, color: bar.isVocalis ? '#38b2ac' : '#64748b', textAlign: 'right' }}>{bar.label}</div>}
-                  <div style={{ 
-                    flex: 'none', 
-                    display: 'flex', 
-                    flexDirection: isMobile ? 'row' : 'column', 
-                    alignItems: 'center', 
-                    gap: '0.5rem',
-                    position: 'relative',
-                    width: isMobile ? '160px' : 'auto'
-                  }}>
-                    {!isMobile && (
-                      <div style={{ 
-                        position: 'absolute', 
-                        bottom: `calc(${i === 0 ? 'clamp(250px, 45vh, 450px)' : i === 1 ? 'clamp(120px, 25vh, 220px)' : 'clamp(60px, 15vh, 100px)'} + 10px)`,
-                        left: '50%',
-                        transform: 'translateX(-50%) translateY(-10px)',
-                        fontWeight: 900, 
-                        color: bar.isVocalis ? '#38b2ac' : '#64748b', 
-                        fontSize: 'clamp(1rem, 1.8vw, 1.8rem)', 
-                        opacity: isActive ? 1 : 0, 
-                        transition: 'all 0.5s ease 1s',
-                        whiteSpace: 'nowrap',
-                        zIndex: 10
-                      }}>
-                        {isActive ? `$${bar.end.toLocaleString()}/mo` : ""}
-                      </div>
-                    )}
-                    <div className={`${styles.bar} ${bar.isVocalis ? styles.vocalisBar : ""}`} style={{ 
-                      height: isMobile ? '14px' : (isActive ? (i === 0 ? 'clamp(250px, 45vh, 450px)' : i === 1 ? 'clamp(120px, 25vh, 220px)' : 'clamp(60px, 15vh, 100px)') : '0'), 
-                      width: isMobile ? (isActive ? bar.mobileWidth : '0%') : 'clamp(80px, 8vw, 120px)',
-                      background: bar.color,
-                      transition: 'all 1s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                      borderRadius: '99px',
-                      position: 'relative'
+                  {[
+                    { label: "In-House Receptionist", detail: "Avg. salary, benefits & overhead", end: 5000, gradient: "linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%)", height: '220px' },
+                    { label: "Traditional Call Center", detail: "Per-minute fees & agency markup", end: 1500, gradient: "linear-gradient(180deg, #94a3b8 0%, #64748b 100%)", height: '100px' },
+                    { label: "Vocalis", detail: "Your Affordable Option", end: 500, gradient: "linear-gradient(180deg, #2dd4bf 0%, #0d9488 100%)", isVocalis: true, height: '50px' }
+                  ].map((bar, i) => (
+                    <div key={bar.label} style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      flex: 1
                     }}>
-                      {isMobile && isActive && (
-                        <div style={{ 
-                          position: 'absolute', 
-                          left: 'calc(100% + 8px)',
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          fontWeight: 900, 
-                          color: bar.isVocalis ? '#38b2ac' : '#64748b', 
-                          fontSize: '0.75rem',
+                      {/* Flex wrapper for price + bar growing bottom-up */}
+                      <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                        height: '260px',
+                        width: '100%'
+                      }}>
+                        {/* Price Counter */}
+                        <div style={{
+                          fontWeight: 800,
+                          color: bar.isVocalis ? '#0f766e' : '#475569',
+                          fontSize: bar.isVocalis ? '1.4rem' : '1.15rem',
+                          marginBottom: '8px',
+                          opacity: isActive ? 1 : 0,
+                          transition: 'opacity 0.3s ease 0.5s',
                           whiteSpace: 'nowrap'
                         }}>
-                          {`$${bar.end.toLocaleString()}/mo`}
+                          {isActive ? (
+                            <AnimatedCounter end={bar.end} prefix="$" suffix="/mo" isActive={isActive} duration={1200} />
+                          ) : "$0/mo"}
                         </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
 
-            {isActive && (
-              <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: isMobile ? '1.5rem' : '0' }}>
-                <div className={`${styles.savingsCallout} ${styles.fadeInUp}`} style={{ 
-                  animationDelay: '1.8s', 
-                  opacity: 0, 
-                  padding: isMobile ? '0.6rem 1.5rem' : '1rem 2rem', 
-                  position: isMobile ? 'relative' : 'absolute',
-                  top: isMobile ? '0' : '0%',
-                  marginTop: isMobile ? '0' : '-10vh',
-                  fontSize: isMobile ? '0.9rem' : '1.25rem',
-                  borderRadius: '1rem',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+                        {/* Chart Column */}
+                        <div
+                          onMouseEnter={() => setHoveredIndex(i)}
+                          onMouseLeave={() => setHoveredIndex(null)}
+                          style={{
+                            height: isActive ? bar.height : '0px',
+                            width: '100%',
+                            maxWidth: '75px',
+                            background: bar.gradient,
+                            borderRadius: '12px 12px 0 0',
+                            transition: 'height 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease',
+                            boxShadow: bar.isVocalis && isActive ? '0 10px 25px rgba(20, 184, 166, 0.3)' : 'none',
+                            transform: hoveredIndex === i ? 'scale(1.05)' : 'scale(1)',
+                            filter: hoveredIndex === i ? 'brightness(1.05)' : 'brightness(1)',
+                            cursor: 'pointer'
+                          }}
+                        />
+                      </div>
+
+                      {/* Primary Label */}
+                      <div style={{
+                        marginTop: '16px',
+                        fontWeight: 800,
+                        color: bar.isVocalis ? '#0d9488' : '#334155',
+                        fontSize: '0.95rem',
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        {bar.label}
+                      </div>
+
+                      {/* Detail Subtitle */}
+                      <div style={{
+                        marginTop: '4px',
+                        fontSize: '0.72rem',
+                        color: '#94a3b8',
+                        fontWeight: 600,
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        {bar.detail}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                /* Mobile Layout - Clean Horizontal Rows */
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  gap: '1.25rem',
+                  marginBottom: '1.5rem'
+                }}>
+                  {[
+                    { label: "In-House Receptionist", detail: "Avg. salary, benefits & overhead", end: 5000, gradient: "linear-gradient(90deg, #cbd5e1 0%, #94a3b8 100%)", width: '100%' },
+                    { label: "Traditional Call Center", detail: "Per-minute fees & agency markup", end: 1500, gradient: "linear-gradient(90deg, #94a3b8 0%, #64748b 100%)", width: '45%' },
+                    { label: "Vocalis", detail: "Your Affordable Option", end: 500, gradient: "linear-gradient(90deg, #2dd4bf 0%, #0d9488 100%)", isVocalis: true, width: '22%' }
+                  ].map((bar, i) => (
+                    <div key={bar.label} style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      width: '100%'
+                    }}>
+                      {/* Top Label and Price Row */}
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'baseline',
+                        marginBottom: '6px'
+                      }}>
+                        <span style={{
+                          fontWeight: 800,
+                          fontSize: '0.82rem',
+                          color: bar.isVocalis ? '#0d9488' : '#334155'
+                        }}>
+                          {bar.label}
+                        </span>
+                        <span style={{
+                          fontWeight: 900,
+                          fontSize: '0.85rem',
+                          color: bar.isVocalis ? '#0f766e' : '#475569'
+                        }}>
+                          {isActive ? (
+                            <AnimatedCounter end={bar.end} prefix="$" suffix="/mo" isActive={isActive} duration={1200} />
+                          ) : "$0/mo"}
+                        </span>
+                      </div>
+
+                      {/* Growing Horizontal Bar */}
+                      <div style={{
+                        height: '14px',
+                        width: isActive ? bar.width : '0%',
+                        background: bar.gradient,
+                        borderRadius: '99px',
+                        boxShadow: bar.isVocalis && isActive ? '0 4px 12px rgba(20, 184, 166, 0.25)' : 'none',
+                        transition: 'width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                      }} />
+
+                      {/* Detail Text */}
+                      <span style={{
+                        fontSize: '0.68rem',
+                        color: '#94a3b8',
+                        fontWeight: 500,
+                        marginTop: '4px'
+                      }}>
+                        {bar.detail}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Prominent Savings Callout - Big, centered and mobile compliant */}
+              {isActive && (
+                <div className={styles.fadeInUp} style={{
+                  animationDelay: '1.2s',
+                  opacity: 0,
+                  padding: isMobile ? '0.75rem 1.25rem' : '1rem 2.5rem',
+                  fontSize: isMobile ? '1.05rem' : '1.35rem',
+                  borderRadius: '16px',
+                  border: '1px solid #bbf7d0',
+                  background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                  boxShadow: '0 8px 24px rgba(22,163,74,0.06)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  marginTop: isMobile ? '1rem' : '1.5rem',
+                  position: 'static',
+                  fontWeight: 800,
+                  color: '#15803d',
+                  textAlign: 'center',
+                  width: '100%',
+                  maxWidth: isMobile ? '100%' : '520px',
                   transformOrigin: 'center'
                 }}>
-                  <div style={{ fontWeight: 900, color: '#16a34a', textAlign: 'center' }}>💰 You save $4,500/mo</div>
+                  <span>💰</span> You save <strong style={{ fontWeight: 900, color: '#166534', fontSize: isMobile ? '1.25rem' : '1.65rem' }}>$4,500/mo</strong> with Vocalis
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
-            <div className={styles.footnote} style={{ opacity: isActive ? 1 : 0, transition: 'opacity 0.5s ease 1.5s', marginTop: '1rem', fontSize: isMobile ? '0.6rem' : '0.75rem' }}>
+            {/* Muted Footnote */}
+            <div className={styles.footnote} style={{
+              opacity: isActive ? 1 : 0,
+              transition: 'opacity 0.5s ease 1.5s',
+              marginTop: '1.25rem',
+              fontSize: isMobile ? '0.62rem' : '0.75rem',
+              color: '#94a3b8',
+              fontStyle: 'normal',
+              textAlign: 'center'
+            }}>
               Based on data from the VA, NIH, Salary.com
             </div>
           </div>
