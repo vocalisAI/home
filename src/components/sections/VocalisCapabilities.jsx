@@ -567,7 +567,7 @@ const RevenueShowcase = ({ isActive, isMobile }) => {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: isMobile ? 'flex-start' : 'center',
-      paddingTop: isMobile ? '5rem' : '0',
+      paddingTop: isMobile ? '1.5rem' : '0',
       overflow: 'hidden',
       boxSizing: 'border-box',
       background: bgWash,
@@ -593,7 +593,7 @@ const RevenueShowcase = ({ isActive, isMobile }) => {
           <div className={styles.counterLabel} style={{ height: '1.2rem', marginTop: isMobile ? '0.1rem' : '1.5rem', fontSize: isMobile ? '0.65rem' : '1.1rem', whiteSpace: 'nowrap' }}>Missed Calls</div>
           <div style={{ height: isMobile ? '2.5rem' : 'clamp(4rem, 15vh, 10rem)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: isMobile ? '0.1rem' : '1rem', width: '100%' }}>
             <div className={`${styles.largeCounter} ${leftCount === 0 ? styles.scalePop : ""}`} style={{ 
-              fontSize: isMobile ? 'clamp(2.5rem, 8vw, 3.5rem)' : 'clamp(4rem, 8vw, 9rem)', 
+              fontSize: isMobile ? 'clamp(3.5rem, 12vw, 4.5rem)' : 'clamp(4rem, 8vw, 9rem)', 
               color: leftCount === 0 ? '#38b2ac' : '#e53e3e',
               fontVariantNumeric: 'tabular-nums',
               width: '100%',
@@ -621,7 +621,7 @@ const RevenueShowcase = ({ isActive, isMobile }) => {
           <div className={styles.contextLabel} style={{ opacity: isActive ? 1 : 0, transition: 'opacity 0.5s ease 0.3s', height: 'auto', fontSize: isMobile ? '0.9rem' : '1.75rem', fontWeight: 900, color: '#38b2ac', whiteSpace: 'nowrap', marginBottom: isMobile ? '0.25rem' : '1.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>With Vocalis</div>
           <div className={styles.counterLabel} style={{ height: '1.2rem', marginTop: isMobile ? '0.25rem' : '1.5rem', fontSize: isMobile ? '0.65rem' : '1.1rem', whiteSpace: 'nowrap' }}>Revenue Captured</div>
             <div className={styles.largeCounter} style={{ 
-              fontSize: isMobile ? 'clamp(2.5rem, 9vw, 4rem)' : 'clamp(4.5rem, 9vw, 9.5rem)', 
+              fontSize: isMobile ? 'clamp(3.5rem, 13vw, 5rem)' : 'clamp(4.5rem, 9vw, 9.5rem)', 
               color: '#38b2ac',
               fontVariantNumeric: 'tabular-nums',
               width: '100%',
@@ -632,7 +632,7 @@ const RevenueShowcase = ({ isActive, isMobile }) => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              minHeight: isMobile ? '3rem' : '10rem'
+              minHeight: isMobile ? '4.5rem' : '10rem'
             }}>
               <span style={{ 
                 display: 'inline-flex', 

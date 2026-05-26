@@ -320,3 +320,15 @@ $font-display:   'Montserrat', 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 0.95rem;
   }
 }
+
+/* Mobile canvas un-crop */
+@media (max-width: 768px) {
+  .canvas {
+    object-fit: contain;
+  }
+  .placeholder {
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
