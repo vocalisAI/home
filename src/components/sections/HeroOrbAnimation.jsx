@@ -150,25 +150,28 @@ const HeroOrbAnimation = ({ onProgressChange }) => {
   );
 
   /* ─────────────────────────────────────────────
-     MOBILE / REDUCED-MOTION — static layout
+     MOBILE — static text hero (no scroll animation)
      ───────────────────────────────────────────── */
-  if (prefersReduced) {
+  if (isMobile || prefersReduced) {
     return (
       <section id="hero" className={styles.mobileWrapper}>
-        <div className={styles.mobileImageWrap}>
-          <img
-            src={END_FRAME_PATH}
-            alt="Vocalis AI orb floating above a modern clinic reception"
-            className={styles.mobileImage}
-            loading="eager"
-            width={FRAME_WIDTH}
-            height={FRAME_HEIGHT}
-          />
+        <div className={styles.mobileHeroContent}>
+          <span className={styles.mobileEyebrow}>Introducing</span>
+          <h1 className={styles.mobileHeadline}>
+            Vocalis
+          </h1>
+          <p className={styles.mobileSubheadline}>
+            Your HIPAA-Compliant Receptionist
+          </p>
+          <p className={styles.mobileDescription}>
+            AI-powered phone reception that answers every call, books appointments, and never takes a day off.
+          </p>
+          <div className={styles.mobileCta}>{ctaButtons}</div>
         </div>
-        <div className={styles.mobileCta}>{ctaButtons}</div>
       </section>
     );
   }
+
 
   /* ─────────────────────────────────────────────
      DESKTOP — full-screen scroll-driven canvas

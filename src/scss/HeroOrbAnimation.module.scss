@@ -255,40 +255,103 @@ $font-display:   'Montserrat', 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 /* ═════════════════════════════════════════════
-   MOBILE — static full-screen fallback (≤768px)
+   MOBILE — static text hero (≤768px)
    ═════════════════════════════════════════════ */
 .mobileWrapper {
-  background: $dark-bg;
+  background: linear-gradient(165deg, #0d1b2a 0%, #1b2d3e 35%, #162a3a 65%, #0a1628 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: 80px 20px 40px; /* navbar clearance */
-  gap: 2rem;
-}
-
-.mobileImageWrap {
-  width: 100%;
-  max-width: 600px;
-  border-radius: $radius-md;
+  padding: 80px 24px 48px;
+  position: relative;
   overflow: hidden;
-  animation: heroFadeInUp 0.6s ease-out both;
+
+  /* Subtle radial glow behind content */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba($teal, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
-.mobileImage {
+.mobileHeroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
   width: 100%;
-  height: auto;
-  display: block;
-  border-radius: $radius-md;
+}
+
+.mobileEyebrow {
+  font-family: $font-display;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: $teal;
+  opacity: 0;
+  animation: heroFadeInUp 0.6s ease-out 0.1s forwards;
+}
+
+.mobileHeadline {
+  font-family: $font-display;
+  font-size: clamp(3.2rem, 14vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #ffffff;
+  margin: 0;
+  opacity: 0;
+  animation: heroFadeInUp 0.6s ease-out 0.2s forwards;
+
+  /* Subtle teal text shadow for depth */
+  text-shadow: 0 0 60px rgba($teal, 0.3);
+}
+
+.mobileSubheadline {
+  font-family: $font-display;
+  font-size: clamp(1.05rem, 4.5vw, 1.3rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
+  margin: 0;
+  opacity: 0;
+  animation: heroFadeInUp 0.6s ease-out 0.35s forwards;
+}
+
+.mobileDescription {
+  font-family: $font-display;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
+  margin: 0.5rem 0 0.5rem;
+  max-width: 340px;
+  opacity: 0;
+  animation: heroFadeInUp 0.6s ease-out 0.5s forwards;
 }
 
 .mobileCta {
   width: 100%;
   max-width: 400px;
-  animation: heroFadeInUp 0.6s ease-out both;
-  animation-delay: 0.15s;
+  opacity: 0;
+  animation: heroFadeInUp 0.6s ease-out 0.65s forwards;
+  margin-top: 0.5rem;
 
   .ctaGroup {
     flex-direction: column;
@@ -320,5 +383,3 @@ $font-display:   'Montserrat', 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 0.95rem;
   }
 }
-
-
