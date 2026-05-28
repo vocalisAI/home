@@ -11,7 +11,7 @@ import { useEffect, useRef, useCallback } from "react";
  * @param {Array<number>} options.snapPoints - Array of scroll Y positions (px) to snap to.
  * @param {number}        options.threshold  - Velocity threshold (px per wheel event) to trigger snap.
  */
-export default function useScrollSnap({ snapPoints, threshold = 50 }) {
+export default function useScrollSnap({ snapPoints, threshold = 50, disabled = false }) {
   const isSnapping = useRef(false);
   const lastWheelTime = useRef(0);
   const touchStartY = useRef(0);
@@ -27,8 +27,8 @@ export default function useScrollSnap({ snapPoints, threshold = 50 }) {
   };
 
   const handleWheel = useCallback((e) => {
-    // If we are already animating a snap, ignore
-    if (isSnapping.current) return;
+    // If disabled or already animating a snap, ignore
+    if (disabled || isSnapping.current) return;
 
     const deltaY = e.deltaY;
     const absDelta = Math.abs(deltaY);
@@ -60,14 +60,14 @@ export default function useScrollSnap({ snapPoints, threshold = 50 }) {
         e.preventDefault();
       }
     }
-  }, [snapPoints, threshold]);
+  }, [snapPoints, threshold, disabled]);
 
   const handleTouchStart = useCallback((e) => {
     touchStartY.current = e.touches[0].clientY;
   }, []);
 
   const handleTouchEnd = useCallback((e) => {
-    if (isSnapping.current) return;
+    if (disabled || isSnapping.current) return;
     
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY.current - touchEndY; // Positive = scrolling down
@@ -86,9 +86,10 @@ export default function useScrollSnap({ snapPoints, threshold = 50 }) {
         setTimeout(() => { isSnapping.current = false; }, 1000);
       }
     }
-  }, [snapPoints, threshold]);
+  }, [snapPoints, threshold, disabled]);
 
   useEffect(() => {
+    if (disabled) return;
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("touchend", handleTouchEnd, { passive: true });
@@ -97,5 +98,5 @@ export default function useScrollSnap({ snapPoints, threshold = 50 }) {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [handleWheel, handleTouchStart, handleTouchEnd]);
+  }, [handleWheel, handleTouchStart, handleTouchEnd, disabled]);
 }

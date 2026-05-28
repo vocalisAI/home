@@ -859,18 +859,60 @@ const VocalisCapabilities = () => {
   const isMobile = width <= 768;
   const [activeIndex, setActiveIndex] = useState(0);
   const [mobileIndex, setMobileIndex] = useState(0);
-  const [showSwipeHint, setShowSwipeHint] = useState(true);
+  const [showSwipeHint, setShowSwipeHint] = useState(false);
+  const [hasEnteredViewport, setHasEnteredViewport] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  useEffect(() => {
-    if (isMobile && showSwipeHint) {
-      const timer = setTimeout(() => setShowSwipeHint(false), 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [isMobile, showSwipeHint]);
   const carouselRef = useRef(null);
   const containerRef = useRef(null);
   const activeIndexRef = useRef(0);
+
+  // Trigger entering viewport on mobile
+  useEffect(() => {
+    if (!isMobile) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasEnteredViewport(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [isMobile]);
+
+  // Show swipe hint after a short delay once entered
+  useEffect(() => {
+    if (isMobile && hasEnteredViewport) {
+      const timer = setTimeout(() => {
+        setShowSwipeHint(true);
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+  }, [isMobile, hasEnteredViewport]);
+
+  // Automatically dismiss swipe hint when user swipes left
+  useEffect(() => {
+    if (mobileIndex > 0) {
+      setShowSwipeHint(false);
+    }
+  }, [mobileIndex]);
+
+  // Auto-hide the popup after 6 seconds
+  useEffect(() => {
+    if (showSwipeHint) {
+      const timer = setTimeout(() => {
+        setShowSwipeHint(false);
+      }, 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSwipeHint]);
   
   const missedDays = useMemo(() => {
     const indices = new Set();
@@ -1542,7 +1584,7 @@ const VocalisCapabilities = () => {
 
   if (isMobile) {
     return (
-      <div style={{ width: '100vw', height: '100svh', overflow: 'hidden', background: 'white', position: 'relative' }}>
+      <div ref={containerRef} style={{ width: '100vw', height: '100svh', overflow: 'hidden', background: 'transparent', position: 'relative' }}>
         <section
         ref={carouselRef}
         onScroll={handleCarouselScroll}
@@ -1568,7 +1610,7 @@ const VocalisCapabilities = () => {
               padding: '2.5rem 1rem 1rem',
               boxSizing: 'border-box',
               overflow: 'hidden',
-              background: 'white',
+              background: 'transparent',
               justifyContent: 'flex-start'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 10, marginBottom: '0.25rem' }}>
@@ -1650,39 +1692,38 @@ const VocalisCapabilities = () => {
       {showSwipeHint && (
         <div style={{
           position: 'absolute',
-          bottom: '6rem',
+          bottom: '5.5rem',
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '0.4rem',
           pointerEvents: 'none',
           animation: 'swipeHintFade 3s ease forwards',
         }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
-            background: 'rgba(15, 23, 42, 0.75)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-            color: 'white',
-            fontSize: '0.78rem',
-            fontWeight: 600,
-            padding: '0.5rem 1rem',
+            gap: '0.6rem',
+            background: 'rgba(255, 255, 255, 0.88)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            color: '#1e293b',
+            fontSize: '0.85rem',
+            fontWeight: 700,
+            padding: '0.6rem 1.4rem',
             borderRadius: '99px',
-            letterSpacing: '0.03em',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.15)'
+            letterSpacing: '0.01em',
+            boxShadow: '0 10px 30px rgba(56, 178, 172, 0.15), 0 1px 3px rgba(0,0,0,0.05)',
+            border: '1px solid rgba(56, 178, 172, 0.25)',
           }}>
-            <span style={{ fontSize: '1rem' }}>👆</span>
-            Swipe to explore
             <span style={{
               display: 'inline-block',
-              animation: 'swipeArrow 1s ease-in-out infinite',
-              fontSize: '0.9rem'
-            }}>→</span>
+              animation: 'swipeArrow 1.2s ease-in-out infinite',
+              fontSize: '1rem'
+            }}>👈</span>
+            Swipe left to explore
           </div>
         </div>
       )}
@@ -1703,7 +1744,9 @@ const VocalisCapabilities = () => {
           padding: 'clamp(1.5rem, 3vh, 3rem) clamp(2rem, 8%, 10%)',
           overflow: 'hidden',
           boxSizing: 'border-box',
-          background: 'white',
+          background: 'rgba(255, 255, 255, 0.65)',
+          backdropFilter: 'blur(30px)',
+          WebkitBackdropFilter: 'blur(30px)',
         }}
       >
         {/* ROW 1: Header */}

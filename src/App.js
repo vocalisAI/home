@@ -13,6 +13,7 @@ import Security from "./components/sections/Security";
 import About from "./components/sections/About";
 import FAQ from "./components/sections/FAQ";
 import Contact from "./components/sections/Contact";
+import BackgroundOrbs from "./components/BackgroundOrbs";
 
 import "./scss/custom.scss";
 
@@ -34,8 +35,20 @@ const Home = React.forwardRef(({ onHeroProgress }, ref) => {
 function App() {
   const titleRef = useRef();
   
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth <= 768
+  );
+
   // Dynamic Snap Points calculation
   const [snapPoints, setSnapPoints] = useState([]);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   React.useEffect(() => {
     const calcSnaps = () => {
@@ -64,7 +77,7 @@ function App() {
     return () => window.removeEventListener('resize', calcSnaps);
   }, []);
 
-  useScrollSnap({ snapPoints, threshold: 40 });
+  useScrollSnap({ snapPoints, threshold: 40, disabled: isMobile });
 
   const handleHeroProgress = useCallback((progress) => {
     // Progress callback for Hero animation
@@ -72,6 +85,7 @@ function App() {
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <BackgroundOrbs />
       <Routes>
         <Route
           path="/"
