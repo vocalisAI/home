@@ -321,14 +321,4 @@ $font-display:   'Montserrat', 'Inter', system-ui, -apple-system, sans-serif;
   }
 }
 
-/* Mobile canvas un-crop */
-@media (max-width: 768px) {
-  .canvas {
-    object-fit: contain;
-  }
-  .placeholder {
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-}
 

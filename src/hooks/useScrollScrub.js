@@ -36,9 +36,11 @@ export default function useScrollScrub({
 
   /**
    * Draw a specific frame index onto the canvas.
+   * On mobile, blends from "cover" crop to "contain" fit near the end
+   * so the Vocalis logo in the final frame is fully visible.
    */
   const drawFrame = useCallback(
-    (index) => {
+    (index, scrollProgress = 0) => {
       if (!canvasRef.current || !images[index]) return;
 
       // Lazily grab / cache the context
@@ -48,19 +50,57 @@ export default function useScrollScrub({
       const ctx = ctxRef.current;
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
-      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-      ctx.drawImage(images[index], 0, 0, canvasRef.current.width, canvasRef.current.height);
+
+      const cw = canvasRef.current.width;
+      const ch = canvasRef.current.height;
+      const img = images[index];
+      const iw = img.naturalWidth || img.width;
+      const ih = img.naturalHeight || img.height;
+
+      ctx.clearRect(0, 0, cw, ch);
+
+      // On mobile, transition from cover → contain in the last 30% of scroll
+      const isMobileViewport = typeof window !== 'undefined' && window.innerWidth <= 768;
+      if (isMobileViewport && scrollProgress > 0.7) {
+        // How far into the transition (0 = start of zoom-out, 1 = fully zoomed out)
+        const t = Math.min(1, (scrollProgress - 0.7) / 0.3);
+        // Ease out
+        const ease = 1 - Math.pow(1 - t, 3);
+
+        // Cover scale: fill the canvas entirely (crop sides)
+        const coverScale = Math.max(cw / iw, ch / ih);
+        // Contain scale: fit inside the canvas (show everything)
+        const containScale = Math.min(cw / iw, ch / ih);
+
+        const scale = coverScale + (containScale - coverScale) * ease;
+
+        const dw = iw * scale;
+        const dh = ih * scale;
+        const dx = (cw - dw) / 2;
+        const dy = (ch - dh) / 2;
+
+        // Fill the background behind the image with the scene's bg color
+        ctx.fillStyle = '#e8e0d6';
+        ctx.fillRect(0, 0, cw, ch);
+
+        ctx.drawImage(img, dx, dy, dw, dh);
+      } else {
+        // Default: stretch to fill (works as cover since CSS handles object-fit)
+        ctx.drawImage(img, 0, 0, cw, ch);
+      }
     },
     [canvasRef, images]
   );
+
 
   useEffect(() => {
     // Bail out completely on mobile or reduced-motion
     if (prefersReduced || !isLoaded) return;
 
     // Draw the first frame right away so there's no blank flash
-    drawFrame(0);
+    drawFrame(0, 0);
     currentFrameRef.current = 0;
+    let lastScrollProgress = 0;
 
     const onScroll = () => {
       if (rafIdRef.current) return; // already scheduled
@@ -84,9 +124,11 @@ export default function useScrollScrub({
           Math.floor(scrollProgress * frameCount)
         );
 
-        if (frameIndex !== currentFrameRef.current) {
+        // Redraw if frame changed OR if scrollProgress changed (for mobile zoom transition)
+        if (frameIndex !== currentFrameRef.current || Math.abs(scrollProgress - lastScrollProgress) > 0.005) {
           currentFrameRef.current = frameIndex;
-          drawFrame(frameIndex);
+          lastScrollProgress = scrollProgress;
+          drawFrame(frameIndex, scrollProgress);
         }
 
         rafIdRef.current = null;
