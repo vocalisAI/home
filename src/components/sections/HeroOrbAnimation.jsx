@@ -22,8 +22,12 @@ const END_FRAME_PATH = getFramePath(FRAME_COUNT - 1);
    ────────────────────────────────────────────── */
 const HeroOrbAnimation = ({ onProgressChange }) => {
   /* ── Responsive & a11y detection ──────────── */
-  const [isMobile, setIsMobile] = useState(false);
-  const [prefersReduced, setPrefersReduced] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia("(max-width: 768px)").matches
+  );
+  const [prefersReduced, setPrefersReduced] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
 
   useEffect(() => {
     const mqMobile = window.matchMedia("(max-width: 768px)");
@@ -41,6 +45,13 @@ const HeroOrbAnimation = ({ onProgressChange }) => {
       mqMotion.removeEventListener("change", handleMotion);
     };
   }, []);
+
+  /* ── Scroll to top on mobile mount ─────────── */
+  useEffect(() => {
+    if (isMobile) {
+      window.scrollTo(0, 0);
+    }
+  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
   /* ── Frame preloading (desktop only) ──────── */
   const [images, setImages] = useState([]);
