@@ -33,6 +33,16 @@ const FAQ = () => {
       id: 6,
       question: "How long does it take to get started?",
       answer: "Most clinics are up and running in less than a week. We offer onboarding support, live testing, and real-time adjustments to make sure everything fits your workflow from day one."
+    },
+    {
+      id: 7,
+      question: "Is Vocalis a tax write-off for our practice?",
+      answer: "Yes. Vocalis is a fully deductible business expense under IRC § 162(a), which allows businesses to deduct all \"ordinary and necessary\" operating costs. Since Vocalis is billed as a monthly or annual software subscription, the full cost is deducted in the same year you pay for it, meaning no depreciation schedule is needed. Medical and dental practices are among the most-cited beneficiaries of this deduction, and AI tools used for patient communication and clinic operations qualify directly. This means your practice is not just cutting front-desk costs, it is actively reducing its taxable income and keeping more revenue inside the business."
+    },
+    {
+      id: 8,
+      question: "Can we deduct Vocalis under Section 179, and how does it help our bottom line?",
+      answer: "Yes. If your practice opts for an annual license agreement, Vocalis qualifies as off-the-shelf software under IRC § 179, allowing you to deduct the full cost in Year 1. Under IRC § 168(k), assets placed in service after January 19, 2025 are also eligible for 100% bonus depreciation. Beyond the tax savings, Vocalis reduces the need for additional front-desk staff, lowers missed call rates, and keeps your schedule full. This means every dollar you invest in Vocalis works twice: once by generating more booked appointments, and again by coming back to you as a tax deduction. We recommend consulting your CPA to determine the best deduction method for your practice."
     }
   ];
 
