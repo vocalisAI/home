@@ -1,7 +1,7 @@
 .wrapper {
   position: relative;
   height: 300vh;
-  background: transparent;
+  background: #ffffff;
   padding: 0 !important;
   color: #2d3748;
 }
@@ -101,7 +101,7 @@
 /* ── Mobile Fallback ── */
 .mobileWrapper {
   padding: 4rem 2rem;
-  background: transparent;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
