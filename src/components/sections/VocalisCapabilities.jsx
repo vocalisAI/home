@@ -1020,7 +1020,7 @@ const VocalisCapabilities = () => {
               </div>
               <div className={styles.chatContainer} style={{ gap: 'clamp(0.75rem, 1.5vh, 1rem)', marginTop: isMobile ? '1rem' : '1.5rem' }}>
                 <div key={`c1-${isActive}`} className={`${styles.bubble} ${styles.patientBubble} ${isActive ? styles.fadeInUp : ""}`} style={{ animationDelay: '0ms', fontSize: isMobile ? '0.82rem' : '0.95rem', padding: '0.75rem 1.25rem' }}>Hi, I know it's late... I have a really bad ear infection. Can I get an appointment first thing tomorrow?</div>
-                <div key={`c2-${isActive}`} className={`${styles.bubble} ${styles.vocalisBubble} ${isActive ? styles.fadeInUp : ""}`} style={{ animationDelay: '300ms', fontSize: isMobile ? '0.82rem' : '0.95rem', padding: '0.75rem 1.25rem' }}>Of course, Sarah. I can see Dr. Patel has a 8:45 AM opening tomorrow. Should I book that for you?</div>
+                <div key={`c2-${isActive}`} className={`${styles.bubble} ${styles.vocalisBubble} ${isActive ? styles.fadeInUp : ""}`} style={{ animationDelay: '300ms', fontSize: isMobile ? '0.82rem' : '0.95rem', padding: '0.75rem 1.25rem' }}>Of course, Sarah. I can see Dr. Smith has a 8:45 AM opening tomorrow. Should I book that for you?</div>
                 <div key={`c3-${isActive}`} className={`${styles.bubble} ${styles.patientBubble} ${isActive ? styles.fadeInUp : ""}`} style={{ animationDelay: '600ms', fontSize: isMobile ? '0.82rem' : '0.95rem', padding: '0.75rem 1.25rem' }}>Yes please, that would be amazing.</div>
               </div>
             </div>
