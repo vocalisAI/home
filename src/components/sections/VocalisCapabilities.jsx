@@ -23,11 +23,9 @@ const CAPABILITIES = [
   { id: 'multiple',     text: 'handle multiple calls at once',        tagline: 'Every caller gets a real answer — simultaneously.' },
   { id: 'languages',    text: 'speak over 20 languages',              tagline: 'Your patients feel heard, in their own language.' },
   { id: 'hipaa',        text: 'be compliant with HIPAA',              tagline: 'Built for healthcare from day one. Not an afterthought.' },
-  { id: 'affordable',   text: 'be an affordable option',              tagline: 'No benefits. No overtime. No training costs.' },
   { id: 'ehr',          text: 'easily integrate into your EHR',       tagline: 'Plug in once. Syncs automatically from day one.' },
   { id: 'human',        text: 'give a human-like experience',         tagline: 'Patients can\'t tell the difference. Clinics love the results.' },
   { id: 'revenue',      text: 'save your clinic thousands',           tagline: 'Every unanswered call is lost revenue. Vocalis answers every one.' },
-  { id: 'satisfaction', text: 'increase patient satisfaction',        tagline: 'Happy patients come back. And they bring their families.' },
   { id: 'sick',         text: 'skip sick or rest days',               tagline: '365 days. 24 hours. Zero absences. Guaranteed.' },
 ];
 

@@ -13,6 +13,7 @@ import Security from "./components/sections/Security";
 import About from "./components/sections/About";
 import FAQ from "./components/sections/FAQ";
 import Contact from "./components/sections/Contact";
+import StatsBar from "./components/sections/StatsBar";
 import BackgroundOrbs from "./components/BackgroundOrbs";
 
 import "./scss/custom.scss";
@@ -21,6 +22,7 @@ const Home = React.forwardRef(({ onHeroProgress }, ref) => {
   return (
     <>
       <HeroOrbAnimation onProgressChange={onHeroProgress} />
+      <StatsBar />
       <WhatIsVocalis />
       <VocalisCapabilities />
       <Pricing />
