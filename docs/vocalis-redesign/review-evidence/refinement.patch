@@ -1,0 +1,1158 @@
+--- a/src/App.js
++++ b/src/App.js
+@@ -11,6 +11,7 @@
+ 
+ import "./styles/base.css";
+ import "./styles/sections.css";
++import "./styles/refinements.css";
+ 
+ export const AppRoutes = () => (
+   <Routes>
+--- a/src/styles/refinements.css
++++ b/src/styles/refinements.css
+@@ -0,0 +1,74 @@
++/* Mobile safeguards, stable demos, and a small interactive brand moment. */
++:root { --safe-top: env(safe-area-inset-top, 0px); --safe-bottom: env(safe-area-inset-bottom, 0px); }
++html { scroll-padding-top: calc(var(--header-h) + var(--safe-top) + 16px); }
++[id] { scroll-margin-top: calc(var(--header-h) + var(--safe-top) + 16px); }
++.container { padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); }
++.site-header { padding-top: var(--safe-top); }
++.site-footer { padding-bottom: calc(32px + var(--safe-bottom)); }
++.site-footer a { display: inline-flex; align-items: center; min-height: 44px; }
++.site-footer ul { gap: 2px; }
++.site-footer :focus-visible { outline-color: var(--mint-light); }
++.mobile-menu { position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100vh - var(--header-h) - var(--safe-top)); max-height: calc(100dvh - var(--header-h) - var(--safe-top)); padding-bottom: calc(24px + var(--safe-bottom)); overscroll-behavior-y: contain; box-shadow: 0 20px 32px -24px rgba(30,43,69,.4); }
++.mobile-menu__sub a, .chip { min-height: 44px; }
++.modal { padding: max(16px, var(--safe-top)) max(16px, env(safe-area-inset-right, 0px)) max(16px, var(--safe-bottom)) max(16px, env(safe-area-inset-left, 0px)); }
++.modal__dialog { max-height: calc(100vh - 32px); max-height: calc(100dvh - max(16px, var(--safe-top)) - max(16px, var(--safe-bottom))); overscroll-behavior: contain; }
++.modal__head { align-items: flex-start; }
++.modal__head .btn { flex-shrink: 0; }
++.hero { padding-bottom: clamp(48px, 6vw, 80px); }
++.hero__title { max-width: 15ch; }
++.hero__waves { top: 45%; height: 65%; opacity: .3; }
++.wave { animation: none; }
++.hero__lead { max-width: 51ch; }
++.outcomes { border-block: 1px solid var(--border); background: var(--surface); padding-block: 30px; }
++.outcomes__grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 24px; margin-block: 0; }
++.outcomes__grid > div { display: flex; flex-direction: column-reverse; gap: 5px; padding-inline: 20px; border-left: 1px solid var(--border); }
++.outcomes__grid > div:first-child { border: 0; padding-left: 0; }
++.outcomes dt { color: var(--muted); font-size: .875rem; }
++.outcomes dd { margin: 0; font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 600; letter-spacing: -.04em; line-height: 1.15; color: var(--navy); font-variant-numeric: tabular-nums; }
++.trust-summary { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px,5vw,72px); align-items: center; }
++.trust-summary .link-arrow { margin-top: 22px; min-height: 44px; }
++.bubble--pending { visibility: hidden; pointer-events: none; }
++/* Hidden lines retain their dimensions, preventing the page from jumping during playback. */
++.bubble { animation: none; }
++.walk__controls { min-height: 44px; }
++.showcase__demo { min-height: 620px; }
++.showcase__demo .transcript { min-height: 0; }
++@media (max-width: 719px) {
++  .hero__waves { display: none; }
++  .hero__title { font-size: clamp(2.5rem, 9.5vw, 3.6rem); max-width: 14ch; }
++  .hero__inner .eyebrow { font-size: .6875rem; }
++  .outcomes__grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px 18px; }
++  .outcomes__grid > div { padding-inline: 0; border: 0; }
++  .trust-summary { grid-template-columns: minmax(0,1fr); }
++  .showcase__demo { min-height: 0; }
++  .walk__side { column-gap: 10px; }
++  .walk__controls { flex-basis: 100%; }
++  .modal__head h2 { font-size: 1.0625rem; }
++}
++/* Only the four pieces consume drag gestures; the surrounding page always scrolls. */
++.playground-reserve { height: 560px; background: #e8f7f3; color: var(--navy); }
++.voice-playground { height: 100%; overflow: hidden; }
++.voice-playground > .container { height: 100%; display: flex; flex-direction: column; }
++.voice-playground__heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; padding-top: 36px; }
++.voice-playground__heading h2 { font-size: clamp(1.25rem,2.4vw,1.75rem); }
++.voice-playground__heading p { font-size: .8125rem; color: var(--teal); margin-top: 8px; max-width: 52ch; }
++.voice-playground__heading .btn { flex-shrink: 0; }
++.voice-playground__stage { position: relative; height: 260px; flex: 1 1 auto; min-height: 180px; touch-action: pan-y pinch-zoom; }
++.voice-piece { position: absolute; top: 0; left: 0; display: grid; justify-items: center; align-content: center; width: clamp(92px,12vw,164px); height: clamp(100px,12vw,164px); gap: 2px; border: none; border-radius: 30%; color: var(--navy); background: #69d3bd; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; box-shadow: 0 7px 0 rgba(30,43,69,.08); font-size: .8125rem; font-weight: 600; }
++.voice-piece svg { width: 58%; height: 58%; pointer-events: none; }
++.voice-piece span { pointer-events: none; }
++.voice-piece--hello { background: var(--navy); color: #fcfefc; border-radius: 30% 30% 30% 8%; }
++.voice-piece--voice { border-radius: 50%; background: #3fb59a; }
++.voice-piece--calendar { background: #fcfefc; border: 1px solid #c9ddd5; border-radius: 22%; }
++.voice-piece__hello { font-size: clamp(1.6rem,4vw,3rem); letter-spacing: -.04em; }
++.voice-piece:focus { z-index: 3; }
++.voice-piece[data-dragging] { z-index: 4; cursor: grabbing; box-shadow: 0 12px 25px rgba(30,43,69,.15); }
++.voice-playground__wordmark { flex: none; font-size: clamp(80px,15.5vw,215px); font-weight: 600; letter-spacing: -.075em; line-height: .9; margin: 0 0 22px -0.06em; pointer-events: none; }
++@media (max-width: 719px) {
++  .playground-reserve { height: 470px; }
++  .voice-playground__heading { gap: 12px; }
++  .voice-playground__heading p { max-width: 24ch; }
++  .voice-playground__heading .btn { font-size: .75rem; padding-inline: 12px; }
++  .voice-playground__wordmark { font-size: 22vw; margin-bottom: 22px; }
++}
++@media (prefers-reduced-motion: reduce) { .voice-piece { transition: none; } }
+--- a/src/__tests__/app.test.js
++++ b/src/__tests__/app.test.js
+@@ -34,7 +34,7 @@
+     userEvent.click(screen.getByRole("tab", { name: "Act" }));
+     expect(screen.getByText(/Press “Show next step”/)).toBeInTheDocument();
+     userEvent.click(screen.getByRole("button", { name: /Show next step/ }));
+-    expect(screen.getByText(/staff to confirm/i)).toBeInTheDocument();
++    expect(screen.getByText(/Consult booked/i)).toBeInTheDocument();
+     userEvent.click(screen.getByRole("button", { name: /Reset example/ }));
+     expect(screen.getByText(/Press “Show next step”/)).toBeInTheDocument();
+   });
+@@ -152,12 +152,12 @@
+     renderAt("/");
+     expect(screen.queryByRole("button", { name: /Play walkthrough/ })).toBeNull();
+     expect(screen.getAllByText(/Riverside Cardiology, this is Vocalis/).length).toBeGreaterThan(0);
+-    expect(screen.getByText(/pass a consult request to the team to confirm/)).toBeVisible();
++    expect(screen.getByText(/book your consult for Tuesday at 10:30/)).toBeVisible();
+   });
+ 
+   test("with motion allowed, play control exists and transcript is still fully visible at rest", () => {
+     renderAt("/");
+     expect(screen.getByRole("button", { name: /Play walkthrough/ })).toBeInTheDocument();
+-    expect(screen.getByText(/pass a consult request to the team to confirm/)).toBeVisible();
++    expect(screen.getByText(/book your consult for Tuesday at 10:30/)).toBeVisible();
+   });
+ });
+--- a/src/data/features.js
++++ b/src/data/features.js
+@@ -4,7 +4,7 @@
+     tab: "Answer",
+     feature: "voice-receptionist",
+     title: "Every call gets a first response.",
+-    body: "Vocalis picks up, greets the caller by clinic name and listens. Press play to follow a fictional call, or read the transcript as it is.",
++    body: "Vocalis answers around the clock, in your clinic’s name. Play the conversation or read it at your own pace.",
+   },
+   {
+     id: "understand",
+@@ -18,7 +18,7 @@
+     tab: "Act",
+     feature: "scheduling-follow-up",
+     title: "From a request to a clear next step.",
+-    body: "Choose a situation and show the next step. The example only changes what you see on this page; it never books anything.",
++    body: "See how Vocalis books an appointment, sends an insurance link, or queues a callback.",
+   },
+   {
+     id: "improve",
+@@ -36,8 +36,8 @@
+     tab: "answer",
+     benefit: "Callers reach a calm, clear first response instead of a busy line.",
+     capabilities: [
+-      "Answers incoming calls in your clinic's name and keeps the conversation short and clear.",
+-      "Answers common questions from information your clinic provides, and gathers the details staff will need.",
++      "Answers calls 24/7, including weekends and holidays, and handles more than 20 calls at once.",
++      "Speaks more than 50 languages and answers questions using your clinic’s knowledge base.",
+       "Passes the caller to your team when a person is the right next step.",
+     ],
+     scenario:
+@@ -62,12 +62,12 @@
+     tab: "act",
+     benefit: "Requests reach the clinic as clear next steps, not scattered messages.",
+     capabilities: [
+-      "Captures appointment, reschedule and callback requests with the details staff need.",
++      "Books, reschedules, and cancels appointments in your clinic’s calendar.",
+       "Sends patients the next step in the workflow, such as a link to share insurance details.",
+-      "Connects to your scheduling setup as scoped with your clinic; staff confirm anything that needs a person.",
++      "Connects with EHR and scheduling systems, backfills openings from the waitlist, and sends reminder texts.",
+     ],
+     scenario:
+-      "A patient asks to move a Thursday follow-up. Vocalis records the request and preferred times, and the front desk confirms the new slot.",
++      "A patient needs to move a Thursday follow-up. Vocalis offers an open morning, books the new time, and sends a confirmation.",
+   },
+   {
+     id: "clinic-insights",
+@@ -91,8 +91,8 @@
+     situation: "Maria's consult is booked, but Tuesday no longer works. She calls while the front desk is on another line.",
+     call: "“Could I move my consult to a morning instead? Tuesday doesn't work anymore.”",
+     request: "Reschedule request · prefers mornings · existing EP consult",
+-    next: "Front desk reviews open mornings and confirms the new time with the patient.",
+-    note: "A request is not a confirmed booking. Staff confirm unless your clinic's configured scheduling setup confirms it.",
++    next: "Vocalis checks the calendar, offers an open morning, and confirms the new time with the patient.",
++    note: "Booking follows your clinic’s appointment rules. Staff receive the call summary.",
+   },
+   {
+     id: "insurance-follow-up",
+@@ -119,7 +119,7 @@
+     call: "“Can I talk to someone from the team?”",
+     request: "Handoff · caller asked for a person · summary attached",
+     next: "The team member picks up with the context already written down, so the patient does not start over.",
+-    note: "The exact situations that trigger a handoff are configured with each clinic and are illustrative here.",
++    note: "Warm handoffs pass the conversation summary to staff, so patients do not have to repeat themselves.",
+   },
+ ];
+ 
+--- a/src/data/claims.js
++++ b/src/data/claims.js
+@@ -0,0 +1,15 @@
++// Restored at the founder’s explicit instruction on November 8, 2026.
++// Values come from the prior production StatsBar and Security components.
++// These are company claims; the website review did not independently audit them.
++export const OUTCOMES = [
++  { value: "70%", label: "Call deflection rate" },
++  { value: "90%", label: "Patient satisfaction" },
++  { value: "<30s", label: "Average wait time" },
++  { value: "$87k", label: "Annual savings" },
++];
++export const SECURITY_CLAIMS = [
++  { title: "HIPAA compliant", text: "Patient information is encrypted in transit and at rest. We sign a Business Associate Agreement with every customer." },
++  { title: "SOC 2 Type 1 & Type 2", text: "Our security controls are independently audited through SOC 2 Type 1 and Type 2 assessments." },
++  { title: "GDPR compliant", text: "Vocalis supports data privacy and processing rights under the General Data Protection Regulation." },
++  { title: "Controlled access", text: "Role-based permissions and audit logs control access to patient information. We do not use protected health information to train our models." },
++];
+--- a/src/data/scenarios.js
++++ b/src/data/scenarios.js
+@@ -23,7 +23,7 @@
+   {
+     id: "l5",
+     who: "vocalis",
+-    text: "Thank you. I'll text you a link to share your insurance details, and pass a consult request to the team to confirm.",
++    text: "Thank you. I'll text you a link to share your insurance details, and book your consult for Tuesday at 10:30.",
+   },
+ ];
+ 
+@@ -51,16 +51,16 @@
+     label: "Insurance follow-up",
+     request: { title: "Holter monitor — insurance pending", meta: "Third call · Maria R. (fictional)" },
+     task: "Send insurance-details link; flag for staff review",
+-    slot: { day: 1, row: 2, label: "Tue 10:30 AM · EP consult" },
+-    status: "Consult requested — staff to confirm",
++    slot: { day: 1, row: 3, label: "Tue 10:30 AM · EP consult" },
++    status: "Consult booked",
+   },
+   {
+     id: "reschedule",
+     label: "Reschedule request",
+     request: { title: "Move Thursday follow-up", meta: "Caller prefers mornings · James T. (fictional)" },
+-    task: "Offer open mornings; hold request for front desk",
++    task: "Offer open mornings; confirm the new appointment",
+     slot: { day: 3, row: 1, label: "Thu 9:30 AM · Follow-up" },
+-    status: "New time requested — staff to confirm",
++    status: "Appointment rescheduled",
+   },
+   {
+     id: "afterhours",
+@@ -79,7 +79,7 @@
+   [0, 1, 1, 0, 0],
+   [1, 0, 1, 1, 0],
+   [0, 1, 0, 1, 1],
+-  [1, 1, 0, 0, 1],
++  [1, 0, 0, 0, 1],
+   [0, 0, 1, 1, 0],
+ ];
+ 
+--- a/src/pages/ProductPage.jsx
++++ b/src/pages/ProductPage.jsx
+@@ -29,7 +29,7 @@
+       <section className="container page-hero">
+         <span className="eyebrow">Product</span>
+         <h1>Answer the call. Understand it. Act on it.</h1>
+-        <p>Four connected parts of one workflow for patient access. Every example on this page is illustrative.</p>
++        <p>Vocalis answers the phone, books the appointment, and shows your team where patients need help.</p>
+       </section>
+ 
+       <section className="section section--tight-top" aria-label="Product features">
+@@ -60,7 +60,7 @@
+                   </div>
+                   <div className="feature__visual panel">
+                     <div className="feature__demo"><Demo /></div>
+-                    <p className="showcase__label badge-illustrative">Illustrative example · all names and numbers are fictional</p>
++                    <p className="showcase__label badge-illustrative">Interactive demo · sample patient data</p>
+                   </div>
+                 </div>
+               );
+@@ -73,7 +73,7 @@
+         <div className="container overview">
+           <div>
+             <h2 id="overview-title" className="h-section">See it in 36 seconds.</h2>
+-            <p className="muted" style={{ marginTop: 16 }}>A short, silent walkthrough of the same fictional call, from answering it to spotting a pattern. A description is provided for anyone who prefers to read it.</p>
++            <p className="muted" style={{ marginTop: 16 }}>Watch a patient call become an appointment, then see how the dashboard flags a recurring insurance delay.</p>
+           </div>
+           <button type="button" className="poster" onClick={() => setVideo(true)} aria-label="Play the 36-second overview video">
+             <img src="/media/vocalis-overview-poster.jpg" width="1280" height="720" loading="lazy" alt="" />
+@@ -85,7 +85,7 @@
+       <section className="section" aria-label="Technical notes">
+         <div className="container" style={{ maxWidth: 860 }}>
+           <Disclosure title="How the pieces fit together">
+-            <p>A call comes in and Vocalis responds. The conversation is turned into a structured request. The request moves into the clinic’s follow-up process, where staff review and confirm. Over time, requests from many calls can be grouped to show patterns.</p>
++            <p>A call comes in and Vocalis responds. The conversation is turned into a structured request. Vocalis books appointments, sends follow-ups, and brings staff in when a request needs their attention. Over time, requests from many calls can be grouped to show patterns.</p>
+             <p>Which systems Vocalis connects to, and how, depends on your clinic’s setup and is scoped with your team. Ask us during a demo.</p>
+           </Disclosure>
+         </div>
+--- a/src/pages/HomePage.jsx
++++ b/src/pages/HomePage.jsx
+@@ -1,7 +1,7 @@
+ import React, { useCallback, useState } from "react";
+ import Hero from "../components/home/Hero";
+ import ProductShowcase from "../components/home/ProductShowcase";
+-import WorkflowPreview from "../components/home/WorkflowPreview";
++import Outcomes from "../components/home/Outcomes";
+ import VocalisDefinition from "../components/home/VocalisDefinition";
+ import TrustSection from "../components/home/TrustSection";
+ import DemoRequestForm from "../components/home/DemoRequestForm";
+@@ -24,8 +24,8 @@
+   return (
+     <>
+       <Hero onWatch={() => setVideo(true)} onExplore={explore} />
++      <Outcomes />
+       <ProductShowcase />
+-      <WorkflowPreview />
+       <VocalisDefinition />
+       <TrustSection />
+       <DemoRequestForm />
+--- a/src/pages/SecurityPage.jsx
++++ b/src/pages/SecurityPage.jsx
+@@ -1,16 +1,10 @@
+ import React from "react";
+ import { Link } from "react-router-dom";
+ import CtaBand from "../components/ui/CtaBand";
++import { SECURITY_CLAIMS } from "../data/claims";
+ import { TRUST_STEPS } from "../data/features";
+ import { CONTACT_EMAIL } from "../data/site";
+ import { usePageMeta } from "../lib/hooks";
+-
+-const POINTS = [
+-  ["Administrative scope", "Vocalis is built for front-desk conversations: answering, collecting details and handing off. It does not diagnose, give medical advice or approve insurance."],
+-  ["People stay in the loop", "Requests reach your staff with context. Anything that needs a person, such as confirming an appointment or following up on coverage, is reviewed by your team."],
+-  ["Privacy-minded design", "We design the product to collect what staff need to follow up, and nothing more. Ask us how call data is handled in your setup before you decide."],
+-  ["Your clinic’s requirements come first", "Every clinic has its own privacy, compliance and IT requirements. We’re glad to walk your team through them during an evaluation."],
+-];
+ 
+ export default function SecurityPage() {
+   usePageMeta("Security & privacy — Vocalis", "How Vocalis approaches patient-call data: administrative scope, human handoff and privacy-minded design.");
+@@ -18,8 +12,8 @@
+     <>
+       <section className="container page-hero">
+         <span className="eyebrow">Security &amp; privacy</span>
+-        <h1>Handled with care, explained plainly.</h1>
+-        <p>Patient calls are sensitive. Here is how we think about them, in plain language. For specifics about your deployment, just ask.</p>
++        <h1>Security for patient conversations.</h1>
++        <p>Vocalis is HIPAA compliant, SOC 2 Type 1 and Type 2 audited, and GDPR compliant. Patient information is encrypted in transit and at rest.</p>
+       </section>
+ 
+       <section className="section section--tight-top" aria-labelledby="flow-title">
+@@ -34,15 +28,15 @@
+               </li>
+             ))}
+           </ol>
+-          <p className="field__hint" style={{ marginTop: 16 }}>A general overview of the workflow, not a technical architecture diagram.</p>
++          <p className="field__hint" style={{ marginTop: 16 }}>Role-based access and audit logs support each stage of the workflow.</p>
+         </div>
+       </section>
+ 
+       <section className="section section--alt" aria-labelledby="points-title">
+         <div className="container">
+-          <h2 id="points-title" className="h-section" style={{ marginBottom: 32 }}>Our approach</h2>
++          <h2 id="points-title" className="h-section" style={{ marginBottom: 32 }}>How patient data is protected</h2>
+           <div className="points">
+-            {POINTS.map(([t, d]) => (
++            {SECURITY_CLAIMS.map(({title: t, text: d}) => (
+               <article className="card" key={t}>
+                 <h3 className="h-card">{t}</h3>
+                 <p className="muted" style={{ marginTop: 10 }}>{d}</p>
+--- a/src/components/demo/SchedulingExample.jsx
++++ b/src/components/demo/SchedulingExample.jsx
+@@ -41,7 +41,7 @@
+           </div>
+         </div>
+ 
+-        <div className="week" role="img" aria-label={`Illustrative week schedule. ${done ? s.slot.label + " is marked as requested." : "No slot requested yet."}`}>
++        <div className="week" role="img" aria-label={`Illustrative week schedule. ${done ? s.slot.label + " is marked as booked." : "No action taken yet."}`}>
+           <div className="week__grid">
+             {WEEK_DAYS.map((d) => (
+               <span className="week__day" key={d}>{d}</span>
+@@ -60,7 +60,7 @@
+           </div>
+           <div className="week__legend">
+             <span><i className="dot dot--busy" /> Scheduled</span>
+-            <span><i className="dot dot--target" /> Requested</span>
++            <span><i className="dot dot--target" /> Booked / callback</span>
+           </div>
+         </div>
+ 
+--- a/src/components/demo/CallWalkthrough.jsx
++++ b/src/components/demo/CallWalkthrough.jsx
+@@ -14,30 +14,28 @@
+   const timer = useRef(null);
+ 
+   useEffect(() => {
+-    if (!playing) return undefined;
+-    timer.current = setInterval(() => {
+-      setShown((n) => {
+-        const next = (n ?? 0) + 1;
+-        if (next >= CALL_LINES.length) {
+-          clearInterval(timer.current);
+-          setPlaying(false);
+-          return null;
+-        }
+-        return next;
+-      });
++    if (!playing || reduced) return undefined;
++    timer.current = setTimeout(() => {
++      const next = (shown ?? 0) + 1;
++      if (next >= CALL_LINES.length) { setShown(null); setPlaying(false); }
++      else setShown(next);
+     }, STEP_MS);
+-    return () => clearInterval(timer.current);
+-  }, [playing]);
++    return () => clearTimeout(timer.current);
++  }, [playing, shown, reduced]);
+ 
+-  const start = () => {
+-    setShown(1);
+-    setPlaying(true);
+-  };
++  useEffect(() => {
++    if (reduced) { setPlaying(false); setShown(null); }
++  }, [reduced]);
++
++  useEffect(() => {
++    const pause = () => { if (document.hidden) setPlaying(false); };
++    document.addEventListener("visibilitychange", pause);
++    return () => document.removeEventListener("visibilitychange", pause);
++  }, []);
++
++  const start = () => { setShown(1); setPlaying(true); };
+   const toggle = () => (playing ? setPlaying(false) : shown === null ? start() : setPlaying(true));
+-  const replay = () => {
+-    setPlaying(false);
+-    setTimeout(start, 0);
+-  };
++  const replay = () => { clearTimeout(timer.current); setShown(1); setPlaying(true); };
+ 
+   const visible = (i) => shown === null || i < shown;
+   const speaking = playing && CALL_LINES[Math.min((shown ?? 1) - 1, CALL_LINES.length - 1)]?.who === "vocalis";
+@@ -67,7 +65,7 @@
+       </div>
+       <ol className="transcript" aria-label={`Fictional call to ${CLINIC}`}>
+         {CALL_LINES.map((l, i) => (
+-          <li key={l.id} className={`bubble bubble--${l.who}${l.note ? " bubble--note" : ""}`} hidden={!visible(i)}>
++          <li key={l.id} className={`bubble bubble--${l.who}${l.note ? " bubble--note" : ""}${!visible(i) ? " bubble--pending" : ""}`} aria-hidden={!visible(i)}>
+             <span className="bubble__who">{l.who === "vocalis" ? "Vocalis" : "Caller"}</span>
+             {l.note ? (
+               <span className="bubble__text">{l.note}</span>
+--- a/src/components/home/TrustSection.jsx
++++ b/src/components/home/TrustSection.jsx
+@@ -1,29 +1,11 @@
+ import React from "react";
+ import { Link } from "react-router-dom";
+-import { TRUST_STEPS } from "../../data/features";
+-import { Arrow } from "../ui/Icons";
+-
+ export default function TrustSection() {
+-  return (
+-    <section className="section section--alt" aria-labelledby="trust-title">
+-      <div className="container">
+-        <div className="section-head">
+-          <h2 id="trust-title" className="h-section">Administrative help, with people in the loop.</h2>
+-          <p>Vocalis handles front-desk conversations and hands off to your team. It does not diagnose, and it does not approve insurance.</p>
+-        </div>
+-        <ol className="flow" aria-label="How a request moves">
+-          {TRUST_STEPS.map((s, i) => (
+-            <li className="flow__step" key={s.label}>
+-              <span className="flow__num" aria-hidden="true">{i + 1}</span>
+-              <strong>{s.label}</strong>
+-              <span className="muted">{s.text}</span>
+-            </li>
+-          ))}
+-        </ol>
+-        <p style={{ textAlign: "center", marginTop: 32 }}>
+-          <Link className="link-arrow" to="/security">How we approach security and privacy <Arrow width={16} height={16} /></Link>
+-        </p>
+-      </div>
+-    </section>
+-  );
++  return <section className="section section--alt" aria-labelledby="trust-title">
++    <div className="container trust-summary">
++      <div><span className="eyebrow">Security & privacy</span><h2 id="trust-title" className="h-section">Patient information stays protected.</h2></div>
++      <div><p>HIPAA compliant. SOC 2 Type 1 and Type 2 audited. GDPR compliant. We encrypt patient information, control who can access it, and sign a BAA with every customer.</p>
++      <Link className="link-arrow" to="/security">Read about security <span aria-hidden="true">→</span></Link></div>
++    </div>
++  </section>;
+ }
+--- a/src/components/home/ProductShowcase.jsx
++++ b/src/components/home/ProductShowcase.jsx
+@@ -1,7 +1,7 @@
+ import React, { useState } from "react";
+ import { Link } from "react-router-dom";
+ import Tabs from "../ui/Tabs";
+-import { SHOWCASE } from "../../data/features";
++import { SHOWCASE, PRODUCT_FEATURES } from "../../data/features";
+ import CallWalkthrough from "../demo/CallWalkthrough";
+ import IntentFrictionAction from "../demo/IntentFrictionAction";
+ import SchedulingExample from "../demo/SchedulingExample";
+@@ -23,8 +23,8 @@
+     <section className="section" id="showcase" aria-labelledby="showcase-title">
+       <div className="container">
+         <div className="section-head">
+-          <h2 id="showcase-title" className="h-section">From the first ring to the next step.</h2>
+-          <p>Four views of the same fictional call, from answering it to learning from it.</p>
++          <h2 id="showcase-title" className="h-section">See what happens after the phone rings.</h2>
++          <p>Follow a call through the conversation, booking, and clinic dashboard.</p>
+         </div>
+         <div className="showcase panel">
+           <div className="showcase__top">
+@@ -43,7 +43,7 @@
+                       <h3 className="h-card showcase__title">{s.title}</h3>
+                       <p className="muted">{s.body}</p>
+                       <Link className="link-arrow" to={`/product?feature=${s.feature}`}>
+-                        Learn more <Arrow width={16} height={16} />
++                        Explore {PRODUCT_FEATURES.find((f) => f.id === s.feature).label.toLowerCase()} <Arrow width={16} height={16} />
+                       </Link>
+                     </div>
+                     <div className="showcase__demo">
+@@ -55,7 +55,7 @@
+             />
+           </div>
+           <p className="showcase__label badge-illustrative">
+-            Illustrative product walkthrough · all names and numbers are fictional · nothing here books or changes anything
++            Interactive demo · sample patient data
+           </p>
+         </div>
+       </div>
+--- a/src/components/home/VocalisDefinition.jsx
++++ b/src/components/home/VocalisDefinition.jsx
+@@ -28,7 +28,7 @@
+           <div className="definition__brand" id="why-the-name">
+             <span className="eyebrow">Why the name</span>
+             <p>
+-              The vocalis muscle fine-tunes the human voice. We chose the name for the care and precision we want to bring to every patient conversation.
++              The vocalis muscle fine-tunes pitch and tone. We build leading voice production models with natural, human-centered speech. The name is a reminder that how a clinic sounds matters.
+             </p>
+           </div>
+         </div>
+--- a/src/components/home/Outcomes.jsx
++++ b/src/components/home/Outcomes.jsx
+@@ -0,0 +1,10 @@
++import React from "react";
++import { OUTCOMES } from "../../data/claims";
++
++export default function Outcomes() {
++  return <section className="outcomes" aria-label="Vocalis results">
++    <dl className="container outcomes__grid">
++      {OUTCOMES.map(({value, label}) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
++    </dl>
++  </section>;
++}
+--- a/src/components/home/Hero.jsx
++++ b/src/components/home/Hero.jsx
+@@ -24,14 +24,14 @@
+     <section className="hero" aria-labelledby="hero-title">
+       <VoiceForm />
+       <div className="container hero__inner">
+-        <span className="eyebrow">Patient access for independent clinics</span>
++        <span className="eyebrow">AI receptionist for independent clinics</span>
+         <h1 id="hero-title" className="hero__title">
+-          Every call.
++          Your front desk
+           <br />
+-          A clearer path to care.
++          has enough to do.
+         </h1>
+         <p className="hero__lead">
+-          Vocalis helps independent clinics answer patient calls, understand recurring problems, and turn requests into next steps.
++          Vocalis answers calls, books appointments, and spots the problems that keep patients calling back. Your team gets time for the people in front of them.
+         </p>
+         <div className="hero__actions">
+           <Link to={DEMO_HREF} className="btn btn--primary">Book a demo</Link>
+@@ -42,19 +42,6 @@
+         </button>
+       </div>
+ 
+-      {/* A hint of the product at the lower edge. Static, decorative. */}
+-      <div className="container hero__peek" aria-hidden="true">
+-        <div className="peek panel">
+-          <div className="peek__bar">
+-            <span className="pill">● Live call · 0:09</span>
+-            <span className="pill pill--outline">Answered by Vocalis</span>
+-          </div>
+-          <div className="peek__rows">
+-            <span className="peek__bubble">Riverside Cardiology, this is Vocalis. How can I help?</span>
+-            <span className="peek__bubble peek__bubble--r">It’s my third call about my Holter monitor — insurance still hasn’t approved it.</span>
+-          </div>
+-        </div>
+-      </div>
+     </section>
+   );
+ }
+--- a/src/components/layout/Layout.jsx
++++ b/src/components/layout/Layout.jsx
+@@ -11,7 +11,8 @@
+   useEffect(() => {
+     const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+     if (hash) {
+-      const id = decodeURIComponent(hash.slice(1));
++      let id = hash.slice(1);
++      try { id = decodeURIComponent(id); } catch { /* Treat malformed fragments as literal IDs. */ }
+       // Wait a frame so lazily rendered sections exist.
+       const t = setTimeout(() => {
+         const el = document.getElementById(id);
+--- a/src/components/layout/SiteHeader.jsx
++++ b/src/components/layout/SiteHeader.jsx
+@@ -7,6 +7,8 @@
+   const [open, setOpen] = useState(null);
+   const wrapRef = useRef(null);
+   const triggerRefs = useRef({});
++  const location = useLocation();
++  useEffect(() => setOpen(null), [location.pathname, location.search, location.hash]);
+ 
+   useEffect(() => {
+     if (open === null) return undefined;
+@@ -19,10 +21,10 @@
+         setOpen(null);
+       }
+     };
+-    document.addEventListener("mousedown", onDown);
++    document.addEventListener("pointerdown", onDown);
+     document.addEventListener("keydown", onKey);
+     return () => {
+-      document.removeEventListener("mousedown", onDown);
++      document.removeEventListener("pointerdown", onDown);
+       document.removeEventListener("keydown", onKey);
+     };
+   }, [open]);
+@@ -115,6 +117,7 @@
+   const toggleRef = useRef(null);
+   const location = useLocation();
+   const wasOpen = useRef(false);
++  const headerRef = useRef(null);
+ 
+   useEffect(() => {
+     const on = () => setScrolled(window.scrollY > 8);
+@@ -134,13 +137,36 @@
+       return undefined;
+     }
+     wasOpen.current = true;
+-    const onKey = (e) => e.key === "Escape" && setMenuOpen(false);
++    const previousOverflow = document.body.style.overflow;
++    document.body.style.overflow = "hidden";
++    const background = [...document.querySelectorAll("main, footer")];
++    const previousInert = background.map((el) => el.inert);
++    background.forEach((el) => { el.inert = true; });
++    const focusable = () => [...headerRef.current.querySelectorAll('a[href], button')].filter((el) => el.getClientRects().length && !el.disabled);
++    headerRef.current.querySelector(".mobile-menu button, .mobile-menu a")?.focus();
++    const onKey = (e) => {
++      if (e.key === "Escape") setMenuOpen(false);
++      if (e.key !== "Tab") return;
++      const items = focusable();
++      const first = items[0];
++      const last = items[items.length - 1];
++      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
++      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
++    };
++    const desktop = window.matchMedia("(min-width: 980px)");
++    const onResize = () => { if (desktop.matches) setMenuOpen(false); };
++    desktop.addEventListener("change", onResize);
+     document.addEventListener("keydown", onKey);
+-    return () => document.removeEventListener("keydown", onKey);
++    return () => {
++      document.removeEventListener("keydown", onKey);
++      desktop.removeEventListener("change", onResize);
++      document.body.style.overflow = previousOverflow;
++      background.forEach((el, i) => { el.inert = previousInert[i]; });
++    };
+   }, [menuOpen]);
+ 
+   return (
+-    <header className={`site-header${scrolled || menuOpen ? " is-scrolled" : ""}`}>
++    <header ref={headerRef} className={`site-header${scrolled || menuOpen ? " is-scrolled" : ""}`}>
+       <div className="container site-header__bar">
+         <Link to="/" className="brand" aria-label="Vocalis home">
+           <img src="/brand/vocalis-mark-256.png" alt="" width="38" height="34" />
+--- a/src/components/layout/SiteFooter.jsx
++++ b/src/components/layout/SiteFooter.jsx
+@@ -1,10 +1,28 @@
+-import React from "react";
++import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
++import { useLocation } from "react-router-dom";
+ import { Link } from "react-router-dom";
+ import { CONTACT_EMAIL } from "../../data/site";
+ 
++const VoicePlayground = lazy(() => import("./VoicePlayground"));
++
+ export default function SiteFooter() {
++  const { pathname } = useLocation();
++  const anchor = useRef(null);
++  const [near, setNear] = useState(false);
++  useEffect(() => {
++    if (pathname !== "/" || !anchor.current || typeof IntersectionObserver === "undefined") return undefined;
++    const observer = new IntersectionObserver(([entry]) => {
++      if (entry.isIntersecting) { setNear(true); observer.disconnect(); }
++    }, { rootMargin: "400px" });
++    observer.observe(anchor.current);
++    return () => observer.disconnect();
++  }, [pathname]);
+   return (
+-    <footer className="site-footer">
++    <footer>
++      {pathname === "/" && <div className="playground-reserve" ref={anchor}>
++        {near && <Suspense fallback={null}><VoicePlayground /></Suspense>}
++      </div>}
++      <div className="site-footer">
+       <div className="container">
+         <div className="site-footer__grid">
+           <div className="site-footer__brand">
+@@ -51,8 +69,9 @@
+         </div>
+         <div className="site-footer__legal">
+           <span>&copy; {new Date().getFullYear()} Vocalis. All rights reserved.</span>
+-          <span>Product examples on this site are illustrative.</span>
++          <span></span>
+         </div>
++      </div>
+       </div>
+     </footer>
+   );
+--- a/src/components/layout/VoicePlayground.jsx
++++ b/src/components/layout/VoicePlayground.jsx
+@@ -0,0 +1,159 @@
++import React, { useEffect, useRef } from "react";
++import { useReducedMotion } from "../../lib/hooks";
++
++const PIECES = [
++  { id: "voice", label: "Voice", kind: "voice", x: 0.08, y: 0.18 },
++  { id: "hello", label: "Hello.", kind: "hello", x: 0.36, y: 0.04 },
++  { id: "call", label: "Always here", kind: "call", x: 0.64, y: 0.48 },
++  { id: "calendar", label: "Booked", kind: "calendar", x: 0.88, y: 0.12 },
++];
++
++function PieceArt({ kind }) {
++  if (kind === "hello") return <span className="voice-piece__hello">Hello.</span>;
++  if (kind === "voice") return <svg viewBox="0 0 100 80" fill="none" aria-hidden="true"><path d="M7 40h12l7-15 10 33 12-48 12 59 12-42 8 13h13" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" /></svg>;
++  if (kind === "call") return <svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><path d="M20 13l13 14-8 9c6 10 11 15 21 20l8-9 14 12c-3 12-11 13-18 10C28 60 15 47 11 28c-1-7 1-12 9-15Z" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" /></svg>;
++  return <svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><rect x="12" y="18" width="56" height="52" rx="10" stroke="currentColor" strokeWidth="4" /><path d="M12 33h56M26 11v15M54 11v15M27 49l9 9 18-18" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /></svg>;
++}
++
++/** A bounded toy, never navigation. Motion runs only while a visible piece is moving. */
++export default function VoicePlayground() {
++  const stageRef = useRef(null);
++  const elements = useRef([]);
++  const api = useRef({});
++  const reduced = useReducedMotion();
++
++  useEffect(() => {
++    const stage = stageRef.current;
++    const nodes = elements.current;
++    let frame = 0;
++    let lastFrame = 0;
++    let visible = false;
++    let drag = null;
++    let suppressClick = null;
++    let bounds = { width: 0, height: 0 };
++    const positions = PIECES.map(() => ({ x: 0, y: 0, vx: 0, vy: 0, w: 0, h: 0 }));
++    const clamp = (n, min, max) => Math.max(min, Math.min(n, Math.max(min, max)));
++    const keepInside = (p) => {
++      p.x = clamp(p.x, 8, bounds.width - p.w - 8);
++      p.y = clamp(p.y, 8, bounds.height - p.h - 8);
++    };
++    const paint = (i) => {
++      const p = positions[i];
++      nodes[i].style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
++    };
++    const stop = () => { cancelAnimationFrame(frame); frame = 0; lastFrame = 0; };
++    const reset = () => {
++      stop(); drag = null;
++      bounds = { width: stage.clientWidth, height: stage.clientHeight };
++      nodes.forEach((node, i) => {
++        node.removeAttribute("data-dragging");
++        const p = positions[i];
++        p.w = node.offsetWidth; p.h = node.offsetHeight;
++        p.x = 8 + (bounds.width - p.w - 16) * PIECES[i].x;
++        p.y = 8 + (bounds.height - p.h - 16) * PIECES[i].y;
++        p.vx = 0; p.vy = 0; keepInside(p); paint(i);
++      });
++    };
++    const tick = (time) => {
++      frame = 0;
++      if (!visible || document.hidden || reduced) return;
++      const dt = lastFrame ? Math.min((time - lastFrame) / 16.67, 2) : 1;
++      lastFrame = time;
++      let moving = false;
++      positions.forEach((p, i) => {
++        if (drag?.i === i) return;
++        p.x += p.vx * dt; p.y += p.vy * dt;
++        if (p.x < 8 || p.x > bounds.width - p.w - 8) p.vx *= -0.55;
++        if (p.y < 8 || p.y > bounds.height - p.h - 8) p.vy *= -0.55;
++        keepInside(p);
++        p.vx *= Math.pow(0.94, dt); p.vy *= Math.pow(0.94, dt);
++        if (Math.abs(p.vx) + Math.abs(p.vy) < 0.12) { p.vx = 0; p.vy = 0; }
++        else moving = true;
++        paint(i);
++      });
++      if (moving) frame = requestAnimationFrame(tick);
++      else lastFrame = 0;
++    };
++    const animate = () => {
++      if (!frame && visible && !document.hidden && !reduced) frame = requestAnimationFrame(tick);
++    };
++    const down = (e, i) => {
++      if (!e.isPrimary || e.button !== 0 || drag) return;
++      const p = positions[i];
++      suppressClick = null;
++      p.vx = 0; p.vy = 0;
++      drag = { i, pointerId: e.pointerId, startX: e.clientX, startY: e.clientY, x: e.clientX, y: e.clientY, time: e.timeStamp, distance: 0 };
++      e.currentTarget.setPointerCapture(e.pointerId);
++      e.currentTarget.setAttribute("data-dragging", "true");
++    };
++    const move = (e, i) => {
++      if (!drag || drag.i !== i || drag.pointerId !== e.pointerId) return;
++      const p = positions[i];
++      const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
++      const dt = Math.max(8, e.timeStamp - drag.time);
++      p.x += dx; p.y += dy;
++      p.vx = clamp(dx / dt * 16.67, -14, 14); p.vy = clamp(dy / dt * 16.67, -14, 14);
++      drag.x = e.clientX; drag.y = e.clientY; drag.time = e.timeStamp;
++      drag.distance = Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY);
++      keepInside(p); paint(i);
++    };
++    const end = (e, i, cancelled = false) => {
++      if (!drag || drag.i !== i || drag.pointerId !== e.pointerId) return;
++      const p = positions[i];
++      if (cancelled || reduced || e.timeStamp - drag.time > 100) { p.vx = 0; p.vy = 0; }
++      if (drag.distance > 5 || cancelled) suppressClick = i;
++      drag = null;
++      e.currentTarget.removeAttribute("data-dragging");
++      if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
++      animate();
++    };
++    const nudge = (i) => {
++      if (suppressClick === i) { suppressClick = null; return; }
++      const p = positions[i];
++      const direction = p.x + p.w / 2 < bounds.width / 2 ? 1 : -1;
++      p.x += direction * 24; p.y += p.y > bounds.height / 2 ? -12 : 12;
++      keepInside(p); paint(i);
++      if (!reduced) { p.vx = direction * 4; p.vy = -2; animate(); }
++    };
++    const key = (e, i) => {
++      const moves = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
++      if (e.key === "Home") { e.preventDefault(); reset(); return; }
++      if (!moves[e.key]) return;
++      e.preventDefault();
++      const p = positions[i], amount = e.shiftKey ? 40 : 16;
++      p.vx = 0; p.vy = 0;
++      p.x += moves[e.key][0] * amount; p.y += moves[e.key][1] * amount;
++      keepInside(p); paint(i);
++    };
++    api.current = { down, move, end, nudge, key, reset };
++    reset();
++    const resize = new ResizeObserver(reset); resize.observe(stage);
++    const observer = new IntersectionObserver(([entry]) => {
++      visible = entry.isIntersecting;
++      if (!visible) stop(); else animate();
++    });
++    observer.observe(stage);
++    const onVisibility = () => { if (document.hidden) stop(); else animate(); };
++    document.addEventListener("visibilitychange", onVisibility);
++    return () => { stop(); resize.disconnect(); observer.disconnect(); document.removeEventListener("visibilitychange", onVisibility); api.current = {}; };
++  }, [reduced]);
++
++  return <section className="voice-playground" aria-labelledby="playground-title">
++    <div className="container">
++      <div className="voice-playground__heading">
++        <div><h2 id="playground-title">Go on. Give us a nudge.</h2><p id="playground-help">Drag a piece, or tap to move it. Keyboard: arrow keys move; Home resets.</p></div>
++        <button className="btn btn--ghost btn--sm" type="button" onClick={() => api.current.reset?.()}>Reset pieces</button>
++      </div>
++      <div className="voice-playground__stage" ref={stageRef}>
++        {PIECES.map((piece, i) => <button key={piece.id} type="button" ref={(el) => { elements.current[i] = el; }}
++          className={`voice-piece voice-piece--${piece.kind}`} aria-label={`Move ${piece.label} piece`} aria-describedby="playground-help"
++          onPointerDown={(e) => api.current.down?.(e, i)} onPointerMove={(e) => api.current.move?.(e, i)}
++          onPointerUp={(e) => api.current.end?.(e, i)} onPointerCancel={(e) => api.current.end?.(e, i, true)}
++          onLostPointerCapture={(e) => api.current.end?.(e, i, true)} onClick={() => api.current.nudge?.(i)} onKeyDown={(e) => api.current.key?.(e, i)}>
++          <PieceArt kind={piece.kind} />{piece.kind !== "hello" && <span>{piece.label}</span>}
++        </button>)}
++      </div>
++      <div className="voice-playground__wordmark" aria-hidden="true">vocalis</div>
++    </div>
++  </section>;
++}
+--- a/public/index.html
++++ b/public/index.html
+@@ -2,7 +2,7 @@
+ <html lang="en">
+   <head>
+     <meta charset="utf-8" />
+-    <meta name="viewport" content="width=device-width, initial-scale=1" />
++    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="any" />
+     <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
+     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+--- a/docs/vocalis-redesign/REDESIGN_PLAN.md
++++ b/docs/vocalis-redesign/REDESIGN_PLAN.md
+@@ -1,3 +1,5 @@
++> **Updated owner instruction — November 8, 2026:** The founder has confirmed that the existing product, performance and security claims were already validated and should be restored. Earlier directions in this historical document to remove or revalidate those company claims are superseded. Keep the setup-time promise (“less than a week”) removed. Leave pricing alone. Read `CLAUDE_REFINEMENT_PROMPT.md` and `DESIGN_REVIEW.md` for the current direction. Demonstration patient records remain sample data.
++
+ # Vocalis website redesign — implementation plan
+ 
+ Prepared November 8, 2026. Planning deliverable for Claude; no website implementation or deployment has been performed.
+--- a/docs/vocalis-redesign/SOURCE_AUDIT.md
++++ b/docs/vocalis-redesign/SOURCE_AUDIT.md
+@@ -1,3 +1,5 @@
++> **Updated owner instruction — November 8, 2026:** The founder has confirmed that the existing product, performance and security claims were already validated and should be restored. Earlier directions in this historical document to remove or revalidate those company claims are superseded. Keep the setup-time promise (“less than a week”) removed. Leave pricing alone. Read `CLAUDE_REFINEMENT_PROMPT.md` and `DESIGN_REVIEW.md` for the current direction. Demonstration patient records remain sample data.
++
+ # Vocalis redesign — source and asset audit
+ 
+ Reviewed November 8, 2026. This document separates observed implementation, statements in company materials, and illustrative content. It is not a production security or functionality audit.
+--- a/docs/vocalis-redesign/START_HERE.md
++++ b/docs/vocalis-redesign/START_HERE.md
+@@ -0,0 +1,22 @@
++# Start here — Claude takeover
++
++Updated November 9, 2026.
++
++The founder wants one complete design pass with the refinement and restraint of https://www.namuai-lab.com/, using Vocalis's own business, mint/navy identity, media and approved claims. The prior version was cleaner but still looked too much like a generic software template.
++
++**Paste or read `CLAUDE_REFINEMENT_PROMPT.md` as the implementation brief.** It includes copy-editing rules, specific visual compositions, scope, approved claims, mobile requirements and acceptance criteria. Read `DESIGN_REVIEW.md` for the evidence and existing fixes.
++
++Worktree: `/Users/somesh/Desktop/websites/home-redesign` (branch `redesign/vocalis-2026`). The sibling `home` checkout is historical and stores the handoff package. Preserve existing staged/unstaged work. The review refinement was prepared separately before application; the change manifest and verification report identify its files.
++
++Priorities, in order:
++
++1. Preserve the tested mobile/stability fixes and restored founder-approved claims.
++2. Give the hero and main demo the visual confidence of Namu; use the seven composition requirements in the prompt.
++3. Finish distinct Home, Product, Workflows, Security and About pages. Pricing is outside the refinement scope.
++4. Keep the definition prominent. Refine the bounded draggable footer without harming scrolling, accessibility or performance.
++5. Edit every visible sentence for a real clinic audience, keeping the actual capabilities and meaning.
++6. Review the entire result at desktop and phone sizes, run the build/tests and report actual measured outcomes.
++
++Evidence and references live in `review-evidence/` and `references/`. The file paths for pitch slides, dashboard and video source are in the prompt and source audit. No production deployment has been performed. A device QA requirement is not permission to claim a physical iPhone was tested.
++
++The earlier planning files are historical background. Their claims-removal directions are explicitly superseded by the owner's instruction. Keep the less-than-a-week setup promise removed and leave pricing unchanged.
+--- a/docs/vocalis-redesign/CLAUDE_HANDOFF.md
++++ b/docs/vocalis-redesign/CLAUDE_HANDOFF.md
+@@ -1,3 +1,5 @@
++> **Updated owner instruction — November 8, 2026:** The founder has confirmed that the existing product, performance and security claims were already validated and should be restored. Earlier directions in this historical document to remove or revalidate those company claims are superseded. Keep the setup-time promise (“less than a week”) removed. Leave pricing alone. Read `CLAUDE_REFINEMENT_PROMPT.md` and `DESIGN_REVIEW.md` for the current direction. Demonstration patient records remain sample data.
++
+ # Claude implementation handoff
+ 
+ Use this prompt when you are ready to start coding. Keep the entire `docs/vocalis-redesign/` folder available so the plan, audit, and reference images travel together.
+--- a/docs/vocalis-redesign/RELEASE_CHECKLIST.md
++++ b/docs/vocalis-redesign/RELEASE_CHECKLIST.md
+@@ -1,46 +1,24 @@
+-# Release checklist — internal, not for publication
++# Release checklist — updated November 8, 2026
+ 
+-Branch `redesign/vocalis-2026`, built from `origin/master` (a1dbcb1, the Vercel-deployed source). Nothing here has been deployed.
++## Owner direction
+ 
+-## Production parity
+-- [ ] Confirm `a1dbcb1` is what `www.vocalis.cc` currently serves (Vercel dashboard, sainisomesh/vocalisAI project). A Vercel preview of this branch is the safest comparison.
+-- [ ] Formspree endpoint `mbdaqzpj` (kept from production) is still the intended inbox. Both demo requests and LOI requests go there.
+-- [ ] LOI request moved from the homepage to `/pricing` (still the same endpoint). Confirm that placement is wanted.
+-- [ ] Old anchors (`/#pricing`, `/#security`, `/#about`, `/#faq`, `/#benefits`, `/#features`, `/#capabilities`, `/#hipaa`, `/#team`, `/#demo`, `/#multilingual`) redirect to the new pages. `/#contact` stays on the homepage.
+-- [ ] `vercel.json` rewrite (all paths to `/`) is unchanged, so direct loads and refreshes of `/product`, `/pricing`, etc. work.
+-- [ ] Removed from `public/` in this branch (still in git history): `orb-frames/` (66 MB), `frames/anatomy/` (34 MB), two 3-5 MB team photos, a 2048px logo, a 5 MB `favicon.ico`. Replaced with small optimized files under `public/brand/`.
++The founder explicitly confirmed the existing product, performance and security claims are validated. Restore and retain them; prior blanket instructions to remove or revalidate them are superseded. The setup promise “less than a week” stays removed. Pricing is out of scope for this refinement.
+ 
+-## Claims removed from the public draft — each needs a source before returning
+-- SOC 2 Type 1/2, GDPR and "HIPAA compliant" badges and the BAA statement (old Security section, FAQ, plan lists).
+-- "Fully deductible" tax FAQs (IRC 162 / 179 / 168k).
+-- "Clinics consistently report smoother workflows" (old FAQ).
+-- "Most clinics up and running in less than a week" (old FAQ).
+-- 50-language list / multilingual support, "20+ calls", "unlimited calls".
+-- Stats bar and cost-comparison chart from the old homepage.
+-- "HIPAA-Compliant Infrastructure", "Automated Appointment Booking", "EHR Calendar Integration", "Dedicated Voice Model" in plan lists. Public copy now says "calendar integration, scoped during onboarding", etc.
+-- Old "building leading voice production models" sentence in the name story.
++- Restored claims are centralized in `src/data/claims.js` and the product content.
++- The old production figures are unchanged: 70%, 90%, <30s, $87k.
++- Security statements retain HIPAA, BAA, SOC 2 Type 1/2, GDPR, encryption, access control and no PHI for model training.
++- Example patient data is still labeled as sample data.
++- No pricing amounts, tiers, billing or pricing-page content changed in this refinement.
+ 
+-## Needs a decision or fact from the team
+-- [ ] **Pricing arithmetic:** all tiers share a $0.12/min overage, so Starter + overage is always cheaper than Standard or Growth on minutes alone (e.g. 4,000 min: Starter $599, Standard $619, Growth $899). Plans only differ by support/setup. The estimator shows totals neutrally; decide whether to keep it, or change overage per tier / included minutes.
+-- [ ] **Yearly pricing:** preserved from production ($239 / $399 / $719 per month billed annually, "Save 20%"). Confirm billing basis and totals.
+-- [ ] Plan inclusions: confirm each bullet on `/pricing`.
+-- [ ] Security page: facts to publish (what is stored, retention, who has access, hosting, encryption, BAA, certifications). The sources conflict (Azure/in-memory voice repo vs. GCP/GPU slides). Page currently says only what is safe and invites questions.
+-- [ ] Handoff: exact triggers and summary behavior. Examples are labeled illustrative.
+-- [ ] Text-message insurance link and calendar integration: confirm they exist as described before keeping "we'll text you a link" in the walkthrough script and Product copy.
+-- [ ] Languages supported (omitted).
+-- [ ] Founder bios: confirm degrees, titles, current roles; bios shortened from production.
+-- [ ] Pilot story (Precision Heart Rhythm: 612 minutes, 198 interactions): not published. Needs measurement period, definitions, permission.
+-- [ ] Legal pages (privacy, terms): none exist, so none linked.
++## Before release
+ 
+-## Media
+-- [ ] Overview video (`public/media/vocalis-overview.mp4`, 36.4 s, silent) is a copy of `vocalis-keynote-demo-v2.mp4`. It predates the mint palette (blue/purple UI), includes a "PHI Encrypted" badge (visual metaphor only), a Vocalis line "I can fix that", and an illustrative 41% figure. The poster frame (7.5 s) avoids the badge and figure, but the video itself contains them. Re-render with the mint palette and softened wording, or accept.
+-- [ ] Alt text for the anatomy image and portraits reviewed.
+-- [ ] Optional: orb/clinic footage (`Enhancer-Ultra HD-Orb...mp4`) not used.
+-- [ ] No real audio sample exists, so no audio control was built. No live "Talk to Vocalis" tool (no verified backend).
++- Review the local preview and before/after captures.
++- Confirm deploying this branch is the intended release action; no production deployment has occurred in the review task.
++- Test on a physical iPhone: Safari toolbar expansion, portrait/landscape rotation, keyboard opening in the contact form, safe-area rendering, playback and touch dragging. Automated WebKit is supplementary evidence, not a physical device.
++- Preserve the current Vercel route rewrite and root-domain assets. Test direct route loads on the deployment preview.
++- Keep the existing Formspree destination; automated QA must use a mock transport.
++- Read `DESIGN_REVIEW.md` for remaining visual and tooling limitations.
+ 
+-## Hosting / build
+-- [ ] Vercel installs with `--legacy-peer-deps` (`.npmrc`) and Node 22 (`engines`). The committed `package-lock.json` was out of sync with `package.json` (typescript); `npm install` refreshed it. Review the lockfile diff.
+-- [ ] Added dev dependency `@testing-library/dom` (peer of `user-event`).
+-- [ ] Unused dependencies left in `package.json` (bootstrap, react-bootstrap, i18next*, leader-line, axios, react-typist-component, react-loading-skeleton, gh-pages). Remove in a follow-up.
+-- [ ] `og:image` now `social-image.png` (regenerated from the logo mark). Review the preview card.
+-- [ ] Lighthouse / Core Web Vitals not measured (no lab tooling run here). Run against the Vercel preview.
++## Engineering notes
++
++The project remains on Create React App 5/React 18. Unused dependencies and the stale Browserslist database predate this pass; a separate maintenance change should update the browser database and review build dependencies. Do not mix that work with pricing changes or undo the current redesign.
+--- a/docs/vocalis-redesign/VERIFICATION.md
++++ b/docs/vocalis-redesign/VERIFICATION.md
+@@ -0,0 +1,12 @@
++# Verification results
++
++## Completed checks — November 9, 2026
++
++- Production build succeeds. Main JavaScript is approximately 76.18 kB gzip; the optional playground is a separate approximately 2.46 kB gzip chunk.
++- 19 existing automated tests pass.
++- 40 route/viewport checks pass across Chromium and WebKit, spanning widths 320, 375, 390, 430, 768 and 1440px. All tested pages have one H1 and no horizontal document overflow.
++- Both engines pass menu focus/cleanup, stable playback, Reduce Motion changes, malformed fragment handling, product Back navigation, playground tap/keyboard/drag/reset/bounds, video open/close/unmount and mocked form success/failure. No page errors were recorded.
++- The phone walkthrough is now stable at approximately 877px in Chromium and 863px in WebKit before and after pressing Play.
++- The reviewed 390px homepage capture is approximately 6,000px tall, including the new playground, compared with roughly 7,700px for the first redesign.
++
++See `review-evidence/verified.json` for the exact browser/viewport results, `review-evidence/lighthouse-mobile.json` for the local lab report, and the before/after JPEG captures. The report's measurement limits above still apply.
+--- a/docs/vocalis-redesign/CLAUDE_REFINEMENT_PROMPT.md
++++ b/docs/vocalis-redesign/CLAUDE_REFINEMENT_PROMPT.md
+@@ -0,0 +1,66 @@
++# Vocalis refinement prompt for Claude
++
++Work in `/Users/somesh/Desktop/websites/home-redesign`, branch `redesign/vocalis-2026`. The sibling `home` folder is an older checkout. Preserve all existing staged and unstaged work, including the review fixes. Read `START_HERE.md` and `DESIGN_REVIEW.md` before changing anything. Use the provided screenshots and inspect the running site yourself.
++
++## What I want
++
++Make Vocalis feel like a real clinic software company with a clear point of view. The first redesign is cleaner, but too much of it reads and looks like a generic AI-generated landing page. Keep the mint/navy identity, logo, Vocalis definition, pronunciation and anatomy image. Keep the actual multipage structure: Home, Product, Workflows, Pricing, Security and About. Each page needs its own purpose; do not move every page back onto the homepage.
++
++The homepage should help someone understand the product quickly, try a demonstration, read the results, and request a demo. Put detailed workflow stories on `/workflows`, capability details on `/product`, and security details on `/security`. Navigation, direct URLs, refresh and Back/Forward must work.
++
++## Owner-approved claims — do not remove them again
++
++I have already validated the company's existing claims. Preserve the restored performance figures (70% call deflection, 90% patient satisfaction, under 30-second average wait, $87k annual savings), 24/7 availability, 50+ languages, 20+ simultaneous calls, automated booking/rescheduling, EHR/calendar integration, reminders, waitlist backfill, human handoff, and the existing HIPAA, BAA, SOC 2 Type 1/Type 2 and GDPR statements. The reviewer restored these at my instruction; that is the authorization to retain them. Do not invent extra statistics, testimonials, certifications or customer names.
++
++Remove any promise that clinics are live in less than a week. Leave pricing tiers, amounts, included minutes, overage, billing and pricing-page content alone. Keep fictional patient records labeled as sample data inside demonstrations; do not describe the whole product as fictional or experimental.
++
++## Copy-editing prompt
++
++Act as an experienced editor writing for an independent practice owner and the person running their front desk. Read every visible sentence aloud. Rewrite what sounds like a pitch-deck template, an AI disclaimer, or an instruction to a developer.
++
++Use concrete nouns and verbs: calls, appointments, insurance questions, callbacks, front-desk staff. Say what Vocalis does and what happens next. One useful thought per paragraph. Vary sentence length naturally. Keep necessary medical and technical terms, but explain them when the audience needs it. Make headings specific enough that they could not be pasted onto any other software company's website.
++
++Avoid stock phrases such as “seamless,” “revolutionize,” “unlock,” “empower,” “elevate,” “cutting-edge,” “game-changing,” “where innovation meets,” “the future of,” and “a smarter way to.” Avoid repeated three-part slogans, “not just X, but Y,” rhetorical question/answer headings, unnecessary em dashes, and a reassuring adjective in every sentence. Do not make the text artificially casual, deliberately ungrammatical, or full of slang. Keep the founders' actual perspective and the specificity of their clinic work.
++
++Examples of the editing direction:
++
++- “Turn requests into actionable next steps” → “Book the visit and send the confirmation.”
++- “Administrative help, with people in the loop” → “Your team takes over with the call summary in hand.”
++- “Handled with care, explained plainly” → “Security for patient conversations.”
++- “Four connected parts of one workflow for patient access” → Explain the four capabilities directly, using their actual names.
++
++Preserve the meaning and approved claims. Do not weaken automated booking into “staff receive a request” unless describing a workflow that actually requires staff review. Do not repeat “illustrative,” “fictional,” or “nothing happens” under every card. Use one concise “Interactive demo · sample patient data” label where it belongs.
++
++After editing, provide a short before/after table for the main headlines and summarize substantive meaning changes. This is an editorial task, not an attempt to evade an AI detector.
++
++## Visual direction
++
++Keep the cleaner typography and responsive layout. Improve the hierarchy and product imagery rather than adding more generic cards. Avoid repeated centered headline/subhead/three-card sections. Keep deliberate whitespace, but remove empty spacing that adds scrolling without information. Keep the homepage short enough that its purpose remains obvious on a phone.
++
++Make the Namu relationship visible in the composition, not just the color palette:
++
++1. Use a calm, large centered hero with a short headline and lighter typography. Build a soft mint atmospheric voice form with restrained texture; the current thin sine-wave background feels generic and can go. Text and CTAs must appear before decorative media loads.
++2. Give the main demo one large stage with four clear tabs. Favor a substantial voice visual and product action over many nested bordered cards. The transcript can be secondary or expandable; preserve access to the full transcript. The default view must make sense without clicking.
++3. Replace repeated cards with a mix of editorial rows, large product visuals and fine separators. Each supporting page should earn its place with specific information and a distinct composition. Do not repeat the entire homepage under a new heading.
++4. Keep the anatomical definition as a deliberate editorial break. Preserve the pronunciation and image. It is a real piece of the brand, not filler.
++5. Use the supplied dashboard source or a focused responsive reconstruction to show operational insight. Avoid turning it into a row of generic feature icons or a desktop screenshot shrunk onto a phone.
++6. End with the bounded draggable pieces and a large Vocalis wordmark, then a useful footer. Keep enough space to play; keep critical links outside the draggable area.
++7. Compare the final screenshots beside Namu at desktop and phone sizes. Ask whether hierarchy, spacing, typography and interaction carry the same restraint and confidence. A recolored template does not satisfy the brief.
++
++Deliver a complete, coherent pass across the pages. Resolve the choices above with judgment and review the result yourself before handing it back. Do not leave starter copy, placeholders, unimplemented controls or half-finished mobile states.
++
++The original Namu reference is https://www.namuai-lab.com/. Its draggable footer is a useful inspiration. A small Vocalis playground now exists: speech, phone, waveform and calendar pieces. Refine it if needed; keep it bounded, optional, below the actual content and above normal footer links. Drag, tap and keyboard actions must work. It must not trap page scrolling, cover navigation, or run animation work when offscreen. Do not add a heavy physics library just for decoration.
++
++The product video is `/Users/somesh/Desktop/vocalis-pitch-video/out/vocalis-keynote-demo-v2.mp4`. It is 36.43 seconds and silent. The current source timeline is in that project's `timeline.json`; the old brief's 52-second timing is stale. If rerendering for brand consistency, work from a copy of the source, use the mint/navy palette, retain the actual product claims, and keep the existing video until the new one is reviewed. Use the newer HIPAA-receptionist pitch slides/dashboard for product context. Do not let video production delay or block the first page render.
++
++## Mobile and implementation requirements
++
++Preserve the fixes in the reviewed version: stable transcript dimensions during playback; Reduce Motion changes reveal the complete transcript; malformed hash URLs do not crash; mobile menu is an overlay with focus containment and background isolation; safe-area padding; lazy video and footer; and keyboard/tap alternatives to dragging.
++
++Use standard web APIs and current primary documentation, linked in the review. Keep controls at least 44 CSS px where practical, input text at least 16px, no disabled pinch zoom, and natural page scrolling. Use safe-area insets together with `viewport-fit=cover`. Use dynamic viewport height for overlays and content-based sizing for normal sections. Test long labels, menu groups, landscape, keyboard appearance, dialog close, rotation, font loading and reduced motion. Keep medical data out of the marketing form.
++
++Run the production build and tests. Inspect all routes at 390px and 1440px, and key interactions at 320/375/430/768px and phone landscape. Use Chromium and WebKit; distinguish emulation from testing on a real iPhone. Test the contact form only with an intercepted/mock transport. Do not send real submissions or place calls during QA.
++
++Measure mobile Lighthouse loading and stability. Targets: LCP <=2.5s, CLS <=0.1 and real-user INP <=200ms. Report actual measurements and their conditions. Do not call a local score proof that every iPhone is fast, or treat Lighthouse TBT as field INP. Report real-device testing separately.
++
++Deliver the refined site, updated screenshots, checks/results, and a short list of any remaining issues. Keep production deployment separate unless I authorize it.
+--- a/docs/vocalis-redesign/DESIGN_REVIEW.md
++++ b/docs/vocalis-redesign/DESIGN_REVIEW.md
+@@ -0,0 +1,81 @@
++# Vocalis redesign review and Claude takeover
++
++Updated November 9, 2026. Reviewed Claude's local worktree at `/Users/somesh/Desktop/websites/home-redesign` and its production build. No production deployment was made.
++
++## Candid assessment
++
++The redesign is a useful first implementation. It is more readable, better organized, and much lighter than the former scroll-driven intro. It has six actual routes, shared components, example data separated from rendering, accessible tabs, lazy video, and a functioning request form. Those are worth preserving.
++
++Visually, it has not yet reached the reference. It still relies heavily on centered headline/subhead blocks, rounded white cards, pale backgrounds, and cautious generic language. The repeated layout makes pages feel interchangeable. Namu's stronger qualities are its confident typographic scale, atmospheric hero, spacious product stage, varied editorial sections, and playful physical footer. The next pass should borrow that hierarchy and restraint while using Vocalis's own materials.
++
++The original hero's thin sine waves run behind the text, particularly awkwardly on a narrow phone. The clipped chat preview is a decorative fragment of a demonstration that immediately appears again below it. The homepage repeats detailed workflow cards even though those workflows have their own page. The first 390px capture was roughly 7,700 CSS pixels tall. Scrolling is not itself a defect, but repetition is making the page longer than its content warrants.
++
++The definition is the strongest distinctive brand element. Keep the serif word, pronunciation, anatomy and connection to speech. It deserves a quiet editorial composition rather than another generic feature block.
++
++The original rewritten copy also undersells the product. Repeated references to recording requests and waiting for staff make an automated-booking product sound like a message-taking service. “Illustrative,” “fictional,” and “nothing happens” need one clear place within a demonstration, rather than dominating the product description.
++
++## Findings with direct evidence
++
++| Finding | Observed behavior | Correction in the refinement |
++|---|---|---|
++| Walkthrough playback jumps the page | At 390px, the Chrome panel went from approximately 873px to 380px when Play was pressed. WebKit went from 859px to 380px. | Unrevealed transcript lines retain space during playback. |
++| Changing Reduce Motion loses transcript content | Starting playback then changing the media preference hid the unrevealed lines and removed the controls. | Preference changes stop playback and reveal every line. |
++| Malformed URL fragment crashes | `/about#%E0%A4%A` left an empty page. | Fragment decoding has a literal-ID fallback. |
++| Mobile menu changes document layout | Opening a Product group expanded the header to roughly 634px, with background content still interactive. | Overlay menu, bounded height, focus containment, background inertness and scroll isolation. |
++| Draggable pieces overlap | A tapped/focused waveform could be covered by a neighboring speech tile, so the next drag hit the wrong object. | Focused and dragged pieces rise above their neighbors. |
++| First preview lacked performance evidence | No Lighthouse report had been run. | A mobile Lighthouse run and Chromium/WebKit interaction checks are supplied. |
++| Feature link is vague | Lighthouse flagged “Learn more.” | The link now names the actual feature. |
++
++Initial overflow checks passed at 320, 375, 390, 768 and 1440px. That is useful evidence, but width checks alone do not verify keyboard, safe-area, touch or playback behavior.
++
++## Changes prepared for the next design pass
++
++- Restored the founder-approved performance claims: 70% call deflection, 90% patient satisfaction, under 30-second average wait, $87k annual savings. They render directly instead of counting up from zero.
++- Restored 24/7, 50+ languages, 20+ simultaneous calls, automated scheduling, EHR/calendar integration, reminders and waitlist backfill in product content.
++- Restored HIPAA, BAA, SOC 2 Type 1/2, GDPR, encryption, role-based access/audit logs and no PHI for model training. The internal record says these were restored at the founder's instruction; this review did not independently audit the claims.
++- Kept the “less than a week” setup promise absent. Pricing files and billing values remain unchanged.
++- Shortened the homepage by moving workflow depth to the existing Workflows page, removed the clipped chat fragment, simplified the trust section and made the headline more concrete.
++- Preserved the definition and strengthened the connection to Vocalis's voice technology.
++- Added safe-area support and bounded overlays, larger small controls, and a stable walkthrough.
++- Added an optional bounded footer playground with waveform, speech, phone and calendar pieces. It loads near the footer; its animation loop sleeps when settled, hidden or offscreen. Tapping, keyboard movement and reset provide alternatives to dragging. Reduced motion disables inertia.
++- Updated earlier planning documents so their claims-removal instructions cannot override the founder's correction.
++
++These changes provide a sounder starting point. The visual composition should still be reviewed as a whole by Claude using the new prompt. The footer is a working first version, not a reason to declare the rest of the site finished.
++
++## Mobile and browser documentation used
++
++Use primary documentation and standard APIs. These links were checked during this review:
++
++- [Apple/WebKit: safe-area insets and viewport-fit](https://webkit.org/blog/7929/designing-websites-for-iphone-x/) — when drawing edge to edge, protect controls/content using the system insets. This older foundational guidance still explains the mechanism.
++- [Apple: viewport units](https://developer.apple.com/videos/play/wwdc2022/10048/) — distinguish stable small viewport sizing from dynamic overlay height.
++- [WebKit features in Safari 26.0](https://webkit.org/blog/17333/webkit-features-in-safari-26-0/) — browser compatibility context. The downloaded automated WebKit engine is 26.0; do not present it as a test of every current iOS release.
++- [MDN: touch-action](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/touch-action) and [pointer capture](https://developer.mozilla.org/en-US/docs/Web/API/Element/setPointerCapture) — localize custom drag handling to the pieces and keep normal page gestures available elsewhere.
++- [MDN: reduced motion](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion) — respect changes to the preference, not only the initial value.
++- [W3C: alternatives to dragging](https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements) — provide a tap/click operation as well as keyboard support.
++- [MDN: Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) — defer optional work until it approaches the viewport.
++- [Google: Core Web Vitals](https://developers.google.com/search/docs/appearance/core-web-vitals) — loading, responsiveness and layout stability. Targets are LCP <=2.5s, INP <=200ms and CLS <=0.1; field evaluation requires real-user data.
++
++## Measurement limits
++
++The mobile Lighthouse result is a local production-build lab run, not a promise about production hosting or every iPhone. It measured 1.4s LCP, 0 CLS and 0ms total blocking time, with Performance 100, Accessibility 100, Best Practices 100 and SEO 92. The final small footer-focus and feature-link fixes were made after that report; the link-text issue it identified is fixed in source. Do not relabel the older report as a measurement of a later design.
++
++Total blocking time is not real-user INP. No physical iPhone has been connected for this review. Automated WebKit emulation helps catch engine problems, but toolbar changes, the software keyboard, actual safe-area rendering and touch feel still require a device check before claiming device verification.
++
++The build warns that the Browserslist database is outdated. The retained app still uses Create React App 5/React 18. The browser database and unused build dependencies merit a separate maintenance pass; a framework rewrite is not needed to achieve the intended design.
++
++## Remaining design decisions for Claude to execute
++
++Follow the concrete composition instructions in `CLAUDE_REFINEMENT_PROMPT.md`. Improve the hero and main demo as a pair, then carry the same design system through the supporting pages. Use the actual dashboard/pitch/video materials. A mint rerender of the silent video may improve consistency, but preserve the current export until the replacement is ready.
++
++Do not ask the founder to repeat approvals for the restored claims. Do not reopen pricing. Do not remove the definition. Complete the pass, inspect screenshots, test the named interactions and deliver the result for review.
++
++## Completed checks — November 9, 2026
++
++- Production build succeeds. Main JavaScript is approximately 76.18 kB gzip; the optional playground is a separate approximately 2.46 kB gzip chunk.
++- 19 existing automated tests pass.
++- 40 route/viewport checks pass across Chromium and WebKit, spanning widths 320, 375, 390, 430, 768 and 1440px. All tested pages have one H1 and no horizontal document overflow.
++- Both engines pass menu focus/cleanup, stable playback, Reduce Motion changes, malformed fragment handling, product Back navigation, playground tap/keyboard/drag/reset/bounds, video open/close/unmount and mocked form success/failure. No page errors were recorded.
++- The phone walkthrough is now stable at approximately 877px in Chromium and 863px in WebKit before and after pressing Play.
++- The reviewed 390px homepage capture is approximately 6,000px tall, including the new playground, compared with roughly 7,700px for the first redesign.
++
++See `review-evidence/verified.json` for the exact browser/viewport results, `review-evidence/lighthouse-mobile.json` for the local lab report, and the before/after JPEG captures. The report's measurement limits above still apply.

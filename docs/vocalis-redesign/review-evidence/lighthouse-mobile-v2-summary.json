@@ -1,0 +1,91 @@
+{
+  "home": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "fcp": "0.8\u00a0s",
+    "lcp": "2.2\u00a0s",
+    "cls": "0",
+    "tbt": "0\u00a0ms",
+    "speedIndex": "0.8\u00a0s",
+    "transfer": "Total size was 245\u00a0KiB",
+    "observedUnthrottled": {
+      "fcpMs": 91,
+      "lcpMs": 112
+    }
+  },
+  "product": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "fcp": "0.8\u00a0s",
+    "lcp": "2.2\u00a0s",
+    "cls": "0",
+    "tbt": "0\u00a0ms",
+    "speedIndex": "0.8\u00a0s",
+    "transfer": "Total size was 222\u00a0KiB"
+  },
+  "workflows": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "fcp": "0.8\u00a0s",
+    "lcp": "2.2\u00a0s",
+    "cls": "0",
+    "tbt": "0\u00a0ms",
+    "speedIndex": "0.8\u00a0s",
+    "transfer": "Total size was 186\u00a0KiB"
+  },
+  "pricing": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "fcp": "0.8\u00a0s",
+    "lcp": "2.2\u00a0s",
+    "cls": "0",
+    "tbt": "0\u00a0ms",
+    "speedIndex": "0.8\u00a0s",
+    "transfer": "Total size was 189\u00a0KiB"
+  },
+  "security": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "fcp": "0.8\u00a0s",
+    "lcp": "2.2\u00a0s",
+    "cls": "0",
+    "tbt": "0\u00a0ms",
+    "speedIndex": "0.8\u00a0s",
+    "transfer": "Total size was 186\u00a0KiB"
+  },
+  "about": {
+    "scores": {
+      "performance": 97,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "fcp": "1.1\u00a0s",
+    "lcp": "2.5\u00a0s",
+    "cls": "0",
+    "tbt": "0\u00a0ms",
+    "speedIndex": "1.1\u00a0s",
+    "transfer": "Total size was 278\u00a0KiB"
+  },
+  "_conditions": "Lighthouse 12, mobile preset (simulated slow 4G, 4x CPU slowdown), headless Chrome, production build served locally by `serve` on 127.0.0.1. Lab data, not field data."
+}

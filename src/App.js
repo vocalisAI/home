@@ -1,104 +1,37 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import useScrollSnap from "./hooks/useScrollSnap";
+import Layout from "./components/layout/Layout";
+import HomePage from "./pages/HomePage";
+import "./styles/base.css";
+import "./styles/sections.css";
+import "./styles/pricing.css";
 
-// Sections
-import HeroOrbAnimation from "./components/sections/HeroOrbAnimation";
-import WhatIsVocalis from "./components/sections/WhatIsVocalis";
-import VocalisCapabilities from "./components/sections/VocalisCapabilities";
-import Pricing from "./components/sections/Pricing";
-import Security from "./components/sections/Security";
-import About from "./components/sections/About";
-import FAQ from "./components/sections/FAQ";
-import Contact from "./components/sections/Contact";
-import StatsBar from "./components/sections/StatsBar";
-import BackgroundOrbs from "./components/BackgroundOrbs";
+// Only the homepage ships in the first bundle; every other page loads when it is visited.
+const ProductPage = lazy(() => import("./pages/ProductPage"));
+const WorkflowsPage = lazy(() => import("./pages/WorkflowsPage"));
+const PricingPage = lazy(() => import("./pages/PricingPage"));
+const SecurityPage = lazy(() => import("./pages/SecurityPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
-import "./scss/custom.scss";
+export const AppRoutes = () => (
+  <Routes>
+    <Route element={<Layout />}>
+      <Route index element={<HomePage />} />
+      <Route path="product" element={<ProductPage />} />
+      <Route path="workflows" element={<WorkflowsPage />} />
+      <Route path="pricing" element={<PricingPage />} />
+      <Route path="security" element={<SecurityPage />} />
+      <Route path="about" element={<AboutPage />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Route>
+  </Routes>
+);
 
-const Home = React.forwardRef(({ onHeroProgress }, ref) => {
-  return (
-    <>
-      <HeroOrbAnimation onProgressChange={onHeroProgress} />
-      <StatsBar />
-      <WhatIsVocalis />
-      <VocalisCapabilities />
-      <Pricing />
-      <Security />
-      <About />
-      <FAQ />
-      <Contact />
-    </>
-  );
-});
-
-function App() {
-  const titleRef = useRef();
-  
-  const [isMobile, setIsMobile] = useState(
-    () => typeof window !== "undefined" && window.innerWidth <= 768
-  );
-
-  // Dynamic Snap Points calculation
-  const [snapPoints, setSnapPoints] = useState([]);
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  React.useEffect(() => {
-    const calcSnaps = () => {
-      const vh = window.innerHeight;
-      const heroHeight = vh * 5;
-      const anatomyHeight = vh * 3;
-      
-      const snaps = [
-        0,                            // 1. Hero Start
-        heroHeight - vh,              // 2. Hero Conclusion / CTAs
-        heroHeight,                   // 3. What is Vocalis (Start)
-        heroHeight + (vh * 1.5),      // 4. What is Vocalis (Part 2)
-        heroHeight + anatomyHeight,   // 5. Capabilities Start
-      ];
-
-      // Add snap points for each of the 10 capabilities (every 100vh)
-      for (let i = 1; i <= 10; i++) {
-        snaps.push(heroHeight + anatomyHeight + (vh * i));
-      }
-
-      setSnapPoints(snaps);
-    };
-
-    calcSnaps();
-    window.addEventListener('resize', calcSnaps);
-    return () => window.removeEventListener('resize', calcSnaps);
-  }, []);
-
-  useScrollSnap({ snapPoints, threshold: 40, disabled: isMobile });
-
-  const handleHeroProgress = useCallback((progress) => {
-    // Progress callback for Hero animation
-  }, []);
-
+export default function App() {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <BackgroundOrbs />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Home ref={titleRef} onHeroProgress={handleHeroProgress} />
-          }
-        />
-      </Routes>
-      <Footer />
+      <AppRoutes />
     </BrowserRouter>
   );
 }
-
-export default App;

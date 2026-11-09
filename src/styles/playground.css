@@ -1,0 +1,100 @@
+/* The closing playground. Only the pieces take drag gestures; the rest of the page always scrolls.
+   Pieces fall over a giant wordmark, so the stage height is the wordmark plus room to tumble. */
+.playground-reserve {
+  --wm: min(calc((100vw - 2 * var(--gutter)) / 2.78), 446px); /* wordmark size spans the content width */
+  --head: 0px;
+  --play: 200px;
+  --stage-h: calc(var(--wm) * 0.9 + 14px + var(--play));
+  height: calc(var(--head) + var(--stage-h));
+  background: linear-gradient(180deg, #e3f5ee 0%, #cdeee3 100%);
+  color: var(--navy);
+}
+.voice-playground {
+  height: 100%;
+  overflow: hidden;
+  padding-top: var(--head);
+}
+.voice-playground > .container {
+  height: 100%;
+}
+
+.voice-playground__stage {
+  position: relative;
+  height: var(--stage-h);
+  overflow: hidden; /* pieces start above the stage and fall in */
+  touch-action: pan-y pinch-zoom;
+}
+.voice-playground__wordmark {
+  position: absolute;
+  left: 0;
+  bottom: 14px;
+  margin-left: -0.027em; /* cancels the v's side bearing so its edge lines up with the content, inside the clip */
+  color: var(--navy);
+  font-size: var(--wm);
+  font-weight: 400;
+  letter-spacing: -0.08em;
+  line-height: 0.9;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.voice-piece {
+  --s: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--s);
+  height: var(--s);
+  padding: 0;
+  border: none;
+  border-radius: 30%;
+  background: var(--mint-light);
+  color: var(--navy);
+  box-shadow: 0 calc(var(--s) * 0.05) 0 rgba(30, 43, 69, 0.1);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  will-change: transform;
+}
+.voice-piece svg {
+  width: 54%;
+  height: 54%;
+  pointer-events: none;
+}
+
+/* shapes */
+.voice-piece--circle { border-radius: 50%; }
+.voice-piece--squircle { border-radius: 30%; }
+.voice-piece--bubbleL { border-radius: 30% 30% 30% 8%; }
+.voice-piece--bubbleR { border-radius: 30% 30% 8% 30%; }
+.voice-piece--arch { border-radius: 50% 50% 22% 22%; }
+
+/* tones: the icon color follows the fill */
+.voice-piece--mint { background: var(--mint); }
+.voice-piece--mintLight { background: var(--mint-light); }
+.voice-piece--navy { background: var(--navy); color: #fcfefc; }
+.voice-piece--teal { background: var(--teal); color: #fcfefc; }
+.voice-piece--white { background: #fcfefc; border: 1px solid #b7d9cd; }
+.voice-piece--blue { background: #b9dff2; }
+.voice-piece--wash { background: #f3faf7; border: 1px solid #b7d9cd; }
+
+.voice-piece:focus {
+  z-index: 3;
+}
+.voice-piece[data-dragging] {
+  z-index: 4;
+  cursor: grabbing;
+  box-shadow: 0 calc(var(--s) * 0.12) calc(var(--s) * 0.2) rgba(30, 43, 69, 0.2);
+}
+
+@media (max-width: 719px) {
+  .playground-reserve {
+    --play: 210px;
+  }
+}

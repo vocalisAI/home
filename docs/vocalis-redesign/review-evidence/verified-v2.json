@@ -1,0 +1,347 @@
+{
+  "checks": [
+    "chromium: no initial video element",
+    "chromium: mobile overlay, Escape, focus, inert cleanup",
+    "chromium: playback height stable 626px; reduced motion restores all lines",
+    "chromium: malformed fragment renders",
+    "chromium: product Back restores tab",
+    "chromium: playground falls and settles, tap, keyboard, drag, reset, bounds",
+    "chromium: playground with Reduce Motion rests statically and still moves by keyboard",
+    "chromium: See it live fills the screen, plays at once, closes and unmounts",
+    "chromium: mocked form failure retains values",
+    "chromium: mocked form success",
+    "webkit: no initial video element",
+    "webkit: mobile overlay, Escape, focus, inert cleanup",
+    "webkit: playback height stable 626px; reduced motion restores all lines",
+    "webkit: malformed fragment renders",
+    "webkit: product Back restores tab",
+    "webkit: playground falls and settles, tap, keyboard, drag, reset, bounds",
+    "webkit: playground with Reduce Motion rests statically and still moves by keyboard",
+    "webkit: See it live fills the screen, plays at once, closes and unmounts",
+    "webkit: mocked form failure retains values",
+    "webkit: mocked form success"
+  ],
+  "pages": [
+    {
+      "engine": "chromium",
+      "width": 320,
+      "route": "/",
+      "scrollWidth": 320,
+      "h1s": 1,
+      "height": 6406
+    },
+    {
+      "engine": "chromium",
+      "width": 320,
+      "route": "/product",
+      "scrollWidth": 320,
+      "h1s": 1,
+      "height": 6690
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "route": "/",
+      "scrollWidth": 375,
+      "h1s": 1,
+      "height": 5923
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "route": "/product",
+      "scrollWidth": 375,
+      "h1s": 1,
+      "height": 6183
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "route": "/",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 5918
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "route": "/product",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 6191
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "route": "/workflows",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 4613
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "route": "/security",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 3030
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "route": "/about",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 4096
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "route": "/pricing",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 4105
+    },
+    {
+      "engine": "chromium",
+      "width": 430,
+      "route": "/",
+      "scrollWidth": 430,
+      "h1s": 1,
+      "height": 5801
+    },
+    {
+      "engine": "chromium",
+      "width": 430,
+      "route": "/product",
+      "scrollWidth": 430,
+      "h1s": 1,
+      "height": 5981
+    },
+    {
+      "engine": "chromium",
+      "width": 768,
+      "route": "/",
+      "scrollWidth": 768,
+      "h1s": 1,
+      "height": 6247
+    },
+    {
+      "engine": "chromium",
+      "width": 768,
+      "route": "/product",
+      "scrollWidth": 768,
+      "h1s": 1,
+      "height": 6118
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "route": "/",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 4805
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "route": "/product",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 5254
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "route": "/workflows",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 4167
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "route": "/security",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 2273
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "route": "/about",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 2963
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "route": "/pricing",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 2750
+    },
+    {
+      "engine": "webkit",
+      "width": 320,
+      "route": "/",
+      "scrollWidth": 320,
+      "h1s": 1,
+      "height": 6371
+    },
+    {
+      "engine": "webkit",
+      "width": 320,
+      "route": "/product",
+      "scrollWidth": 320,
+      "h1s": 1,
+      "height": 6646
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "route": "/",
+      "scrollWidth": 375,
+      "h1s": 1,
+      "height": 5894
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "route": "/product",
+      "scrollWidth": 375,
+      "h1s": 1,
+      "height": 6152
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "route": "/",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 5888
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "route": "/product",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 6160
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "route": "/workflows",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 4584
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "route": "/security",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 3013
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "route": "/about",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 4409
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "route": "/pricing",
+      "scrollWidth": 390,
+      "h1s": 1,
+      "height": 4085
+    },
+    {
+      "engine": "webkit",
+      "width": 430,
+      "route": "/",
+      "scrollWidth": 430,
+      "h1s": 1,
+      "height": 5775
+    },
+    {
+      "engine": "webkit",
+      "width": 430,
+      "route": "/product",
+      "scrollWidth": 430,
+      "h1s": 1,
+      "height": 5959
+    },
+    {
+      "engine": "webkit",
+      "width": 768,
+      "route": "/",
+      "scrollWidth": 768,
+      "h1s": 1,
+      "height": 6217
+    },
+    {
+      "engine": "webkit",
+      "width": 768,
+      "route": "/product",
+      "scrollWidth": 768,
+      "h1s": 1,
+      "height": 6089
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "route": "/",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 4794
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "route": "/product",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 5244
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "route": "/workflows",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 4152
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "route": "/security",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 2269
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "route": "/about",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 2954
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "route": "/pricing",
+      "scrollWidth": 1440,
+      "h1s": 1,
+      "height": 2744
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,128 @@
+diff -ru /Users/somesh/Desktop/vocalis-pitch-video/src/lib/stage.tsx /tmp/vocalis-video-mint/src/lib/stage.tsx
+--- /Users/somesh/Desktop/vocalis-pitch-video/src/lib/stage.tsx	2026-10-26 14:30:52
++++ /tmp/vocalis-video-mint/src/lib/stage.tsx	2026-11-09 09:48:14
+@@ -91,8 +91,8 @@
+ 
+ const Ripple: React.FC<{ f: number; at: number; pt: Pt }> = ({ f, at, pt }) => {
+   const rings = [
+-    { delay: 0, color: "#7C3AED" },
+-    { delay: 6, color: "#2563EB" },
++    { delay: 0, color: "#3FB59A" },
++    { delay: 6, color: "#1E2B45" },
+   ];
+   return (
+     <>
+diff -ru /Users/somesh/Desktop/vocalis-pitch-video/src/scenes/Call.tsx /tmp/vocalis-video-mint/src/scenes/Call.tsx
+--- /Users/somesh/Desktop/vocalis-pitch-video/src/scenes/Call.tsx	2026-10-26 15:12:02
++++ /tmp/vocalis-video-mint/src/scenes/Call.tsx	2026-11-09 09:48:24
+@@ -51,7 +51,7 @@
+       [{ t: "insurance still hasn't approved it.", tag: "friction" }],
+     ],
+   },
+-  { who: "vocalis", at: TL.b3, lines: [["I can fix that. Your name and date of birth?"]] },
++  { who: "vocalis", at: TL.b3, lines: [["Sorry about that. Your name and date of birth?"]] },
+   {
+     who: "patient",
+     at: TL.b4,
+@@ -399,7 +399,7 @@
+               display: "flex",
+               alignItems: "center",
+               justifyContent: "center",
+-              boxShadow: `0 0 0 ${answered ? 14 * (1 - prog(f, TL.answer, TL.answer + 30)) : 0}px rgba(5, 150, 105, 0.18)`,
++              boxShadow: `0 0 0 ${answered ? 14 * (1 - prog(f, TL.answer, TL.answer + 30)) : 0}px rgba(29, 111, 92, 0.18)`,
+               transform: `scale(${pulse(f, TL.answer, 0.1, 12)}) rotate(${wiggle}deg)`,
+             }}
+           >
+@@ -576,7 +576,7 @@
+         ...rectStyle({ ...r, y: r.y + arc }),
+         ...cardShell(C.green),
+         borderRadius: lerp(28, 16, p),
+-        boxShadow: `0 ${18 + 12 * lift}px ${44 + 16 * lift}px -16px rgba(5, 150, 105, ${0.12 + 0.08 * lift})`,
++        boxShadow: `0 ${18 + 12 * lift}px ${44 + 16 * lift}px -16px rgba(29, 111, 92, ${0.12 + 0.08 * lift})`,
+         transform: `scale(${1 + 0.05 * lift})`,
+         opacity: 1 - fadeOut,
+         zIndex: 20,
+diff -ru /Users/somesh/Desktop/vocalis-pitch-video/src/scenes/Dash.tsx /tmp/vocalis-video-mint/src/scenes/Dash.tsx
+--- /Users/somesh/Desktop/vocalis-pitch-video/src/scenes/Dash.tsx	2026-11-08 17:36:23
++++ /tmp/vocalis-video-mint/src/scenes/Dash.tsx	2026-11-09 09:48:14
+@@ -168,7 +168,7 @@
+       {/* title + axis land after the call rain has passed through */}
+       <div style={{ position: "absolute", left: 44, top: 44, opacity: prog(f, TL.dotsEnd - 30, TL.dotsEnd) }}>
+         <div style={{ fontSize: 34, fontWeight: 700, letterSpacing: "-0.02em", color: C.ink }}>Clinic Friction Heatmap</div>
+-        <div style={{ marginTop: 6, fontSize: 22, fontWeight: 500, color: C.muted }}>Tue · Call drop-off by half-hour</div>
++        <div style={{ marginTop: 6, fontSize: 22, fontWeight: 500, color: C.muted }}>Tue · Calls on hold by half hour</div>
+       </div>
+ 
+       <svg style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }} width={FRICTION.w} height={FRICTION.h}>
+@@ -305,7 +305,7 @@
+           Insurance Hold
+         </div>
+         <div style={{ marginTop: 26, position: "relative", display: "inline-block", ...rise(f, TL.callout + 60, 40, 14) }}>
+-          <span style={{ ...hero, fontSize: 84, color: mixColor(C.ink, C.muted, resolved) }}>41%</span>
++          <span style={{ ...hero, fontSize: 84, color: mixColor(C.ink, C.muted, resolved) }}>14</span>
+           <span
+             style={{
+               position: "absolute",
+@@ -328,7 +328,7 @@
+             ...rise(f, TL.callout + 80, 40, 14),
+           }}
+         >
+-          Call Drop-Off
++          Calls on hold
+         </div>
+       </div>
+     </div>
+diff -ru /Users/somesh/Desktop/vocalis-pitch-video/src/scenes/Week.tsx /tmp/vocalis-video-mint/src/scenes/Week.tsx
+--- /Users/somesh/Desktop/vocalis-pitch-video/src/scenes/Week.tsx	2026-11-08 17:36:23
++++ /tmp/vocalis-video-mint/src/scenes/Week.tsx	2026-11-09 09:48:14
+@@ -89,7 +89,7 @@
+         border: `2px solid ${C.green.border}`,
+         color: C.ink,
+         transform: `scale(${lerp(0.92, 1, s)})`,
+-        boxShadow: `0 0 0 ${10 * flash}px rgba(5, 150, 105, ${0.16 * flash})`,
++        boxShadow: `0 0 0 ${10 * flash}px rgba(29, 111, 92, ${0.16 * flash})`,
+       }}
+     >
+       <div style={{ opacity: clamp01(s * 1.5) }}>{OPEN[oi].fill}</div>
+@@ -187,7 +187,7 @@
+               width: 140,
+               top: grid0.y - WEEK.y - 8,
+               height: gridBottom - grid0.y + 16,
+-              background: `linear-gradient(90deg, rgba(167, 243, 208, 0) 0%, rgba(167, 243, 208, 0.45) 100%)`,
++              background: `linear-gradient(90deg, rgba(190, 232, 220, 0) 0%, rgba(190, 232, 220, 0.45) 100%)`,
+               opacity: scanOn,
+             }}
+           />
+@@ -201,7 +201,7 @@
+               borderRadius: 2,
+               background: C.green.accent,
+               opacity: scanOn,
+-              boxShadow: "0 0 18px rgba(5, 150, 105, 0.45)",
++              boxShadow: "0 0 18px rgba(29, 111, 92, 0.45)",
+             }}
+           />
+         </>
+diff -ru /Users/somesh/Desktop/vocalis-pitch-video/src/theme.ts /tmp/vocalis-video-mint/src/theme.ts
+--- /Users/somesh/Desktop/vocalis-pitch-video/src/theme.ts	2026-11-08 17:36:23
++++ /tmp/vocalis-video-mint/src/theme.ts	2026-11-09 09:48:14
+@@ -5,14 +5,14 @@
+ 
+ export const C = {
+   canvas: "#FFFFFF",
+-  ink: "#0F172A",
++  ink: "#1E2B45",
+   black: "#000000",
+-  muted: "#64748B",
+-  hairline: "#EEF2F6",
++  muted: "#5F6877",
++  hairline: "#E4ECE9",
+   shadow: "0 20px 50px -12px rgba(15, 23, 42, 0.07)",
+-  blue: { fill: "#EFF6FF", border: "#BFDBFE", accent: "#2563EB" },
+-  purple: { fill: "#F5F3FF", border: "#DDD6FE", accent: "#7C3AED" },
+-  green: { fill: "#ECFDF5", border: "#A7F3D0", accent: "#059669" },
++  blue: { fill: "#E8F7F3", border: "#BFE8DC", accent: "#2A9D82" },
++  purple: { fill: "#EEF1F7", border: "#D3DAE8", accent: "#1E2B45" },
++  green: { fill: "#E3F6EF", border: "#A9E3D1", accent: "#1D6F5C" },
+   rose: { fill: "#FFF1F2", border: "#FECDD3", accent: "#E11D48" },
+ } as const;
+ 
