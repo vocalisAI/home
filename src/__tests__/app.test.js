@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { AppRoutes } from "../App";
 import DemoRequestForm from "../components/home/DemoRequestForm";
+import LoiRequest from "../components/pricing/LoiRequest";
 
 beforeAll(() => {
   window.scrollTo = jest.fn();
@@ -89,57 +90,60 @@ describe("legacy anchors", () => {
   });
 });
 
-describe("demo request form (mock transport)", () => {
+describe("contact email requests", () => {
   const fill = () => {
     userEvent.type(screen.getByLabelText(/Your name/), "Dr. Test");
     userEvent.type(screen.getByLabelText(/^Clinic/), "Test Clinic");
     userEvent.type(screen.getByLabelText(/Work email/), "test@example.com");
   };
 
-  test("validates required fields and does not call transport", async () => {
-    const transport = jest.fn();
-    render(<DemoRequestForm transport={transport} />);
-    userEvent.click(screen.getByRole("button", { name: /Request a demo/ }));
+  test("validates required fields before opening email", async () => {
+    const click = jest.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
+    render(<DemoRequestForm />);
+    userEvent.click(screen.getByRole("button", { name: /Open email to request a demo/ }));
     expect(await screen.findByText("Please enter your name.")).toBeInTheDocument();
     expect(screen.getByText("Please enter your email address.")).toBeInTheDocument();
-    expect(transport).not.toHaveBeenCalled();
+    expect(click).not.toHaveBeenCalled();
+    click.mockRestore();
   });
 
   test("rejects a malformed email", async () => {
-    const transport = jest.fn();
-    render(<DemoRequestForm transport={transport} />);
+    const click = jest.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
+    render(<DemoRequestForm />);
     userEvent.type(screen.getByLabelText(/Your name/), "A");
     userEvent.type(screen.getByLabelText(/^Clinic/), "B");
     userEvent.type(screen.getByLabelText(/Work email/), "nope");
-    userEvent.click(screen.getByRole("button", { name: /Request a demo/ }));
+    userEvent.click(screen.getByRole("button", { name: /Open email to request a demo/ }));
     expect(await screen.findByText(/doesn’t look right/)).toBeInTheDocument();
-    expect(transport).not.toHaveBeenCalled();
+    expect(click).not.toHaveBeenCalled();
+    click.mockRestore();
   });
 
-  test("shows sending, blocks duplicates, then success", async () => {
-    let resolve;
-    const transport = jest.fn(() => new Promise((r) => (resolve = r)));
-    render(<DemoRequestForm transport={transport} />);
+  test("prepares an addressed demo email without claiming it was sent", async () => {
+    const click = jest.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
+    render(<DemoRequestForm />);
     fill();
-    const btn = screen.getByRole("button", { name: /Request a demo/ });
-    userEvent.click(btn);
-    expect(await screen.findByRole("button", { name: /Sending/ })).toBeDisabled();
-    fireEvent.submit(btn.closest("form"));
-    expect(transport).toHaveBeenCalledTimes(1);
-    resolve();
-    expect(await screen.findByText(/Your request is in/)).toBeInTheDocument();
-    expect(transport.mock.calls[0][0]).toMatchObject({ fullName: "Dr. Test", clinicName: "Test Clinic", email: "test@example.com" });
+    userEvent.click(screen.getByRole("button", { name: /Open email to request a demo/ }));
+    expect(click).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole("status")).toHaveTextContent(/Press Send there to finish/);
+    const href = screen.getByRole("link", { name: "open the prepared email" }).getAttribute("href");
+    expect(href).toContain("mailto:meetvocalis@gmail.com");
+    expect(decodeURIComponent(href)).toContain("Clinic: Test Clinic");
+    expect(decodeURIComponent(href)).toContain("Reply email: test@example.com");
+    click.mockRestore();
   });
 
-  test("on failure keeps entered values and shows an error", async () => {
-    const transport = jest.fn().mockRejectedValue(new Error("boom"));
-    render(<DemoRequestForm transport={transport} />);
-    fill();
-    userEvent.click(screen.getByRole("button", { name: /Request a demo/ }));
-    expect(await screen.findByRole("alert")).toHaveTextContent(/didn.t go through/);
-    expect(screen.getByLabelText(/Your name/)).toHaveValue("Dr. Test");
-    expect(screen.getByLabelText(/Work email/)).toHaveValue("test@example.com");
-    await waitFor(() => expect(screen.getByRole("button", { name: /Request a demo/ })).toBeEnabled());
+  test("prepares a letter request with the clinic name", () => {
+    const click = jest.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
+    render(<LoiRequest />);
+    userEvent.type(screen.getByLabelText("Clinic name"), "Test Clinic");
+    userEvent.type(screen.getByLabelText("Work email"), "test@example.com");
+    userEvent.click(screen.getByRole("button", { name: "Open email request" }));
+    expect(click).toHaveBeenCalledTimes(1);
+    const href = screen.getByRole("link", { name: "open the prepared email" }).getAttribute("href");
+    expect(decodeURIComponent(href)).toContain("Vocalis Letter of Intent request");
+    expect(decodeURIComponent(href)).toContain("Clinic: Test Clinic");
+    click.mockRestore();
   });
 });
 

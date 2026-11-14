@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { CONTACT_EMAIL } from "../../data/site";
-import { formspreeTransport, EMAIL_RE } from "../../lib/formTransport";
+import { contactEmailHref, EMAIL_RE } from "../../lib/contactEmail";
 import { Mail } from "../ui/Icons";
 
 const EMPTY = { fullName: "", clinicName: "", email: "", message: "" };
@@ -14,13 +14,20 @@ function validate(v) {
   return e;
 }
 
-export default function DemoRequestForm({ transport = formspreeTransport }) {
+export default function DemoRequestForm() {
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-  const [status, setStatus] = useState("idle"); // idle | submitting | success | error
-  const inFlight = useRef(false);
+  const [status, setStatus] = useState("idle"); // idle | compose
+  const mailLink = useRef();
   const refs = { fullName: useRef(), clinicName: useRef(), email: useRef() };
+  const draftHref = contactEmailHref("Vocalis demo request", [
+    `Name: ${values.fullName.trim()}`,
+    `Clinic: ${values.clinicName.trim()}`,
+    `Reply email: ${values.email.trim()}`,
+    "",
+    values.message.trim(),
+  ]);
 
   const set = (k) => (e) => {
     const next = { ...values, [k]: e.target.value };
@@ -32,9 +39,8 @@ export default function DemoRequestForm({ transport = formspreeTransport }) {
     setErrors(validate(values));
   };
 
-  const submit = async (e) => {
+  const submit = (e) => {
     e.preventDefault();
-    if (inFlight.current) return; // no duplicate submissions
     const errs = validate(values);
     setErrors(errs);
     setTouched({ fullName: true, clinicName: true, email: true });
@@ -43,24 +49,8 @@ export default function DemoRequestForm({ transport = formspreeTransport }) {
       refs[firstBad].current?.focus();
       return;
     }
-    inFlight.current = true;
-    setStatus("submitting");
-    try {
-      await transport({
-        _subject: "New Demo Request from Vocalis Website",
-        fullName: values.fullName.trim(),
-        clinicName: values.clinicName.trim(),
-        email: values.email.trim(),
-        message: values.message.trim(),
-      });
-      setValues(EMPTY);
-      setTouched({});
-      setStatus("success");
-    } catch {
-      setStatus("error"); // values are kept so nothing needs retyping
-    } finally {
-      inFlight.current = false;
-    }
+    setStatus("compose");
+    mailLink.current.click();
   };
 
   const field = (k, label, props = {}) => (
@@ -87,7 +77,7 @@ export default function DemoRequestForm({ transport = formspreeTransport }) {
         <div>
           <h2 id="contact-title" className="h-display">Book a Demo.</h2>
           <p className="contact__lead">
-            Tell us about your clinic and we’ll get in touch to set up a time to see Vocalis answer a call.
+            Tell us about your clinic, then send the prepared email to request a demo.
           </p>
           <p className="contact__alt">
             <Mail width={18} height={18} /> Prefer email?{" "}
@@ -96,14 +86,6 @@ export default function DemoRequestForm({ transport = formspreeTransport }) {
         </div>
 
         <form className="card contact__form" onSubmit={submit} noValidate aria-label="Request a demo">
-          {status === "success" ? (
-            <div className="contact__success" role="status">
-              <h3 className="h-card">Thank you. Your request is in.</h3>
-              <p className="muted">We’ll be in touch soon to set up your demo.</p>
-              <button type="button" className="btn btn--ghost btn--sm" onClick={() => setStatus("idle")}>Send another request</button>
-            </div>
-          ) : (
-            <>
               {field("fullName", "Your name", { type: "text", autoComplete: "name" })}
               {field("clinicName", "Clinic", { type: "text", autoComplete: "organization" })}
               {field("email", "Work email", { type: "email", autoComplete: "email", inputMode: "email" })}
@@ -112,17 +94,15 @@ export default function DemoRequestForm({ transport = formspreeTransport }) {
                 <textarea id="demo-message" name="message" rows={3} value={values.message} onChange={set("message")} />
               </div>
               <p className="field__hint">Please keep patient information out of this form.</p>
-              <button type="submit" className="btn btn--primary" disabled={status === "submitting"}>
-                {status === "submitting" ? "Sending…" : "Request a demo"}
+              <button type="submit" className="btn btn--primary">
+                Open email to request a demo
               </button>
-              {status === "error" && (
-                <p className="field__err contact__error" role="alert">
-                  That didn’t go through, but your details are still here. Try again, or email{" "}
-                  <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+              <a ref={mailLink} href={draftHref} className="sr-only" tabIndex={-1} aria-hidden="true">Open prepared email</a>
+              {status === "compose" && (
+                <p className="field__hint" role="status">
+                  Your email app should open with this message. Press Send there to finish. If it did not open, <a href={draftHref}>open the prepared email</a> or write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
                 </p>
               )}
-            </>
-          )}
         </form>
       </div>
     </section>

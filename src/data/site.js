@@ -1,6 +1,4 @@
 export const CONTACT_EMAIL = "meetvocalis@gmail.com";
-// Same Formspree endpoint production uses today. Confirm before release.
-export const FORM_ENDPOINT = "https://formspree.io/f/mbdaqzpj";
 export const DEMO_HREF = "/#contact";
 
 export const FEATURES = [
