@@ -3,15 +3,13 @@ import { Link } from "react-router-dom";
 import CtaBand from "../components/ui/CtaBand";
 import SeeItLive from "../components/ui/SeeItLive";
 import { WORKFLOWS } from "../data/features";
-import { usePageMeta } from "../lib/hooks";
 
 export default function WorkflowsPage() {
-  usePageMeta("Clinic Workflows", "A week of calls for one patient: insurance questions, rescheduling, after-hours calls and staff handoff, and what Vocalis does on each.");
   return (
     <>
       <section className="container page-hero">
         <p className="eyebrow">For Clinics</p>
-        <h1 className="h-hero">A Week of Calls for One Patient.</h1>
+        <h1 className="h-hero">How Vocalis Handles Clinic Phone Calls</h1>
         <p className="page-hero__lead">Maria calls Riverside Cardiology four times in two days. Here is what Vocalis does on each call and where your staff pick up.</p>
         <div className="page-hero__actions"><SeeItLive /></div>
       </section>

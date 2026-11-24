@@ -79,7 +79,7 @@ export default function CallWalkthrough() {
             {lineText(current)}
           </p>
         </div>
-        <div className="walk__controls">
+        <div className="walk__controls js-only">
           {!reduced && (
             <>
               <button type="button" className="btn btn--primary" onClick={toggle}>

@@ -53,6 +53,7 @@ describe("product deep links", () => {
   test("known feature opens that tab", async () => {
     renderAt("/product?feature=call-intelligence");
     expect(await screen.findByRole("tab", { name: "Call Intelligence" })).toHaveAttribute("aria-selected", "true");
+    expect(document.head.querySelector('link[rel="canonical"]')).toHaveAttribute("href", "https://www.vocalis.cc/product");
   });
   test("unknown feature falls back to the first view", async () => {
     renderAt("/product?feature=nope");
@@ -102,7 +103,7 @@ describe("navigation focus", () => {
     userEvent.click(within(screen.getByRole("contentinfo")).getByRole("link", { name: "Insurance Follow-Up" }));
     const heading = await screen.findByRole("heading", { name: /insurance/i, level: 2 });
     await waitFor(() => expect(heading).toHaveFocus());
-    expect(document.title).toBe("Clinic Workflows | Vocalis");
+    expect(document.title).toBe("Clinic Phone Workflows and After-Hours Calls | Vocalis");
   });
 });
 
@@ -199,29 +200,15 @@ describe("reduced motion", () => {
   });
 });
 
-describe("static homepage shell", () => {
-  // public/index.html paints the hero before JavaScript loads. Its copy must match the real Hero.
-  const fs = require("fs");
-  const path = require("path");
-  const html = fs.readFileSync(path.join(__dirname, "../../public/index.html"), "utf8");
-  const text = (s) => s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-
-  test("matches the Hero headline, lead and calls to action", () => {
-    renderAt("/");
-    const hero = document.querySelector("section.hero");
-    const norm = (s) => s.replace(/\s+/g, " ").trim();
-    expect(html).toContain(norm(hero.querySelector(".hero__eyebrow").textContent));
-    const squash = (x) => x.replace(/\s+/g, "");
-    expect(squash(text(html))).toContain(squash(hero.querySelector(".hero__title").textContent));
-    expect(html).toContain(norm(hero.querySelector(".hero__lead").textContent));
-    ["Book a demo", "See it live"].forEach((label) => {
-      expect(text(html)).toContain(label);
-      expect(hero.textContent).toContain(label);
-    });
-  });
-
-  test("works without JavaScript: calls to action are real links", () => {
-    expect(html).toContain('<a href="/#contact" class="btn btn--primary">Book a demo</a>');
-    expect(html).toMatch(/href="%PUBLIC_URL%\/media\/vocalis-overview\.mp4"/);
+describe("search metadata", () => {
+  test("missing pages are excluded from indexing and the directive clears on navigation", async () => {
+    renderAt("/unknown-vocalis-page");
+    await screen.findByRole("heading", { name: /couldn’t find/i });
+    expect(document.head.querySelector('meta[name="robots"]')).toHaveAttribute("content", "noindex");
+    expect(document.head.querySelector('link[rel="canonical"]')).toBeNull();
+    userEvent.click(screen.getByRole("link", { name: "Back to home" }));
+    await screen.findByRole("heading", { name: /AI Receptionist for Independent Clinics/i });
+    expect(document.head.querySelector('meta[name="robots"]')).toHaveAttribute("content", "max-image-preview:large");
+    expect(document.head.querySelector('link[rel="canonical"]')).toHaveAttribute("href", "https://www.vocalis.cc/");
   });
 });

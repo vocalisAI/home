@@ -46,7 +46,7 @@ The browser scripts expect Playwright (see the header of each file). Tests never
 
 Things worth knowing:
 
-- **Homepage shell.** `public/index.html` contains the hero as plain HTML so the headline and "Book a demo" link appear before the bundle runs. React replaces it on mount. A test (`static homepage shell`) fails if its copy drifts from `Hero.jsx`, so edit both together.
+- **Pre-rendered pages.** The production build renders the React routes into HTML with page-specific search metadata and a sitemap. Update route titles, descriptions and canonical paths in `src/data/pages.js`, and edit page copy in its React component.
 - **See it live.** One full-screen player (`VideoDialog.jsx`, opened through `VideoContext.jsx`) is reachable from many places through the `SeeItLive` button. Nothing plays until someone clicks, and the video file is only downloaded then.
 - **Claims.** Languages, capacity and compliance statements live in `src/data/claims.js` and `src/data/features.js`. They are company claims supplied by the founder.
 - **Pricing.** Plan data is in `src/data/pricing.js`.

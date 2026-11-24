@@ -12,11 +12,10 @@ export default function Hero() {
         <span className="hero__ring hero__ring--inner" />
       </div>
       <div className="container hero__inner">
-        <p className="hero__eyebrow">AI Receptionist for Independent Clinics</p>
         <h1 id="hero-title" className="hero__title">
-          Your Front Desk
-          <br />
-          Has Enough to Do.
+          AI Receptionist
+          <br />{" "}
+          for Independent Clinics
         </h1>
         <p className="hero__lead">
           Vocalis picks up every call, books the visit, and flags what keeps patients calling back, so your staff can look after the people standing at the desk.

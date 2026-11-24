@@ -65,12 +65,6 @@
   align-items: center;
   text-align: center;
 }
-.hero__eyebrow {
-  margin-bottom: clamp(20px, 3vw, 32px);
-  color: var(--teal);
-  font-size: 0.9375rem;
-  font-weight: 500;
-}
 .hero__title {
   max-width: 14ch;
   font-size: clamp(2.75rem, 1.2rem + 6.4vw, 6rem);
@@ -1017,6 +1011,37 @@
 }
 
 /* ---------- Video and written walkthrough ---------- */
+.product-answers {
+  display: grid;
+  gap: 20px;
+}
+.product-answers dl {
+  margin: 0;
+}
+.product-answers dt {
+  margin: 0 0 4px;
+  color: var(--navy);
+  font-weight: 600;
+}
+.product-answers dd {
+  margin: 0 0 20px;
+}
+.product-answers dd:last-child {
+  margin-bottom: 0;
+}
+.overview-transcript {
+  margin-top: 20px;
+}
+.video-transcript summary {
+  min-height: 44px;
+  padding-block: 8px;
+  color: var(--navy);
+  font-weight: 600;
+  cursor: pointer;
+}
+.video-transcript p {
+  margin-top: 12px;
+}
 .theater {
   width: min(960px, calc(100% - 24px));
   max-height: calc(100dvh - 32px - var(--safe-top) - var(--safe-bottom));
@@ -1047,16 +1072,6 @@
   max-height: 60dvh;
   object-fit: contain;
   background: var(--surface-alt);
-}
-.theater__transcript summary {
-  min-height: 44px;
-  padding-block: 8px;
-  color: var(--navy);
-  font-weight: 600;
-  cursor: pointer;
-}
-.theater__transcript p {
-  margin-top: 12px;
 }
 
 /* ---------- Closing call to action ---------- */

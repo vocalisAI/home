@@ -6,7 +6,7 @@ import { Play } from "./Icons";
 export default function SeeItLive({ variant = "glass", size, className = "" }) {
   const { open } = useVideo();
   return (
-    <button type="button" className={`btn btn--${variant}${size === "sm" ? " btn--sm" : ""}${className ? ` ${className}` : ""}`} onClick={open}>
+    <button type="button" className={`btn btn--${variant}${size === "sm" ? " btn--sm" : ""} js-only${className ? ` ${className}` : ""}`} onClick={open}>
       <Play width={14} height={14} /> See it live
     </button>
   );

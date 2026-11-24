@@ -1,7 +1,6 @@
 import React from "react";
 import VocalisDefinition from "../components/home/VocalisDefinition";
 import CtaBand from "../components/ui/CtaBand";
-import { usePageMeta } from "../lib/hooks";
 
 const TEAM = [
   {
@@ -25,7 +24,6 @@ const TEAM = [
 ];
 
 export default function AboutPage() {
-  usePageMeta("About", "Vocalis is built by two co-founders who have worked in clinics and in machine learning. Learn why we built a receptionist for independent clinics.");
   return (
     <>
       <section className="container page-hero">

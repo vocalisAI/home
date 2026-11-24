@@ -8,14 +8,13 @@ import { useVideo } from "../components/ui/VideoContext";
 import { DEMOS } from "../components/home/ProductShowcase";
 import { PRODUCT_FEATURES, PLATFORM_SPECS } from "../data/features";
 import { DEMO_HREF } from "../data/site";
-import { usePageMeta } from "../lib/hooks";
 import { Play } from "../components/ui/Icons";
 import DashboardShowcase from "../components/home/DashboardShowcase";
+import VideoTranscript from "../components/ui/VideoTranscript";
 
 const KNOWN = PRODUCT_FEATURES.map((f) => f.id);
 
 export default function ProductPage() {
-  usePageMeta("Product", "The Vocalis voice receptionist, call intelligence, scheduling and follow-up, and clinic insights for independent clinics.");
   const [params, setParams] = useSearchParams();
   const requested = params.get("feature");
   // Only known values are honoured; anything else opens the first view.
@@ -29,8 +28,8 @@ export default function ProductPage() {
     <>
       <section className="container page-hero">
         <p className="eyebrow">Product</p>
-        <h1 className="h-hero">What Vocalis Does for Your Front Desk.</h1>
-        <p className="page-hero__lead">It answers the phone, books the appointment, and shows your team where patients get stuck. Pick a part to see it work.</p>
+        <h1 className="h-hero">AI Receptionist and Call Intelligence for Clinics</h1>
+        <p className="page-hero__lead">Vocalis answers calls in your clinic’s name, handles appointment requests, and turns each conversation into a summary your front desk can use.</p>
         <div className="page-hero__actions"><SeeItLive /></div>
       </section>
 
@@ -83,16 +82,37 @@ export default function ProductPage() {
         </div>
       </section>
 
-      <section className="section overview-band" aria-labelledby="overview-title">
+      <section className="section" aria-labelledby="product-answers">
+        <div className="container container--narrow product-answers">
+          <h2 id="product-answers" className="h-display">What Can Vocalis Handle?</h2>
+          <dl>
+            <dt>What calls can Vocalis answer?</dt>
+            <dd>Vocalis can answer routine clinic questions, take appointment requests, collect insurance details by secure link, and queue callbacks. See <Link to="/workflows">examples of clinic calls</Link>.</dd>
+            <dt>Can Vocalis book or reschedule appointments?</dt>
+            <dd>Vocalis can take booking, rescheduling, and cancellation requests. Calendar and EHR connections are scoped during onboarding. Your staff review requests unless your setup confirms them directly.</dd>
+            <dt>When does Vocalis hand a call to staff?</dt>
+            <dd>For requests that need a person, Vocalis uses your clinic’s handoff rules and passes along a short summary. These administrative workflows leave medical advice and insurance coverage decisions to the appropriate professionals.</dd>
+            <dt>What does Vocalis show after a call?</dt>
+            <dd>Your team can see why the patient called, what blocked the request, and the suggested next step. The dashboard also groups calls by reason and time of day so staff can spot recurring problems.</dd>
+          </dl>
+          <p>Compare <Link to="/pricing">monthly plans and included minutes</Link> or see <Link to="/security">how Vocalis handles patient information</Link>.</p>
+        </div>
+      </section>
+
+      <section className="section overview-band" id="demo-transcript" aria-labelledby="overview-title">
         <div className="container overview">
           <div>
             <h2 id="overview-title" className="h-display">See It Live.</h2>
-            <p className="muted overview__text">Follow one call from the first hello to the dashboard. The silent video includes a written walkthrough.</p>
+            <p className="muted overview__text">Follow an example call from the first hello to the clinic dashboard.</p>
+            <p><a href="/media/vocalis-overview.mp4">Open the silent product demo video</a></p>
           </div>
-          <button type="button" className="poster" onClick={openVideo} aria-label="See it live: open the video and transcript">
+          <button type="button" className="poster js-only" onClick={openVideo} aria-label="See it live: open the video and transcript">
             <img src="/media/vocalis-overview-poster.jpg" width="1280" height="720" loading="lazy" alt="" />
             <span className="poster__play"><Play width={28} height={28} /></span>
           </button>
+        </div>
+        <div className="container container--narrow overview-transcript">
+          <VideoTranscript />
         </div>
       </section>
 

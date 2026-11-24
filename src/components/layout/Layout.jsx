@@ -4,10 +4,13 @@ import SiteHeader from "./SiteHeader";
 import SiteFooter from "./SiteFooter";
 import { VideoProvider } from "../ui/VideoContext";
 import { LEGACY_HASHES } from "../../data/site";
+import { pageFor } from "../../data/pages";
+import { updatePageHead } from "../../lib/seo";
 
 function RouteContent() {
   const { pathname, hash, search, key } = useLocation();
   const previous = useRef(null);
+  useEffect(() => updatePageHead(pageFor(pathname)), [pathname]);
 
   // This runs after lazy routes have committed, when their headings and anchors exist.
   useEffect(() => {

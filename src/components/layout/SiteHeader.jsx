@@ -39,7 +39,7 @@ function DesktopNav() {
           <div className="nav__item" key={item.label}>
             <button
               type="button"
-              className="nav__trigger"
+              className="nav__trigger js-only"
               aria-expanded={open === item.label}
               aria-controls={`site-nav-${i}`}
               ref={(el) => (triggerRefs.current[item.label] = el)}

@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { usePageMeta } from "../lib/hooks";
 
 export default function NotFoundPage() {
-  usePageMeta("Page Not Found", "The Vocalis page you requested could not be found.");
   return (
     <section className="container page-hero" style={{ minHeight: "50vh" }}>
       <span className="eyebrow">404</span>

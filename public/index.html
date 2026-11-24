@@ -27,59 +27,17 @@
         descent-override: 22.5%;
         line-gap-override: 0%;
       }
-      /* The static homepage shell below is only for "/". Other routes never paint it. */
-      .no-shell #shell { display: none; }
     </style>
-    <script>if (location.pathname !== "/") document.documentElement.className += " no-shell";</script>
     <meta name="theme-color" content="#FCFEFC" />
-    <title>AI Receptionist for Independent Clinics | Vocalis</title>
-    <meta
-      name="description"
-      content="Vocalis is an AI receptionist for independent clinics. It answers every call, books appointments, and shows your team why patients keep calling back."
-    />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.vocalis.cc/" />
-    <meta property="og:title" content="Vocalis — AI receptionist for independent clinics" />
-    <meta property="og:description" content="Answers every call, books appointments, and shows your team why patients keep calling back." />
-    <meta property="og:image" content="https://www.vocalis.cc/social-image.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Vocalis — AI receptionist for independent clinics" />
-    <meta name="twitter:description" content="Answers every call, books appointments, and shows your team why patients keep calling back." />
-    <meta name="twitter:image" content="https://www.vocalis.cc/social-image.png" />
+    <title>Vocalis</title>
+    <noscript>
+      <style>.menu-toggle,.contact__form,.loi,.js-only { display: none !important; }</style>
+    </noscript>
   </head>
   <body>
-    <div id="root">
-      <!-- Static homepage shell. Same classes as <Hero />, painted by the blocking stylesheet before any
-           JavaScript runs, so the headline and the call to action never wait on React.
-           React replaces it on mount. A test keeps this copy in step with src/components/home/Hero.jsx. -->
-      <div id="shell">
-        <header class="site-header">
-          <div class="container site-header__bar">
-            <a href="/" class="brand" aria-label="Vocalis home"><img src="%PUBLIC_URL%/brand/vocalis-mark-256.png" alt="" width="38" height="34" />Vocalis</a>
-            <a class="btn btn--primary btn--sm site-header__cta" href="/#contact">Book a demo</a>
-          </div>
-        </header>
-        <main id="main">
-          <section class="hero" aria-labelledby="hero-title">
-            <div class="hero__aura" aria-hidden="true"><span class="hero__ring"></span><span class="hero__ring hero__ring--inner"></span></div>
-            <div class="container hero__inner">
-              <p class="hero__eyebrow">AI Receptionist for Independent Clinics</p>
-              <h1 id="hero-title" class="hero__title">Your Front Desk<br />Has Enough to Do.</h1>
-              <p class="hero__lead">Vocalis picks up every call, books the visit, and flags what keeps patients calling back, so your staff can look after the people standing at the desk.</p>
-              <div class="hero__actions">
-                <a href="/#contact" class="btn btn--primary">Book a demo</a>
-                <a href="%PUBLIC_URL%/media/vocalis-overview.mp4" class="btn btn--glass"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"></path></svg> See it live</a>
-              </div>
-            </div>
-          </section>
-        </main>
-      </div>
-    </div>
+    <div id="root"></div>
     <noscript>
-      <section id="contact" class="container section" aria-label="Contact Vocalis">
-        <p>To book a demo or request website accessibility assistance, email <a href="mailto:meetvocalis@gmail.com">meetvocalis@gmail.com</a>.</p>
-      </section>
+      <p class="container section">To book a demo, request a letter of intent, or get accessibility assistance, email <a href="mailto:meetvocalis@gmail.com">meetvocalis@gmail.com</a>.</p>
     </noscript>
   </body>
 </html>

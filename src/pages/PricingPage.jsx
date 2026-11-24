@@ -3,8 +3,7 @@ import PricingTable from "../components/pricing/PricingTable";
 import LoiRequest from "../components/pricing/LoiRequest";
 import Disclosure from "../components/ui/Disclosure";
 import CtaBand from "../components/ui/CtaBand";
-import { usePageMeta } from "../lib/hooks";
-import { OVERAGE_PER_MIN } from "../data/pricing";
+import { OVERAGE_PER_MIN, PLANS } from "../data/pricing";
 
 const FAQ = [
   ["Will Vocalis Replace My Staff?", "No. Vocalis handles front-desk calls and hands requests to your team. People still review, confirm and care for patients."],
@@ -16,13 +15,12 @@ const FAQ = [
 ];
 
 export default function PricingPage() {
-  usePageMeta("Pricing", "Simple monthly plans for independent clinics: Starter $299, Standard $499, Growth $899, with included call minutes.");
   return (
     <>
       <section className="container page-hero page-hero--center">
         <span className="eyebrow">Pricing</span>
         <h1>Simple Plans That Scale with Your Call Volume.</h1>
-        <p>Pick the plan that fits your minutes. Every plan includes the voice receptionist; larger plans add support and setup options.</p>
+        <p>Vocalis starts at ${PLANS[0].monthly} per month for {PLANS[0].included.toLocaleString("en-US")} call minutes. Every plan includes the AI receptionist.</p>
       </section>
       <section className="section section--tight-top">
         <div className="container">

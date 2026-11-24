@@ -2,36 +2,36 @@ import React, { lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import HomePage from "./pages/HomePage";
+import { NOT_FOUND, PAGES, pageFor } from "./data/pages";
 import "./styles/base.css";
 import "./styles/sections.css";
 import "./styles/pricing.css";
 
-// Only the homepage ships in the first bundle; every other page loads when it is visited.
-const ProductPage = lazy(() => import("./pages/ProductPage"));
-const WorkflowsPage = lazy(() => import("./pages/WorkflowsPage"));
-const PricingPage = lazy(() => import("./pages/PricingPage"));
-const SecurityPage = lazy(() => import("./pages/SecurityPage"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
+const routes = [...PAGES, NOT_FOUND].map((page) => ({
+  path: page.path,
+  View: page.path === "/" ? HomePage : lazy(page.load),
+}));
 
-export const AppRoutes = () => (
+export async function loadInitialRoute(pathname) {
+  const page = pageFor(pathname);
+  return { path: page.path, View: page.path === "/" ? HomePage : (await page.load()).default };
+}
+
+export const AppRoutes = ({ initialRoute } = {}) => (
   <Routes>
     <Route element={<Layout />}>
-      <Route index element={<HomePage />} />
-      <Route path="product" element={<ProductPage />} />
-      <Route path="workflows" element={<WorkflowsPage />} />
-      <Route path="pricing" element={<PricingPage />} />
-      <Route path="security" element={<SecurityPage />} />
-      <Route path="about" element={<AboutPage />} />
-      <Route path="*" element={<NotFoundPage />} />
+      {routes.map(({ path, View }) => {
+        const Page = initialRoute?.path === path ? initialRoute.View : View;
+        return <Route key={path} path={path} element={<Page />} />;
+      })}
     </Route>
   </Routes>
 );
 
-export default function App() {
+export default function App({ initialRoute }) {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <AppRoutes />
+      <AppRoutes initialRoute={initialRoute} />
     </BrowserRouter>
   );
 }

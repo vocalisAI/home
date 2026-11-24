@@ -839,7 +839,7 @@ input[aria-invalid="true"] {
   flex: none;
   transition: transform var(--t-med) var(--ease);
 }
-.disclosure__btn[aria-expanded="true"] .disclosure__icon {
+.disclosure[open] .disclosure__icon {
   transform: rotate(45deg);
 }
 .disclosure__body {

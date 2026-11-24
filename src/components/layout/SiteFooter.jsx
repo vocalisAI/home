@@ -66,14 +66,14 @@ export default function SiteFooter() {
             <h2>Contact</h2>
             <ul>
               <li><Link to="/#contact">Book a demo</Link></li>
-              <li><button type="button" className="site-footer__link" onClick={openVideo}>See it live</button></li>
+              <li><button type="button" className="site-footer__link js-only" onClick={openVideo}>See it live</button></li>
               <li><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
               <li><a href={`mailto:${CONTACT_EMAIL}?subject=Website%20accessibility%20feedback`}>Report an accessibility issue</a></li>
             </ul>
           </div>
         </div>
         <div className="site-footer__legal">
-          <span>&copy; {new Date().getFullYear()} Vocalis. All rights reserved.</span>
+          <span>&copy; <span suppressHydrationWarning>{new Date().getFullYear()}</span> Vocalis. All rights reserved.</span>
         </div>
       </div>
       </div>
