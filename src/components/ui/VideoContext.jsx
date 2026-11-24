@@ -1,19 +1,23 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import VideoDialog from "./VideoDialog";
 
 const VideoContext = createContext({ open: () => {} });
 export const useVideo = () => useContext(VideoContext);
 
-/** One full-screen player for the whole site. Any "See it live" button calls open(). Nothing plays until someone clicks. */
+/** One player for the whole site, mounted when a visitor opens it. */
 export function VideoProvider({ children }) {
   const [isOpen, setOpen] = useState(false);
-  const open = useCallback(() => setOpen(true), []);
+  const opener = useRef(null);
+  const open = useCallback((event) => {
+    opener.current = event.currentTarget;
+    setOpen(true);
+  }, []);
   const close = useCallback(() => setOpen(false), []);
   const value = useMemo(() => ({ open }), [open]);
   return (
     <VideoContext.Provider value={value}>
       {children}
-      <VideoDialog open={isOpen} onClose={close} />
+      {isOpen && <VideoDialog onClose={close} opener={opener.current} />}
     </VideoContext.Provider>
   );
 }

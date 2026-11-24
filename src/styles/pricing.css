@@ -11,8 +11,10 @@
   flex-wrap: wrap;
   gap: 10px;
 }
-.loi__row input {
-  flex: 1 1 240px;
+.loi__row .field {
+  flex: 1 1 200px;
+  min-width: 0;
+  text-align: left;
 }
 .loi__ok {
   color: var(--teal);

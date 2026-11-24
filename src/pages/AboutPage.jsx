@@ -25,7 +25,7 @@ const TEAM = [
 ];
 
 export default function AboutPage() {
-  usePageMeta("Vocalis is built by two co-founders who have worked in clinics and in machine learning. Learn why we built a receptionist for independent clinics.");
+  usePageMeta("About", "Vocalis is built by two co-founders who have worked in clinics and in machine learning. Learn why we built a receptionist for independent clinics.");
   return (
     <>
       <section className="container page-hero">

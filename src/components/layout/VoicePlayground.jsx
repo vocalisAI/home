@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "../../lib/hooks";
 import "../../styles/playground.css";
 
@@ -61,9 +61,8 @@ const clamp = (n, lo, hi) => Math.max(lo, Math.min(n, Math.max(lo, hi)));
 const rand = (a, b) => a + Math.random() * (b - a);
 
 /**
- * A bounded toy. Pieces drop in when it scrolls into view, tumble, collide and settle over the big wordmark.
- * Drag to throw one, tap for a hop, arrow keys to push, Home to drop them all again. They are light: a piece
- * that is tossed up hangs for a moment before it comes down.
+ * Drag a piece or select it and click where it should go. Arrow keys move a focused piece.
+ * The pieces start in a static layout and tumble only when a visitor turns animation on.
  * The animation loop runs only while something is moving and the stage is on screen.
  * It is never navigation, and the surrounding page always scrolls.
  */
@@ -72,6 +71,9 @@ export default function VoicePlayground() {
   const elements = useRef([]);
   const api = useRef({});
   const reduced = useReducedMotion();
+  const [animated, setAnimated] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const staticMode = reduced || !animated;
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -79,7 +81,7 @@ export default function VoicePlayground() {
     const bodies = PIECES.map(() => ({ x: 0, y: 0, lx: 0, ly: 0, vx: 0, vy: 0, a: 0, w: 0, r: 0, size: 0, im: 1, inPlay: false, drag: false }));
     let W = 0, H = 0, base = 100, g = 0.3;
     let raf = 0, last = 0, acc = 0, calm = 0, age = 0;
-    let visible = false, started = false, sleeping = true;
+    let visible = false, sleeping = true;
     let drag = null, suppressClick = null;
 
     const setState = (s) => { stage.dataset.state = s; };
@@ -205,22 +207,23 @@ export default function VoicePlayground() {
       setState("falling");
       wake();
     };
-    // Reduce Motion: pieces simply rest on the floor, in rows, and can still be moved by hand.
+    // Pieces start on the floor in rows and can still be moved by hand.
     const settleStatic = () => {
       stop(); drag = null; measure(); sleeping = true;
-      const cols = Math.max(3, Math.floor(W / (base * 0.9)));
+      const cols = Math.max(1, Math.floor(W / (base * 1.08)));
       bodies.forEach((b, i) => {
         const row = Math.floor(i / cols), col = i % cols;
         const inRow = Math.min(cols, bodies.length - row * cols);
         const gap = Math.max(0, (W - inRow * base) / (inRow + 1));
         b.x = clamp(gap + base / 2 + col * (base + gap), b.r, W - b.r);
-        b.y = H - b.r - row * base * 0.9;
-        b.vx = 0; b.vy = 0; b.w = 0; b.a = ((i % 3) - 1) * 0.1; b.inPlay = true; b.drag = false;
+        b.y = Math.max(b.size / 2, H - b.size / 2 - row * base * 1.04);
+        b.vx = 0; b.vy = 0; b.w = 0; b.a = 0; b.inPlay = true; b.drag = false;
+        nodes[i].removeAttribute("data-dragging");
       });
       paintAll();
       setState("settled");
     };
-    const place = () => (reduced ? settleStatic() : drop());
+    const place = () => (staticMode ? settleStatic() : drop());
 
     // ---- interaction ------------------------------------------------------------------------
     const down = (e, i) => {
@@ -233,7 +236,7 @@ export default function VoicePlayground() {
       e.currentTarget.setPointerCapture(e.pointerId);
       e.currentTarget.setAttribute("data-dragging", "true");
       setState("dragging");
-      wake();
+      if (!staticMode) wake();
     };
     const move = (e, i) => {
       if (!drag || drag.i !== i || drag.id !== e.pointerId) return;
@@ -254,22 +257,37 @@ export default function VoicePlayground() {
       const b = bodies[i];
       b.drag = false;
       const fresh = e.timeStamp - drag.lt < 100;
-      if (cancelled || reduced || !fresh) { b.vx = 0; b.vy = 0; }
+      if (cancelled || staticMode || !fresh) { b.vx = 0; b.vy = 0; }
       else { b.vx = clamp(drag.vx, -26, 26); b.vy = clamp(drag.vy, -26, 26); b.w = (b.vx / b.r) * 0.3; }
       if (drag.distance > 5 || cancelled) suppressClick = i;
       drag = null;
       e.currentTarget.removeAttribute("data-dragging");
       if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
-      setState(reduced ? "settled" : "falling");
-      if (!reduced) wake();
+      setState(staticMode ? "settled" : "falling");
+      if (!staticMode) wake();
     };
-    const nudge = (i) => {
-      if (suppressClick === i) { suppressClick = null; return; }
+    const canSelect = (e, i) => {
+      const suppressed = e.detail > 0 && suppressClick === i;
+      suppressClick = null;
+      return !suppressed;
+    };
+    const put = (e, i) => {
       const b = bodies[i];
-      if (reduced) { b.x = clamp(b.x + (b.x < W / 2 ? 24 : -24), b.r, W - b.r); paint(i); return; }
-      b.vy = -Math.sqrt(2 * g * base * rand(1.6, 2.4)); // a tall, floaty hop
-      b.vx = rand(-3, 3); b.w = rand(-0.15, 0.15);
-      setState("falling"); wake();
+      const rect = stage.getBoundingClientRect();
+      const half = b.size / 2;
+      b.x = clamp(e.clientX - rect.left, half, W - half);
+      b.y = clamp(e.clientY - rect.top, half, H - half);
+      b.vx = 0; b.vy = 0; b.w = 0; b.inPlay = true;
+      paint(i);
+      if (!staticMode) wake();
+    };
+    const showFocused = (i) => {
+      const b = bodies[i];
+      const half = b.size / 2;
+      b.x = clamp(b.x, half, W - half);
+      b.y = clamp(b.y, half, H - half);
+      b.inPlay = true;
+      paint(i);
     };
     const key = (e, i) => {
       if (e.key === "Home") { e.preventDefault(); place(); return; }
@@ -285,28 +303,27 @@ export default function VoicePlayground() {
       const b = bodies[i];
       const [dx, dy] = dirs[e.key];
       const boost = e.shiftKey ? 1.7 : 1;
-      if (reduced) {
-        b.x = clamp(b.x + dx * 16 * boost, b.r, W - b.r);
-        b.y = clamp(b.y + dy * 16 * boost, b.r, H - b.r);
-        paint(i); return;
+      if (staticMode) {
+        b.x += dx * 16 * boost;
+        b.y += dy * 16 * boost;
+        showFocused(i);
+        return;
       }
       b.vx += dx * 6 * boost;
       if (dy < 0) b.vy = -Math.sqrt(2 * g * base * 2 * boost);
       else if (dy > 0) b.vy += 5 * boost;
       setState("falling"); wake();
     };
-    api.current = { down, move, end, nudge, key, reset: place };
+    api.current = { down, move, end, canSelect, put, key, showFocused };
 
     // ---- lifecycle --------------------------------------------------------------------------
-    measure();
-    bodies.forEach((b, i) => { b.y = -b.r * 2; paint(i); }); // parked above the stage until it is seen
-    setState("idle");
+    place();
 
     const resize = new ResizeObserver(() => {
+      if (stage.clientWidth === W && stage.clientHeight === H) return;
       measure();
-      if (!started) return;
       bodies.forEach((b) => { b.x = clamp(b.x, b.r, W - b.r); b.y = Math.min(b.y, H - b.r); });
-      if (reduced) settleStatic();
+      if (staticMode) settleStatic();
       else { paintAll(); if (stage.dataset.state === "settled") setState("falling"); wake(); }
     });
     resize.observe(stage);
@@ -314,23 +331,37 @@ export default function VoicePlayground() {
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       if (!visible) { stop(); return; }
-      if (!started) { started = true; place(); } else if (!sleeping) wake();
+      if (!sleeping) wake();
     }, { threshold: 0.3 });
     observer.observe(stage);
 
     const onVisibility = () => { if (document.hidden) stop(); else if (!sleeping) wake(); };
     document.addEventListener("visibilitychange", onVisibility);
     return () => { stop(); resize.disconnect(); observer.disconnect(); document.removeEventListener("visibilitychange", onVisibility); api.current = {}; };
-  }, [reduced]);
+  }, [staticMode]);
 
   return (
     <section className="voice-playground" aria-labelledby="playground-title">
-      <h2 id="playground-title" className="sr-only">Playground</h2>
-      <p id="playground-help" className="sr-only">
-        A playful extra. Drag a piece or tap it to toss it. With a piece focused, the arrow keys push it, the left and right bracket keys move to another piece, and Home drops them all again. Tab leaves the playground.
-      </p>
       <div className="container">
-        <div className="voice-playground__stage" ref={stageRef} data-state="idle">
+        <div className="voice-playground__controls">
+          <h2 id="playground-title">Playground</h2>
+          {!reduced && <button
+            type="button"
+            className="btn btn--ghost"
+            aria-pressed={animated}
+            onClick={() => { setSelected(null); setAnimated(!animated); }}
+          >
+            Animate pieces
+          </button>}
+          <p id="playground-help">
+            Drag a piece, or select one and click an empty spot to move it. Use arrow keys to move the focused piece, bracket keys to switch pieces, and Home to reset.
+          </p>
+        </div>
+        <div className="voice-playground__stage" ref={stageRef} data-state="idle" onClick={(e) => {
+          if (e.target !== e.currentTarget || selected === null) return;
+          api.current.put?.(e, selected);
+          setSelected(null);
+        }}>
           <div className="voice-playground__wordmark" aria-hidden="true">vocalis</div>
           {PIECES.map((piece, i) => (
             <button
@@ -340,13 +371,17 @@ export default function VoicePlayground() {
               tabIndex={i === 0 ? 0 : -1}
               className={`voice-piece voice-piece--${piece.shape} voice-piece--${piece.tone}`}
               aria-label={`Move ${piece.label} piece`}
+              aria-pressed={selected === i}
               aria-describedby="playground-help"
+              onFocus={() => api.current.showFocused?.(i)}
               onPointerDown={(e) => api.current.down?.(e, i)}
               onPointerMove={(e) => api.current.move?.(e, i)}
               onPointerUp={(e) => api.current.end?.(e, i)}
               onPointerCancel={(e) => api.current.end?.(e, i, true)}
               onLostPointerCapture={(e) => api.current.end?.(e, i, true)}
-              onClick={() => api.current.nudge?.(i)}
+              onClick={(e) => {
+                if (api.current.canSelect?.(e, i)) setSelected(selected === i ? null : i);
+              }}
               onKeyDown={(e) => api.current.key?.(e, i)}
             >
               <PieceArt icon={piece.icon} />

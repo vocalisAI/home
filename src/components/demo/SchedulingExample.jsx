@@ -42,15 +42,9 @@ export default function SchedulingExample() {
             )}
           </div>
           <div className="act__buttons">
-            {!done ? (
-              <button type="button" className="btn btn--primary" onClick={() => setDone(true)}>
-                Show next step <Arrow width={16} height={16} />
-              </button>
-            ) : (
-              <button type="button" className="btn btn--ghost" onClick={() => setDone(false)}>
-                <Replay width={16} height={16} /> Reset example
-              </button>
-            )}
+            <button type="button" className={`btn ${done ? "btn--ghost" : "btn--primary"}`} onClick={() => setDone(!done)}>
+              {done ? <><Replay width={16} height={16} /> Reset example</> : <>Show next step <Arrow width={16} height={16} /></>}
+            </button>
           </div>
         </div>
 

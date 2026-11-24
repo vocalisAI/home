@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import CtaBand from "../components/ui/CtaBand";
 import SeeItLive from "../components/ui/SeeItLive";
 import { WORKFLOWS } from "../data/features";
 import { usePageMeta } from "../lib/hooks";
 
 export default function WorkflowsPage() {
-  usePageMeta("A week of calls for one patient: insurance questions, rescheduling, after-hours calls and staff handoff, and what Vocalis does on each.");
+  usePageMeta("Clinic Workflows", "A week of calls for one patient: insurance questions, rescheduling, after-hours calls and staff handoff, and what Vocalis does on each.");
   return (
     <>
       <section className="container page-hero">
@@ -19,7 +20,7 @@ export default function WorkflowsPage() {
         <nav className="stories__index" aria-label="Maria’s calls">
           <ol>
             {WORKFLOWS.map((w) => (
-              <li key={w.id}><a href={`#${w.id}`}><span>{w.when}</span>{w.title}</a></li>
+              <li key={w.id}><Link to={`#${w.id}`}><span>{w.when}</span>{w.title}</Link></li>
             ))}
           </ol>
         </nav>

@@ -16,7 +16,7 @@ const FAQ = [
 ];
 
 export default function PricingPage() {
-  usePageMeta("Simple monthly plans for independent clinics: Starter $299, Standard $499, Growth $899, with included call minutes.");
+  usePageMeta("Pricing", "Simple monthly plans for independent clinics: Starter $299, Standard $499, Growth $899, with included call minutes.");
   return (
     <>
       <section className="container page-hero page-hero--center">

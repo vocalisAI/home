@@ -90,6 +90,22 @@ describe("legacy anchors", () => {
   });
 });
 
+describe("navigation focus", () => {
+  test("skip link moves focus into the main landmark", () => {
+    renderAt("/");
+    userEvent.click(screen.getByRole("link", { name: "Skip to content" }));
+    expect(screen.getByRole("main")).toHaveFocus();
+  });
+
+  test("a link to a lazy page section focuses its heading", async () => {
+    renderAt("/");
+    userEvent.click(within(screen.getByRole("contentinfo")).getByRole("link", { name: "Insurance Follow-Up" }));
+    const heading = await screen.findByRole("heading", { name: /insurance/i, level: 2 });
+    await waitFor(() => expect(heading).toHaveFocus());
+    expect(document.title).toBe("Clinic Workflows | Vocalis");
+  });
+});
+
 describe("contact email requests", () => {
   const fill = () => {
     userEvent.type(screen.getByLabelText(/Your name/), "Dr. Test");
@@ -103,6 +119,8 @@ describe("contact email requests", () => {
     userEvent.click(screen.getByRole("button", { name: /Open email to request a demo/ }));
     expect(await screen.findByText("Please enter your name.")).toBeInTheDocument();
     expect(screen.getByText("Please enter your email address.")).toBeInTheDocument();
+    expect(screen.getByLabelText("Your name")).toHaveFocus();
+    expect(screen.getByLabelText("Your name")).toHaveAccessibleDescription("Please enter your name.");
     expect(click).not.toHaveBeenCalled();
     click.mockRestore();
   });
@@ -144,6 +162,21 @@ describe("contact email requests", () => {
     expect(decodeURIComponent(href)).toContain("Vocalis Letter of Intent request");
     expect(decodeURIComponent(href)).toContain("Clinic: Test Clinic");
     click.mockRestore();
+  });
+
+  test("focuses the invalid letter request field and updates its error as it is corrected", () => {
+    render(<LoiRequest />);
+    const clinic = screen.getByLabelText("Clinic name");
+    const email = screen.getByLabelText("Work email");
+    const request = screen.getByRole("button", { name: "Open email request" });
+    userEvent.click(request);
+    expect(clinic).toHaveFocus();
+    expect(clinic).toHaveAccessibleDescription("Please enter your clinic’s name.");
+    userEvent.type(clinic, "Test Clinic");
+    expect(clinic).toHaveAttribute("aria-invalid", "false");
+    userEvent.click(request);
+    expect(email).toHaveFocus();
+    expect(email).toHaveAccessibleDescription("Please enter a valid work email.");
   });
 });
 

@@ -7,7 +7,7 @@ import { usePageMeta } from "../lib/hooks";
 import SeeItLive from "../components/ui/SeeItLive";
 
 export default function SecurityPage() {
-  usePageMeta("Vocalis is HIPAA compliant, SOC 2 Type 1 and Type 2 audited, and GDPR compliant. Patient information is encrypted in transit and at rest.");
+  usePageMeta("Security", "Vocalis is HIPAA compliant, SOC 2 Type 1 and Type 2 audited, and GDPR compliant. Patient information is encrypted in transit and at rest.");
   return (
     <>
       <section className="container page-hero">

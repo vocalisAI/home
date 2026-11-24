@@ -36,7 +36,7 @@ export default function SiteFooter() {
             <p style={{ marginTop: 16 }}>An AI receptionist for independent clinics.</p>
           </div>
           <div>
-            <h3>Product</h3>
+            <h2>Product</h2>
             <ul>
               <li><Link to="/product?feature=voice-receptionist">Voice Receptionist</Link></li>
               <li><Link to="/product?feature=call-intelligence">Call Intelligence</Link></li>
@@ -46,7 +46,7 @@ export default function SiteFooter() {
             </ul>
           </div>
           <div>
-            <h3>Clinic Workflows</h3>
+            <h2>Clinic Workflows</h2>
             <ul>
               <li><Link to="/workflows#appointment-requests">Appointment Requests</Link></li>
               <li><Link to="/workflows#insurance-follow-up">Insurance Follow-Up</Link></li>
@@ -55,7 +55,7 @@ export default function SiteFooter() {
             </ul>
           </div>
           <div>
-            <h3>Company</h3>
+            <h2>Company</h2>
             <ul>
               <li><Link to="/about">About</Link></li>
               <li><Link to="/about#why-the-name">Why the Name</Link></li>
@@ -63,11 +63,12 @@ export default function SiteFooter() {
             </ul>
           </div>
           <div>
-            <h3>Contact</h3>
+            <h2>Contact</h2>
             <ul>
               <li><Link to="/#contact">Book a demo</Link></li>
               <li><button type="button" className="site-footer__link" onClick={openVideo}>See it live</button></li>
               <li><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
+              <li><a href={`mailto:${CONTACT_EMAIL}?subject=Website%20accessibility%20feedback`}>Report an accessibility issue</a></li>
             </ul>
           </div>
         </div>

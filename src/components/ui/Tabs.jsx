@@ -35,7 +35,10 @@ export default function Tabs({ idPrefix, label, tabs, value, onChange, renderPan
             aria-controls={`${idPrefix}-panel-${t.id}`}
             tabIndex={value === t.id ? 0 : -1}
             className="tabs__tab"
-            onClick={() => onChange(t.id)}
+            onClick={(e) => {
+              e.currentTarget.focus({ preventScroll: true });
+              onChange(t.id);
+            }}
           >
             <span className="tabs__dot" aria-hidden="true" />
             {t.label}

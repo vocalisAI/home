@@ -14,9 +14,9 @@ export function useReducedMotion() {
   return reduced;
 }
 
-export function usePageMeta(description) {
+export function usePageMeta(title, description) {
   useEffect(() => {
-    document.title = "Vocalis"; // the tab says Vocalis on every page, nothing else
+    document.title = `${title} | Vocalis`;
     let tag = document.querySelector('meta[name="description"]');
     if (!tag) {
       tag = document.createElement("meta");
@@ -24,7 +24,7 @@ export function usePageMeta(description) {
       document.head.appendChild(tag);
     }
     if (description) tag.setAttribute("content", description);
-  }, [description]);
+  }, [title, description]);
 }
 
 export function useMediaQuery(query) {

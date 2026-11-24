@@ -15,7 +15,7 @@ import DashboardShowcase from "../components/home/DashboardShowcase";
 const KNOWN = PRODUCT_FEATURES.map((f) => f.id);
 
 export default function ProductPage() {
-  usePageMeta("The Vocalis voice receptionist, call intelligence, scheduling and follow-up, and clinic insights for independent clinics.");
+  usePageMeta("Product", "The Vocalis voice receptionist, call intelligence, scheduling and follow-up, and clinic insights for independent clinics.");
   const [params, setParams] = useSearchParams();
   const requested = params.get("feature");
   // Only known values are honoured; anything else opens the first view.
@@ -87,9 +87,9 @@ export default function ProductPage() {
         <div className="container overview">
           <div>
             <h2 id="overview-title" className="h-display">See It Live.</h2>
-            <p className="muted overview__text">One call, from the first hello to the dashboard. The video has no sound, and there’s a written description if you’d rather read it.</p>
+            <p className="muted overview__text">Follow one call from the first hello to the dashboard. The silent video includes a written walkthrough.</p>
           </div>
-          <button type="button" className="poster" onClick={openVideo} aria-label="See it live: play the video">
+          <button type="button" className="poster" onClick={openVideo} aria-label="See it live: open the video and transcript">
             <img src="/media/vocalis-overview-poster.jpg" width="1280" height="720" loading="lazy" alt="" />
             <span className="poster__play"><Play width={28} height={28} /></span>
           </button>

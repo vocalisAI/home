@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { CONTACT_EMAIL } from "../../data/site";
 import { contactEmailHref, EMAIL_RE } from "../../lib/contactEmail";
 import { Mail } from "../ui/Icons";
@@ -32,6 +33,7 @@ export default function DemoRequestForm() {
   const set = (k) => (e) => {
     const next = { ...values, [k]: e.target.value };
     setValues(next);
+    setStatus("idle");
     if (touched[k]) setErrors(validate(next));
   };
   const blur = (k) => () => {
@@ -42,11 +44,15 @@ export default function DemoRequestForm() {
   const submit = (e) => {
     e.preventDefault();
     const errs = validate(values);
-    setErrors(errs);
-    setTouched({ fullName: true, clinicName: true, email: true });
     const firstBad = ["fullName", "clinicName", "email"].find((k) => errs[k]);
     if (firstBad) {
-      refs[firstBad].current?.focus();
+      flushSync(() => {
+        setErrors(errs);
+        setTouched({ fullName: true, clinicName: true, email: true });
+      });
+      const input = refs[firstBad].current;
+      input.focus({ preventScroll: true });
+      input.scrollIntoView({ block: "nearest", behavior: "instant" });
       return;
     }
     setStatus("compose");
@@ -63,6 +69,7 @@ export default function DemoRequestForm() {
         value={values[k]}
         onChange={set(k)}
         onBlur={blur(k)}
+        required
         aria-invalid={!!(touched[k] && errors[k])}
         aria-describedby={touched[k] && errors[k] ? `demo-${k}-err` : undefined}
         {...props}
@@ -86,23 +93,24 @@ export default function DemoRequestForm() {
         </div>
 
         <form className="card contact__form" onSubmit={submit} noValidate aria-label="Request a demo">
+              <p className="field__hint">Name, clinic, and work email are required.</p>
               {field("fullName", "Your name", { type: "text", autoComplete: "name" })}
               {field("clinicName", "Clinic", { type: "text", autoComplete: "organization" })}
               {field("email", "Work email", { type: "email", autoComplete: "email", inputMode: "email" })}
               <div className="field">
                 <label htmlFor="demo-message">Anything we should know? <span className="muted">(optional)</span></label>
-                <textarea id="demo-message" name="message" rows={3} value={values.message} onChange={set("message")} />
+                <textarea id="demo-message" name="message" rows={3} value={values.message} onChange={set("message")} aria-describedby="demo-message-hint" />
               </div>
-              <p className="field__hint">Please keep patient information out of this form.</p>
+              <p className="field__hint" id="demo-message-hint">Please keep patient information out of this form.</p>
               <button type="submit" className="btn btn--primary">
                 Open email to request a demo
               </button>
               <a ref={mailLink} href={draftHref} className="sr-only" tabIndex={-1} aria-hidden="true">Open prepared email</a>
-              {status === "compose" && (
-                <p className="field__hint" role="status">
-                  Your email app should open with this message. Press Send there to finish. If it did not open, <a href={draftHref}>open the prepared email</a> or write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
-                </p>
-              )}
+              <div className="field__hint" role="status">
+                {status === "compose" && (
+                  <>Your email app should open with this message. Press Send there to finish. If it did not open, <a href={draftHref}>open the prepared email</a> or write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</>
+                )}
+              </div>
         </form>
       </div>
     </section>

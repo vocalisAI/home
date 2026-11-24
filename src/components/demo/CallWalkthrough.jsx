@@ -6,14 +6,14 @@ import { useReducedMotion, useMediaQuery } from "../../lib/hooks";
 const STEP_MS = 1700;
 const lineText = (l) => l.note || l.text || l.parts.map((p) => p.t).join("");
 
-function Transcript({ shown, visible }) {
+function Transcript({ shown }) {
   return (
     <ol className="transcript" aria-label={`Call to ${CLINIC}`}>
       {CALL_LINES.map((l, i) => (
         <li
           key={l.id}
-          className={`bubble bubble--${l.who}${l.note ? " bubble--note" : ""}${!visible(i) ? " bubble--pending" : ""}${shown !== null && i === shown - 1 ? " bubble--now" : ""}`}
-          aria-hidden={!visible(i)}
+          className={`bubble bubble--${l.who}${l.note ? " bubble--note" : ""}${i === shown - 1 ? " bubble--now" : ""}`}
+          aria-current={i === shown - 1 ? "step" : undefined}
         >
           {!l.note && <span className="sr-only">{l.who === "vocalis" ? "Vocalis: " : "Caller: "}</span>}
           <span className="bubble__text">{lineText(l)}</span>
@@ -27,7 +27,7 @@ function Transcript({ shown, visible }) {
 export default function CallWalkthrough() {
   const reduced = useReducedMotion();
   const compact = useMediaQuery("(max-width: 719px)");
-  // null = nothing is being played, whole transcript visible. Number = lines revealed so far.
+  // null = idle. Otherwise this is the line reached in the timed preview.
   const [shown, setShown] = useState(null);
   const [playing, setPlaying] = useState(false);
   const timer = useRef(null);
@@ -57,7 +57,6 @@ export default function CallWalkthrough() {
   const toggle = () => (playing ? setPlaying(false) : shown === null ? start() : setPlaying(true));
   const replay = () => { clearTimeout(timer.current); setShown(1); setPlaying(true); };
 
-  const visible = (i) => shown === null || i < shown;
   const index = shown === null ? 1 : shown - 1; // At rest the caption shows the caller's first line.
   const current = CALL_LINES[Math.min(index, CALL_LINES.length - 1)];
   const speaking = playing && current.who === "vocalis";
@@ -87,11 +86,9 @@ export default function CallWalkthrough() {
                 {playing ? <Pause width={16} height={16} /> : <Play width={16} height={16} />}
                 {playing ? "Pause" : shown === null ? "Play walkthrough" : "Resume"}
               </button>
-              {(playing || shown !== null) && (
-                <button type="button" className="btn btn--ghost" onClick={replay}>
-                  <Replay width={16} height={16} /> Replay
-                </button>
-              )}
+              <button type="button" className="btn btn--ghost" onClick={replay}>
+                <Replay width={16} height={16} /> Replay
+              </button>
             </>
           )}
         </div>
@@ -99,12 +96,12 @@ export default function CallWalkthrough() {
       {compact ? (
         <details className="walk__more" open={reduced || undefined}>
           <summary>Read the full call</summary>
-          <Transcript shown={shown} visible={visible} />
+          <Transcript shown={shown} />
         </details>
       ) : (
         <div className="walk__more">
-          <h4 className="walk__more-title">Full Call</h4>
-          <Transcript shown={shown} visible={visible} />
+          <p className="walk__more-title">Full Call</p>
+          <Transcript shown={shown} />
         </div>
       )}
     </div>

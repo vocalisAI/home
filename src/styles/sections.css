@@ -53,18 +53,10 @@
   -webkit-mask: radial-gradient(circle, transparent 38%, #000 58%, #000 62%, transparent 82%);
   mask: radial-gradient(circle, transparent 38%, #000 58%, #000 62%, transparent 82%);
   filter: blur(26px);
-  animation: ring-turn 90s linear infinite;
 }
 .hero__ring--inner {
   width: min(58vw, 560px);
   opacity: 0.45;
-  animation-duration: 120s;
-  animation-direction: reverse;
-}
-@keyframes ring-turn {
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
 }
 
 .hero__inner {
@@ -101,14 +93,6 @@
   margin-top: clamp(28px, 3.6vw, 44px);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero__ring {
-    animation: none;
-  }
-}
-.hero--offscreen .hero__ring {
-  animation-play-state: paused;
-}
 .route-fallback {
   /* A full screen tall, so the footer is below the fold while a page chunk loads and cannot visibly jump. */
   min-height: 100vh;
@@ -299,7 +283,7 @@
 }
 .walk__controls {
   display: flex;
-  flex-wrap: nowrap; /* one row at every width, so Play never changes the stage height */
+  flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
   min-height: 52px;
@@ -360,11 +344,6 @@
 }
 .bubble--now {
   box-shadow: 0 0 0 2px var(--mint);
-}
-/* Unrevealed messages keep their space, so nothing below them moves during playback. */
-.bubble--pending {
-  visibility: hidden;
-  pointer-events: none;
 }
 .walk__more summary {
   display: flex;
@@ -592,8 +571,9 @@
   border: 2px solid transparent;
   transition: background var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
 }
-.week__cell.is-busy {
-  background: #dce5e1;
+.week__cell.is-busy,
+.dot--busy {
+  background: repeating-linear-gradient(135deg, #e2e9e6 0 4px, #687e75 4px 6px);
 }
 .week__cell.is-target {
   background: var(--mint-light);
@@ -618,7 +598,6 @@
   margin-right: 6px;
   border-radius: 3px;
 }
-.dot--busy { background: #dce5e1; }
 .dot--target { background: var(--mint-light); border: 1.5px dashed var(--teal); }
 @container (min-width: 760px) {
   .act__stage {
@@ -688,6 +667,14 @@
 .reason.is-on .reason__bar i {
   background: var(--teal);
 }
+.chart {
+  overflow-x: auto;
+  padding: 6px;
+}
+.chart__bars,
+.chart__axis {
+  min-width: 472px;
+}
 .chart__bars {
   display: flex;
   align-items: flex-end;
@@ -698,7 +685,7 @@
 }
 .bar {
   flex: 1 1 0;
-  min-width: 0;
+  min-width: 24px;
   height: 100%;
   display: flex;
   align-items: flex-end;
@@ -712,14 +699,15 @@
   display: block;
   width: 100%;
   border-radius: 6px 6px 0 0;
-  background: #cbe8e0;
+  background: #52766d;
   transition: height var(--t-med) var(--ease), background var(--t-fast) var(--ease);
 }
 .bar.is-peak .bar__fill {
-  background: var(--mint);
+  background: var(--teal);
+  border: 2px dashed var(--navy);
 }
 .bar:hover .bar__fill {
-  background: var(--mint-light);
+  background: var(--teal);
 }
 .bar.is-sel .bar__fill {
   background: var(--navy);
@@ -731,6 +719,10 @@
   margin-top: 8px;
   color: var(--muted);
   font-size: 0.75rem;
+}
+.insights__time {
+  margin-top: 12px;
+  max-width: 360px;
 }
 .insights__foot {
   display: grid;
@@ -1024,40 +1016,47 @@
   }
 }
 
-/* ---------- "See it live": the video fills the whole screen ---------- */
+/* ---------- Video and written walkthrough ---------- */
 .theater {
-  position: fixed;
-  inset: 0;
-  z-index: 3000;
-  display: grid;
-  place-items: center;
-  background: #fff;
-  animation: theater-in 0.28s var(--ease);
+  width: min(960px, calc(100% - 24px));
+  max-height: calc(100dvh - 32px - var(--safe-top) - var(--safe-bottom));
+  padding: clamp(16px, 3vw, 28px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--ink);
+  overscroll-behavior: contain;
 }
-@keyframes theater-in {
-  from { opacity: 0; }
+.theater::backdrop {
+  background: rgba(17, 24, 39, 0.77);
+}
+.theater__inner {
+  display: grid;
+  gap: 12px;
+}
+.theater__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
 }
 .theater__video {
   width: 100%;
-  height: 100%;
-  object-fit: contain; /* scales to any screen; the video's canvas is white, so any bars are invisible */
-  background: #fff;
+  aspect-ratio: 16 / 9;
+  max-height: 60dvh;
+  object-fit: contain;
+  background: var(--surface-alt);
 }
-.theater__close {
-  position: absolute;
-  top: calc(16px + var(--safe-top));
-  right: calc(16px + env(safe-area-inset-right, 0px));
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.92);
-  border-color: rgba(30, 43, 69, 0.2);
-}
-.theater__fail {
-  display: grid;
-  justify-items: center;
-  gap: 16px;
-  padding: 24px;
-  text-align: center;
+.theater__transcript summary {
+  min-height: 44px;
+  padding-block: 8px;
   color: var(--navy);
+  font-weight: 600;
+  cursor: pointer;
+}
+.theater__transcript p {
+  margin-top: 12px;
 }
 
 /* ---------- Closing call to action ---------- */

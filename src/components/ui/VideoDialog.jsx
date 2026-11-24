@@ -1,85 +1,76 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Close } from "./Icons";
 
-// Read aloud to screen reader users in place of watching. The video has no sound.
-const DESCRIPTION =
-  "A silent walkthrough of one call. A title card reads Meet Vocalis. A call comes in to Riverside Cardiology: the caller says it is their third call about an insurance approval for a Holter monitor. Vocalis asks for a name and date of birth, then offers a link for insurance details and a consult. A side panel shows what the caller wants, what is in the way and a suggested action. A weekly calendar fills in with appointments. A chart of calls on hold points to a late-morning bottleneck on insurance, four fixes switch on, and the bottleneck clears.";
+const VIDEO = "/media/vocalis-overview.mp4";
 
-/**
- * "See it live": the video fills the whole screen the moment it opens and starts playing.
- * It asks the browser for real full screen where that is allowed. Close, Escape and leaving
- * full screen all return to the page. The <video> mounts only when opened, so nothing downloads on page load.
- */
-export default function VideoDialog({ open, onClose }) {
-  const closeRef = useRef(null);
+function WalkthroughText() {
+  return (
+    <details className="theater__transcript">
+      <summary>Read the video transcript and description</summary>
+      <p>The silent video opens with “Meet Vocalis.” An incoming call to Riverside Cardiology opens a transcript:</p>
+      <ol>
+        <li><strong>Vocalis:</strong> “Riverside Cardiology, this is Vocalis. How can I help?”</li>
+        <li><strong>Caller:</strong> “It’s my third call about my Holter monitor. Insurance still hasn’t approved it.”</li>
+        <li><strong>Vocalis:</strong> “I can fix that. Your name and date of birth?”</li>
+        <li><strong>Caller:</strong> The sample caller provides her name and birth date. The interface masks both and shows lock icons.</li>
+        <li><strong>Vocalis:</strong> “Got it. I’ll text you a secure insurance link and book your EP consult for Tuesday.”</li>
+      </ol>
+      <p>A side panel identifies the caller’s intent (a Holter monitor and electrophysiology consult), the obstacle (insurance authorization on a third call), and the action (text an insurance link and book the consult for Tuesday at 10:30 a.m.). The selected action appears on the clinic’s weekly calendar, followed by other appointments.</p>
+      <p>A heatmap highlights a sample 41% call drop-off rate for insurance holds at 11 a.m. Tuesday. Four switches turn on: instant call pickup, insurance details by text, automatic waitlist backfill, and reminder texts. The highlighted bottleneck clears in the example. The closing card reads “Meet the future of your clinic. Join today.”</p>
+    </details>
+  );
+}
+
+export default function VideoDialog({ onClose, opener }) {
   const dialogRef = useRef(null);
+  const closeRef = useRef(null);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    if (!open) return undefined;
-    setFailed(false);
-    const node = dialogRef.current;
-    const previous = document.activeElement;
-    closeRef.current?.focus();
-    const prevOverflow = document.body.style.overflow;
+    const dialog = dialogRef.current;
+    const overflow = document.body.style.overflow;
+    dialog.showModal();
     document.body.style.overflow = "hidden";
-
-    // Best effort: true full screen hides the browser's own chrome. Some browsers (iPhone Safari) refuse; the overlay still covers the viewport.
-    let enteredFullscreen = false;
-    try {
-      const req = node && node.requestFullscreen && node.requestFullscreen({ navigationUI: "hide" });
-      if (req && req.then) req.then(() => { enteredFullscreen = true; }).catch(() => {});
-    } catch (e) { /* the overlay is enough */ }
-    const onFullscreenChange = () => { if (enteredFullscreen && !document.fullscreenElement) onClose(); };
-    document.addEventListener("fullscreenchange", onFullscreenChange);
-
-    const onKey = (e) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "Tab" && node) {
-        const f = node.querySelectorAll('button, [href], video[controls]');
-        if (!f.length) return;
-        const first = f[0];
-        const last = f[f.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
-    };
-    document.addEventListener("keydown", onKey);
+    closeRef.current.focus();
     return () => {
-      document.removeEventListener("keydown", onKey);
-      document.removeEventListener("fullscreenchange", onFullscreenChange);
-      document.body.style.overflow = prevOverflow;
-      if (document.fullscreenElement === node && document.exitFullscreen) document.exitFullscreen().catch(() => {});
-      if (previous && previous.focus) previous.focus();
+      dialog.close();
+      document.body.style.overflow = overflow;
+      opener?.focus({ preventScroll: true });
     };
-  }, [open, onClose]);
+  }, [opener]);
 
-  if (!open) return null;
   return (
-    <div className="theater" role="dialog" aria-modal="true" aria-label="See it live" aria-describedby="theater-description" ref={dialogRef}>
-      {failed ? (
-        <div className="theater__fail" role="alert">
-          <p>The video could not be loaded.</p>
-          <a className="btn btn--primary" href="/media/vocalis-overview.mp4">Open the video file</a>
+    <dialog
+      className="theater"
+      aria-labelledby="theater-title"
+      aria-describedby="theater-description"
+      ref={dialogRef}
+      onCancel={(e) => { e.preventDefault(); onClose(); }}
+    >
+      <div className="theater__inner">
+        <div className="theater__header">
+          <h2 id="theater-title">See it live</h2>
+          <button ref={closeRef} type="button" className="btn btn--ghost" onClick={onClose}>
+            <Close width={16} height={16} /> Close
+          </button>
         </div>
-      ) : (
-        <video
-          className="theater__video"
-          autoPlay
-          muted
-          controls
-          playsInline
-          preload="auto"
-          poster="/media/vocalis-overview-poster.jpg"
-          onError={() => setFailed(true)}
-        >
-          <source src="/media/vocalis-overview.mp4" type="video/mp4" />
-        </video>
-      )}
-      <button ref={closeRef} type="button" className="btn btn--glass theater__close" onClick={onClose}>
-        <Close width={16} height={16} /> Close
-      </button>
-      <p id="theater-description" className="sr-only">{DESCRIPTION}</p>
-    </div>
+        <p id="theater-description">A silent demo of one call, from the first hello to the clinic dashboard.</p>
+        {failed ? (
+          <p role="alert">The video could not be loaded. <a href={VIDEO}>Open the video file</a> or read the transcript below.</p>
+        ) : (
+          <video
+            className="theater__video"
+            aria-label="Vocalis product walkthrough"
+            controls
+            playsInline
+            preload="metadata"
+            poster="/media/vocalis-overview-poster.jpg"
+            src={VIDEO}
+            onError={() => setFailed(true)}
+          />
+        )}
+        <WalkthroughText />
+      </div>
+    </dialog>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useId, useRef, useState } from "react";
 import { INSIGHT_REASONS, SLOT_LABELS } from "../../data/scenarios";
 
 const peakIndex = (values) => values.indexOf(Math.max(...values));
@@ -10,6 +10,7 @@ export default function InsightsExample() {
   const [reasonId, setReasonId] = useState(INSIGHT_REASONS[0].id);
   const reason = INSIGHT_REASONS.find((r) => r.id === reasonId);
   const [sel, setSel] = useState(peakIndex(reason.values));
+  const timeId = useId();
   const refs = useRef([]);
   const max = Math.max(...reason.values);
   const peak = peakIndex(reason.values);
@@ -48,7 +49,7 @@ export default function InsightsExample() {
 
       <div className="insights__main">
         <p className="insights__head">When Those Calls Arrive</p>
-        <div className="chart">
+        <div className="chart" role="group" aria-label="Call volume chart">
           <div className="chart__bars" role="radiogroup" aria-label={`Calls by half hour, ${reason.label}`} onKeyDown={onKey}>
             {reason.values.map((v, i) => (
               <button
@@ -69,6 +70,14 @@ export default function InsightsExample() {
           <div className="chart__axis" aria-hidden="true">
             <span>8 AM</span><span>10 AM</span><span>12 PM</span><span>2 PM</span><span>4 PM</span>
           </div>
+        </div>
+        <div className="field insights__time">
+          <label htmlFor={timeId}>Choose a time window</label>
+          <select id={timeId} value={sel} onChange={(e) => setSel(Number(e.target.value))}>
+            {reason.values.map((v, i) => (
+              <option key={i} value={i}>{labelFor(i)} · {v} {v === 1 ? "call" : "calls"}</option>
+            ))}
+          </select>
         </div>
         <div className="insights__foot">
           <div className="readout" role="status">

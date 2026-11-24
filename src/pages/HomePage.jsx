@@ -8,7 +8,7 @@ import DemoRequestForm from "../components/home/DemoRequestForm";
 import { usePageMeta } from "../lib/hooks";
 
 export default function HomePage() {
-  usePageMeta("Vocalis is an AI receptionist for independent clinics. It answers every call, books appointments, and shows your team why patients keep calling back."
+  usePageMeta("AI Receptionist for Independent Clinics", "Vocalis is an AI receptionist for independent clinics. It answers every call, books appointments, and shows your team why patients keep calling back."
   );
   return (
     <>

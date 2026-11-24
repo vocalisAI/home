@@ -9,7 +9,7 @@ function DesktopNav() {
   const wrapRef = useRef(null);
   const triggerRefs = useRef({});
   const location = useLocation();
-  useEffect(() => setOpen(null), [location.pathname, location.search, location.hash]);
+  useEffect(() => setOpen(null), [location.key]);
 
   useEffect(() => {
     if (open === null) return undefined;
@@ -31,31 +31,31 @@ function DesktopNav() {
   }, [open]);
 
   return (
-    <nav className="nav" aria-label="Primary" ref={wrapRef}>
-      {NAV.map((item) =>
+    <nav className="nav" aria-label="Primary" ref={wrapRef} onBlur={(e) => {
+      if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget)) setOpen(null);
+    }}>
+      {NAV.map((item, i) =>
         item.items ? (
           <div className="nav__item" key={item.label}>
             <button
               type="button"
               className="nav__trigger"
               aria-expanded={open === item.label}
-              aria-controls={`menu-${item.label}`}
+              aria-controls={`site-nav-${i}`}
               ref={(el) => (triggerRefs.current[item.label] = el)}
               onClick={() => setOpen(open === item.label ? null : item.label)}
             >
               {item.label}
               <Chevron className="nav__chev" width={16} height={16} />
             </button>
-            {open === item.label && (
-              <div className="nav__panel" id={`menu-${item.label}`}>
-                {item.items.map((s) => (
-                  <Link key={s.to} to={s.to} onClick={() => setOpen(null)}>
-                    {s.label}
-                    {s.note && <small>{s.note}</small>}
-                  </Link>
-                ))}
-              </div>
-            )}
+            <div className="nav__panel" id={`site-nav-${i}`} hidden={open !== item.label}>
+              {item.items.map((s) => (
+                <Link key={s.to} to={s.to}>
+                  {s.label}
+                  {s.note && <small>{s.note}</small>}
+                </Link>
+              ))}
+            </div>
           </div>
         ) : (
           <NavLink key={item.label} to={item.to} className="nav__link">
@@ -67,46 +67,45 @@ function DesktopNav() {
   );
 }
 
-function MobileMenu({ onClose }) {
+function MobileMenu() {
   const [openGroup, setOpenGroup] = useState(null);
   return (
-    <div className="mobile-menu" id="mobile-menu">
+    <div className="mobile-menu__content">
       <div className="container">
         <nav aria-label="Mobile">
-          {NAV.map((item) =>
+          {NAV.map((item, i) =>
             item.items ? (
               <div className="mobile-menu__group" key={item.label}>
                 <button
                   type="button"
                   className="mobile-menu__trigger"
                   aria-expanded={openGroup === item.label}
+                  aria-controls={`mobile-nav-${i}`}
                   onClick={() => setOpenGroup(openGroup === item.label ? null : item.label)}
                 >
                   {item.label}
                   <Chevron className="nav__chev" style={{ transform: openGroup === item.label ? "rotate(180deg)" : "none" }} />
                 </button>
-                {openGroup === item.label && (
-                  <div className="mobile-menu__sub">
-                    {item.items.map((s) => (
-                      <Link key={s.to} to={s.to} onClick={onClose}>
-                        {s.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
+                <div className="mobile-menu__sub" id={`mobile-nav-${i}`} hidden={openGroup !== item.label}>
+                  {item.items.map((s) => (
+                    <Link key={s.to} to={s.to}>
+                      {s.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             ) : (
               <div className="mobile-menu__group" key={item.label}>
-                <Link className="mobile-menu__link" to={item.to} onClick={onClose}>
+                <NavLink className="mobile-menu__link" to={item.to}>
                   {item.label}
-                </Link>
+                </NavLink>
               </div>
             )
           )}
         </nav>
         <div className="mobile-menu__actions">
           <SeeItLive variant="ghost" />
-          <Link className="btn btn--primary" to={DEMO_HREF} onClick={onClose}>
+          <Link className="btn btn--primary" to={DEMO_HREF}>
             Book a demo
           </Link>
         </div>
@@ -120,7 +119,6 @@ export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleRef = useRef(null);
   const location = useLocation();
-  const wasOpen = useRef(false);
   const headerRef = useRef(null);
 
   useEffect(() => {
@@ -131,46 +129,38 @@ export default function SiteHeader() {
   }, []);
 
   // Close on navigation.
-  useEffect(() => setMenuOpen(false), [location.pathname, location.search, location.hash]);
+  useEffect(() => setMenuOpen(false), [location.key]);
 
   // Escape closes the mobile menu; focus returns to the toggle.
   useEffect(() => {
-    if (!menuOpen) {
-      if (wasOpen.current) toggleRef.current?.focus();
-      wasOpen.current = false;
-      return undefined;
-    }
-    wasOpen.current = true;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const background = [...document.querySelectorAll("main, footer")];
-    const previousInert = background.map((el) => el.inert);
-    background.forEach((el) => { el.inert = true; });
-    const focusable = () => [...headerRef.current.querySelectorAll('a[href], button')].filter((el) => el.getClientRects().length && !el.disabled);
-    headerRef.current.querySelector(".mobile-menu button, .mobile-menu a")?.focus();
-    const onKey = (e) => {
-      if (e.key === "Escape") setMenuOpen(false);
-      if (e.key !== "Tab") return;
-      const items = focusable();
-      const first = items[0];
-      const last = items[items.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+    if (!menuOpen) return undefined;
+    const onDown = (e) => {
+      if (!headerRef.current?.contains(e.target) && !e.target.closest("dialog")) setMenuOpen(false);
     };
-    const desktop = window.matchMedia("(min-width: 1080px)");
-    const onResize = () => { if (desktop.matches) setMenuOpen(false); };
-    desktop.addEventListener("change", onResize);
+    const onKey = (e) => {
+      if (e.key === "Escape" && !e.defaultPrevented && !document.querySelector("dialog[open]")) {
+        setMenuOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => {
+      if (toggleRef.current?.getClientRects().length === 0) setMenuOpen(false);
+    });
+    resize?.observe(toggleRef.current);
+    document.addEventListener("pointerdown", onDown);
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
-      desktop.removeEventListener("change", onResize);
-      document.body.style.overflow = previousOverflow;
-      background.forEach((el, i) => { el.inert = previousInert[i]; });
+      document.removeEventListener("pointerdown", onDown);
+      resize?.disconnect();
     };
   }, [menuOpen]);
 
   return (
-    <header ref={headerRef} className={`site-header${scrolled || menuOpen ? " is-scrolled" : ""}`}>
+    <header ref={headerRef} className={`site-header${scrolled || menuOpen ? " is-scrolled" : ""}`} onBlur={(e) => {
+      if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget) &&
+          !e.relatedTarget.closest?.("dialog")) setMenuOpen(false);
+    }}>
       <div className="container site-header__bar">
         <Link to="/" className="brand" aria-label="Vocalis home">
           <img src="/brand/vocalis-mark-256.png" alt="" width="38" height="34" />
@@ -193,7 +183,9 @@ export default function SiteHeader() {
           {menuOpen ? "Close" : "Menu"}
         </button>
       </div>
-      {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} />}
+      <div className="mobile-menu" id="mobile-menu" hidden={!menuOpen}>
+        {menuOpen && <MobileMenu />}
+      </div>
     </header>
   );
 }
