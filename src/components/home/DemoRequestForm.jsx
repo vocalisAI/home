@@ -82,7 +82,7 @@ export default function DemoRequestForm() {
     <section className="section contact" id="contact" aria-labelledby="contact-title">
       <div className="container contact__grid">
         <div>
-          <h2 id="contact-title" className="h-display">Book a Demo.</h2>
+          <h2 id="contact-title" className="h-display">Book a demo</h2>
           <p className="contact__lead">
             Tell us about your clinic, then send the prepared email to request a demo.
           </p>
@@ -93,10 +93,10 @@ export default function DemoRequestForm() {
         </div>
 
         <form className="card contact__form" onSubmit={submit} noValidate aria-label="Request a demo">
-              <p className="field__hint">Name, clinic, and work email are required.</p>
+              <p className="field__hint">Name, clinic, and email address are required.</p>
               {field("fullName", "Your name", { type: "text", autoComplete: "name" })}
               {field("clinicName", "Clinic", { type: "text", autoComplete: "organization" })}
-              {field("email", "Work email", { type: "email", autoComplete: "email", inputMode: "email" })}
+              {field("email", "Email address", { type: "email", autoComplete: "email", inputMode: "email" })}
               <div className="field">
                 <label htmlFor="demo-message">Anything we should know? <span className="muted">(optional)</span></label>
                 <textarea id="demo-message" name="message" rows={3} value={values.message} onChange={set("message")} aria-describedby="demo-message-hint" />

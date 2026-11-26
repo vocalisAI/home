@@ -12,7 +12,7 @@ export default function LoiRequest() {
   const emailInput = useRef();
   const mailLink = useRef();
   const clinicError = !clinic.trim() && "Please enter your clinic’s name.";
-  const emailError = !EMAIL_RE.test(email.trim()) && "Please enter a valid work email.";
+  const emailError = !EMAIL_RE.test(email.trim()) && "Please enter a valid email address.";
   const draftHref = contactEmailHref("Vocalis Letter of Intent request", [
     `Clinic: ${clinic.trim()}`,
     `Reply email: ${email.trim()}`,
@@ -37,7 +37,7 @@ export default function LoiRequest() {
     <form className="card loi" onSubmit={submit} noValidate aria-label="Request a letter of intent">
       <div>
         <h3 className="h-card">Need a Letter of Intent?</h3>
-        <p className="muted">Enter your clinic name and work email, then send the prepared request. Both fields are required.</p>
+        <p className="muted">Enter your clinic name and email address, then send the prepared request. Both fields are required.</p>
       </div>
       <div className="loi__row">
         <div className="field">
@@ -57,7 +57,7 @@ export default function LoiRequest() {
           {validated && clinicError && <p className="field__err" id="loi-clinic-error">{clinicError}</p>}
         </div>
         <div className="field">
-          <label htmlFor="loi-email">Work email</label>
+          <label htmlFor="loi-email">Email address</label>
           <input
             id="loi-email"
             ref={emailInput}

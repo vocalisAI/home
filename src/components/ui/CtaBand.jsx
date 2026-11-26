@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { DEMO_HREF } from "../../data/site";
 import SeeItLive from "./SeeItLive";
 
-export default function CtaBand({ title = "Book a Demo for Your Clinic." }) {
+export default function CtaBand({ title = "Book a clinic demo" }) {
   return (
     <section className="section cta-band">
       <div className="container">

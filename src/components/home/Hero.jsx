@@ -18,7 +18,7 @@ export default function Hero() {
           for Independent Clinics
         </h1>
         <p className="hero__lead">
-          Vocalis picks up every call, books the visit, and flags what keeps patients calling back, so your staff can look after the people standing at the desk.
+          When your front desk is busy, Vocalis answers the phone. It schedules visits and leaves staff a summary of what each caller needs.
         </p>
         <div className="hero__actions">
           <Link to={DEMO_HREF} className="btn btn--primary">Book a demo</Link>

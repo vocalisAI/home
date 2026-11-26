@@ -87,7 +87,7 @@ describe("header menu", () => {
 describe("legacy anchors", () => {
   test("/#pricing redirects to the pricing page", async () => {
     renderAt("/#pricing");
-    expect(await screen.findByRole("heading", { level: 1, name: /Simple Plans/ })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { level: 1, name: /Monthly plans and call minutes/ })).toBeInTheDocument();
   });
 });
 
@@ -111,7 +111,7 @@ describe("contact email requests", () => {
   const fill = () => {
     userEvent.type(screen.getByLabelText(/Your name/), "Dr. Test");
     userEvent.type(screen.getByLabelText(/^Clinic/), "Test Clinic");
-    userEvent.type(screen.getByLabelText(/Work email/), "test@example.com");
+    userEvent.type(screen.getByLabelText("Email address"), "vocalis.form.test@gmail.com");
   };
 
   test("validates required fields before opening email", async () => {
@@ -131,14 +131,14 @@ describe("contact email requests", () => {
     render(<DemoRequestForm />);
     userEvent.type(screen.getByLabelText(/Your name/), "A");
     userEvent.type(screen.getByLabelText(/^Clinic/), "B");
-    userEvent.type(screen.getByLabelText(/Work email/), "nope");
+    userEvent.type(screen.getByLabelText("Email address"), "nope");
     userEvent.click(screen.getByRole("button", { name: /Open email to request a demo/ }));
     expect(await screen.findByText(/doesn’t look right/)).toBeInTheDocument();
     expect(click).not.toHaveBeenCalled();
     click.mockRestore();
   });
 
-  test("prepares an addressed demo email without claiming it was sent", async () => {
+  test("prepares a demo request with a personal reply address without claiming it was sent", async () => {
     const click = jest.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
     render(<DemoRequestForm />);
     fill();
@@ -148,27 +148,28 @@ describe("contact email requests", () => {
     const href = screen.getByRole("link", { name: "open the prepared email" }).getAttribute("href");
     expect(href).toContain("mailto:meetvocalis@gmail.com");
     expect(decodeURIComponent(href)).toContain("Clinic: Test Clinic");
-    expect(decodeURIComponent(href)).toContain("Reply email: test@example.com");
+    expect(decodeURIComponent(href)).toContain("Reply email: vocalis.form.test@gmail.com");
     click.mockRestore();
   });
 
-  test("prepares a letter request with the clinic name", () => {
+  test("prepares a letter request with the clinic name and a personal reply address", () => {
     const click = jest.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
     render(<LoiRequest />);
     userEvent.type(screen.getByLabelText("Clinic name"), "Test Clinic");
-    userEvent.type(screen.getByLabelText("Work email"), "test@example.com");
+    userEvent.type(screen.getByLabelText("Email address"), "vocalis.form.test@outlook.com");
     userEvent.click(screen.getByRole("button", { name: "Open email request" }));
     expect(click).toHaveBeenCalledTimes(1);
     const href = screen.getByRole("link", { name: "open the prepared email" }).getAttribute("href");
     expect(decodeURIComponent(href)).toContain("Vocalis Letter of Intent request");
     expect(decodeURIComponent(href)).toContain("Clinic: Test Clinic");
+    expect(decodeURIComponent(href)).toContain("Reply email: vocalis.form.test@outlook.com");
     click.mockRestore();
   });
 
   test("focuses the invalid letter request field and updates its error as it is corrected", () => {
     render(<LoiRequest />);
     const clinic = screen.getByLabelText("Clinic name");
-    const email = screen.getByLabelText("Work email");
+    const email = screen.getByLabelText("Email address");
     const request = screen.getByRole("button", { name: "Open email request" });
     userEvent.click(request);
     expect(clinic).toHaveFocus();
@@ -177,7 +178,7 @@ describe("contact email requests", () => {
     expect(clinic).toHaveAttribute("aria-invalid", "false");
     userEvent.click(request);
     expect(email).toHaveFocus();
-    expect(email).toHaveAccessibleDescription("Please enter a valid work email.");
+    expect(email).toHaveAccessibleDescription("Please enter a valid email address.");
   });
 });
 
@@ -203,7 +204,7 @@ describe("reduced motion", () => {
 describe("search metadata", () => {
   test("missing pages are excluded from indexing and the directive clears on navigation", async () => {
     renderAt("/unknown-vocalis-page");
-    await screen.findByRole("heading", { name: /couldn’t find/i });
+    await screen.findByRole("heading", { name: /Page not found/i });
     expect(document.head.querySelector('meta[name="robots"]')).toHaveAttribute("content", "noindex");
     expect(document.head.querySelector('link[rel="canonical"]')).toBeNull();
     userEvent.click(screen.getByRole("link", { name: "Back to home" }));

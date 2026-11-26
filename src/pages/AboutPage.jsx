@@ -28,15 +28,15 @@ export default function AboutPage() {
     <>
       <section className="container page-hero">
         <p className="eyebrow">About</p>
-        <h1 className="h-hero">Clinics Should Spend Their Time on Patients, Not Phones.</h1>
+        <h1 className="h-hero">Why we built Vocalis</h1>
       </section>
 
       <section className="section section--tight-top" aria-labelledby="story-title">
         <div className="container about-story">
-          <h2 id="story-title" className="h-display">Why We Built It.</h2>
+          <h2 id="story-title" className="h-display">At the front desk</h2>
           <div className="about-story__body">
-            <p>Mahdi works the front desk and the medical assistant role at APPNA, a free family medicine clinic. Somesh builds machine learning tools at the Cleveland Clinic. Vocalis is where those two jobs meet.</p>
-            <p>We wanted a receptionist that keeps a clinic responsive without adding to anyone’s workload, and that starts where the pressure is: the front desk and the phone.</p>
+            <p>At APPNA, a free family medicine clinic, Mahdi divides his time between the front desk and medical assistant duties. When someone calls while he’s helping a patient at the counter, both need his attention.</p>
+            <p>Mahdi and Somesh, a machine learning researcher at Cleveland Clinic, built Vocalis to answer those calls and pass the requests that need a person back to staff.</p>
           </div>
         </div>
       </section>
@@ -44,16 +44,18 @@ export default function AboutPage() {
       <VocalisDefinition id="about-definition" headingLevel={2} />
 
       <section className="section" aria-labelledby="team-title">
-        <div className="container">
-          <h2 id="team-title" className="h-display team__title">The Team.</h2>
+        <div className="container team__inner">
+          <h2 id="team-title" className="h-display team__title">Meet the founders</h2>
           <div className="team">
-            {TEAM.map((m) => (
-              <article className="member" key={m.name}>
-                <img src={m.img} width="160" height="160" loading="lazy" alt={`Portrait of ${m.name}`} />
-                <div>
-                  <h3>{m.name}</h3>
-                  <p className="member__role">{m.role}</p>
-                  {m.bio.map((b) => <p key={b} className="member__bio">{b}</p>)}
+            {TEAM.map(({ name, role, img, bio }) => (
+              <article className="member" key={name}>
+                <img className="member__portrait" src={img} width="480" height="480" loading="lazy" alt={`Portrait of ${name}`} />
+                <div className="member__identity">
+                  <h3>{name}</h3>
+                  <p className="member__role">{role}</p>
+                </div>
+                <div className="member__bio">
+                  {bio.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 </div>
               </article>
             ))}

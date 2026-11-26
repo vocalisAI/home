@@ -59,7 +59,7 @@ export default function ProductShowcase() {
   return (
     <section className="section showcase" id="showcase" aria-labelledby="showcase-title">
       <div className="container">
-        <h2 id="showcase-title" className="h-display showcase__heading">Follow One Call from Hello to the Dashboard.</h2>
+        <h2 id="showcase-title" className="h-display showcase__heading">How Vocalis handles a call</h2>
         <Stage tab={tab} onTab={setTab} />
         <div className="showcase__more"><SeeItLive variant="ghost" /></div>
       </div>

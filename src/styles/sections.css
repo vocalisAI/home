@@ -4,7 +4,7 @@
 
 /* Grid children must be allowed to shrink or they force horizontal overflow on phones. */
 .stage__intro, .walk, .understand__cols, .act__stage, .insights, .insights__foot, .feature, .calls__grid,
-.trust__grid, .contact__grid, .definition__grid, .specs__grid, .overview, .stories, .story__cols,
+.trust__grid, .contact__grid, .definition__grid, .specs__grid, .overview,
 .about-story, .security-ask__grid, .path, .member {
   grid-template-columns: minmax(0, 1fr);
 }
@@ -833,13 +833,18 @@
   gap: clamp(32px, 4vw, 64px);
   align-items: center;
 }
+.definition__text {
+  container-type: inline-size;
+}
 .definition__word {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(4rem, 2rem + 8vw, 8.5rem);
+  font-size: 4rem;
+  font-size: min(clamp(4rem, 2rem + 8vw, 8.5rem), 32cqi);
   letter-spacing: -0.04em;
   line-height: 0.95;
+  white-space: nowrap;
   color: var(--navy);
 }
 .definition__phonetic {
@@ -956,7 +961,6 @@
 /* ---------- Contact ---------- */
 .contact {
   background: linear-gradient(180deg, var(--canvas) 0%, #e3f5ee 100%);
-  padding-bottom: clamp(24px, 3vw, 40px); /* the playground follows directly */
 }
 .contact__grid {
   display: grid;
@@ -1275,120 +1279,123 @@
   }
 }
 
-/* ---------- Workflows page ---------- */
-.stories {
+/* ---------- Clinic call log ---------- */
+.clinic-intro {
+  background: linear-gradient(115deg, var(--canvas) 32%, var(--stage));
+  border-bottom: 1px solid var(--border);
+  padding: calc(var(--head-offset) + var(--section-y)) 0 var(--section-y);
+}
+.clinic-intro__grid, .clinic-call {
   display: grid;
-  gap: clamp(8px, 4vw, 80px);
-  padding-bottom: var(--section-y);
+  gap: clamp(24px, 5vw, 80px);
+  align-items: center;
 }
-.stories__index {
-  display: none;
+.clinic-intro h1 {
+  max-width: 13ch;
+  font-size: clamp(2.75rem, 5.5vw, 5rem);
+  line-height: 1;
 }
-.stories__index ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.clinic-intro__lead {
+  max-width: 43ch;
+  margin: 22px 0;
+  color: var(--ink-soft);
+  font-size: 1.125rem;
+}
+.call-log {
+  color: white;
+  background: radial-gradient(ellipse at top right, #224c50, transparent 70%), var(--navy);
+  border-radius: 20px;
+  padding: clamp(20px, 3vw, 40px);
+}
+.call-log__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  font-size: 1.25rem;
+}
+.call-log__head span:last-child, .call-log__time, .clinic-call__time {
+  font: 0.8125rem/1.5 ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+.call-log__head span:last-child, .call-log__time, .call-log svg { color: #a6e7d9; }
+.call-log__signal {
+  height: 32px;
+  margin: 8px 0 20px;
+  background: repeating-linear-gradient(90deg, #80d7c8 0 2px, transparent 2px 5px);
+  clip-path: polygon(0 48%, 8% 44%, 11% 30%, 14% 43%, 17% 10%, 19% 37%, 22% 0, 25% 32%, 29% 19%, 34% 44%, 42% 46%, 47% 36%, 51% 9%, 54% 29%, 56% 18%, 61% 42%, 68% 48%, 71% 34%, 76% 6%, 80% 38%, 85% 27%, 89% 45%, 100% 48%, 100% 55%, 89% 54%, 85% 73%, 80% 62%, 76% 94%, 71% 66%, 68% 52%, 61% 58%, 56% 82%, 54% 71%, 51% 91%, 47% 64%, 42% 54%, 34% 56%, 29% 81%, 25% 68%, 22% 100%, 19% 63%, 17% 90%, 14% 57%, 11% 70%, 8% 56%, 0 52%);
+}
+.call-log ol { list-style: none; padding: 0; margin: 0; }
+.call-log a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 3px 16px;
+  padding: 13px 0;
+  border-top: 1px solid #ffffff38;
+  color: white;
+  text-decoration: none;
+}
+.call-log a:hover span:nth-child(2) { text-decoration: underline; }
+.call-log a:focus-visible { outline-color: var(--mint-light); }
+.call-log__time { grid-column: 1; }
+.call-log a span:nth-child(2) { grid-column: 1; }
+.call-log svg { grid-column: 2; grid-row: 1 / 3; }
+.clinic-call {
+  padding-block: clamp(36px, 5vw, 80px);
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: calc(var(--head-offset) + 12px);
+}
+.clinic-call__time { color: var(--teal); }
+.clinic-call h2 {
+  margin: 10px 0 16px;
+  font-size: clamp(2rem, 3.5vw, 3.4rem);
+  font-weight: 450;
+  letter-spacing: -0.045em;
+}
+.clinic-call__context { max-width: 45ch; color: var(--ink-soft); }
+.clinic-call blockquote {
+  margin: 22px 0 0;
+  border-left: 2px solid var(--mint);
+  padding-left: 18px;
+  max-width: 32ch;
+  color: var(--navy);
+  font: italic clamp(1.3rem, 2vw, 1.75rem)/1.35 var(--font-serif);
+}
+.clinic-record {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.clinic-record__head {
+  padding: 20px clamp(18px, 3vw, 30px);
+  background: linear-gradient(110deg, var(--stage), var(--canvas));
   border-bottom: 1px solid var(--border);
 }
-.stories__index a {
-  display: block;
-  min-height: 44px;
-  padding: 14px 0;
-  border-top: 1px solid var(--border);
-  color: var(--navy);
-  font-weight: 500;
-  text-decoration: none;
-  line-height: 1.3;
-}
-.stories__index a span {
-  display: block;
-  margin-bottom: 2px;
-  color: var(--muted);
-  font-size: 0.8125rem;
-  font-weight: 400;
-}
-.stories__index a:hover {
-  text-decoration: underline;
-}
-.story {
-  padding-block: clamp(32px, 4.2vw, 60px);
-  border-top: 1px solid var(--border);
-}
-.story:first-child {
-  border-top: 0;
-  padding-top: clamp(8px, 2vw, 24px);
-}
-.story__when {
+.clinic-record h3 {
   color: var(--teal);
-  font-size: 0.9375rem;
-  font-weight: 500;
+  font: 500 0.875rem/1.4 var(--font-ui);
 }
-.story__title {
-  margin-top: 12px;
-  font-size: clamp(2rem, 1.1rem + 3vw, 3.5rem);
-  font-weight: 400;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
-}
-.story__situation {
-  margin-top: 20px;
-  max-width: 44ch;
-  color: var(--ink-soft);
-  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.3125rem);
-  line-height: 1.5;
-}
-.story__quote {
-  margin: clamp(28px, 4vw, 44px) 0;
-  padding-left: clamp(18px, 3vw, 28px);
-  border-left: 3px solid var(--mint);
-  max-width: 30ch;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.375rem, 1rem + 1.6vw, 2.125rem);
-  line-height: 1.3;
+.clinic-record__head p {
+  margin-top: 4px;
   color: var(--navy);
+  font-size: clamp(1.4rem, 2vw, 1.875rem);
+  letter-spacing: -0.035em;
 }
-.story__cols {
-  display: grid;
-  gap: 28px 0;
-  border-top: 1px solid var(--border);
-  padding-top: 28px;
+.clinic-record dl { margin: 0; padding: 0 clamp(18px, 3vw, 30px); }
+.clinic-record dl > div { display: grid; gap: 4px 16px; padding: 16px 0; }
+.clinic-record dl > div + div { border-top: 1px solid var(--border); }
+.clinic-record dt { color: var(--muted); font-size: 0.9375rem; }
+.clinic-record dd { margin: 0; color: var(--ink); }
+.clinic-record > p { padding: 0 clamp(18px, 3vw, 30px) 20px; color: var(--muted); font-size: 0.9375rem; }
+@media (min-width: 520px) {
+  .clinic-record dl > div { grid-template-columns: 7rem minmax(0, 1fr); }
 }
-.story__cols h3 {
-  margin-bottom: 8px;
-  color: var(--teal);
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-.story__cols p {
-  max-width: 40ch;
-  color: var(--ink);
-}
-.story__note {
-  margin-top: 28px;
-  max-width: 60ch;
-  color: var(--muted);
-  font-size: 0.9375rem;
-}
-@media (min-width: 720px) {
-  .story__cols {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  }
-  .story__cols > div + div {
-    padding-left: clamp(24px, 4vw, 56px);
-    border-left: 1px solid var(--border);
-  }
-}
-@media (min-width: 960px) {
-  .stories {
-    grid-template-columns: 240px minmax(0, 1fr);
-  }
-  .stories__index {
-    display: block;
-    position: sticky;
-    top: calc(var(--head-offset) + 24px);
-    align-self: start;
-  }
+@media (min-width: 850px) {
+  .clinic-intro__grid, .clinic-call { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 
 /* ---------- Security page ---------- */
@@ -1503,48 +1510,49 @@
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr);
   }
 }
+.team__inner {
+  max-width: calc(960px + 2 * var(--gutter));
+}
 .team__title {
-  margin-bottom: clamp(24px, 4vw, 48px);
+  margin-bottom: clamp(24px, 4vw, 44px);
 }
 .team {
   display: grid;
-  border-bottom: 1px solid var(--border);
+  gap: clamp(32px, 4vw, 56px);
 }
-.member {
-  display: grid;
-  gap: 20px 40px;
-  align-items: start;
-  padding-block: clamp(28px, 4vw, 44px);
-  border-top: 1px solid var(--border);
-}
-.member img {
-  width: 128px;
-  height: 128px;
-  border-radius: 50%;
+.member__portrait {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  background: var(--surface-alt);
   object-fit: cover;
+  object-position: center 32%;
+}
+.member__identity {
+  margin-top: clamp(18px, 2.5vw, 28px);
 }
 .member h3 {
-  font-size: clamp(1.625rem, 1.2rem + 1.4vw, 2.25rem);
-  font-weight: 400;
-  letter-spacing: -0.035em;
+  font-size: clamp(1.5rem, 1.25rem + 0.7vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
 }
 .member__role {
   margin-top: 6px;
   color: var(--teal);
+  font-size: 0.9375rem;
   font-weight: 500;
 }
 .member__bio {
-  margin-top: 14px;
-  max-width: 56ch;
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  max-width: 48ch;
   color: var(--ink-soft);
 }
 @media (min-width: 720px) {
-  .member {
-    grid-template-columns: 180px minmax(0, 1fr);
-  }
-  .member img {
-    width: 160px;
-    height: 160px;
+  .team {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

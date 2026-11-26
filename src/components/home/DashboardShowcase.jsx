@@ -1,9 +1,9 @@
 import React from "react";
 
 const NOTES = [
-  ["Every Call, by Reason", "See what patients call about, from appointments to medication requests, and how many calls each reason brings."],
-  ["Resolved or Handed to Staff", "A running count of the calls Vocalis resolved and the calls it passed to your team, with the reason for each handoff."],
-  ["When Calls Arrive", "Peak call hours, missed calls and after-hours calls in one place."],
+  ["Reasons patients call", "Compare the number of appointment calls, medication requests and other inquiries."],
+  ["Calls transferred to staff", "A running count of the calls Vocalis resolved and the calls it passed to your team, with the reason for each handoff."],
+  ["Busiest hours", "Peak call hours, missed calls and after-hours calls in one place."],
 ];
 
 /** The clinic dashboard from the pitch slides, shown at a readable size. On narrow screens it pans sideways. */
@@ -12,7 +12,7 @@ export default function DashboardShowcase() {
     <section className="section dashboard" aria-labelledby="dash-title">
       <div className="container">
         <div className="dashboard__head">
-          <h2 id="dash-title" className="h-display">The Dashboard Behind Every Call.</h2>
+          <h2 id="dash-title" className="h-display">Your clinic’s call dashboard</h2>
           <p>Call volume, call reasons, bookings and handoffs for each location, updated as calls come in.</p>
         </div>
         <figure className="dashboard__frame">

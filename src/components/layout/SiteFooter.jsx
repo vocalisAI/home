@@ -1,39 +1,26 @@
-import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { CONTACT_EMAIL } from "../../data/site";
 import { useVideo } from "../ui/VideoContext";
-
-const VoicePlayground = lazy(() => import("./VoicePlayground"));
-const SHOWS_PLAYGROUND = ["/", "/about"];
 
 export default function SiteFooter() {
   const { pathname } = useLocation();
   const { open: openVideo } = useVideo();
-  const anchor = useRef(null);
-  const [near, setNear] = useState(false);
-  useEffect(() => {
-    if (!SHOWS_PLAYGROUND.includes(pathname) || !anchor.current || typeof IntersectionObserver === "undefined") return undefined;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setNear(true); observer.disconnect(); }
-    }, { rootMargin: "400px" });
-    observer.observe(anchor.current);
-    return () => observer.disconnect();
-  }, [pathname]);
+  const showWordmark = pathname === "/" || pathname === "/about";
+
   return (
-    <footer>
-      {SHOWS_PLAYGROUND.includes(pathname) && <div className="playground-reserve" ref={anchor}>
-        {near && <Suspense fallback={null}><VoicePlayground /></Suspense>}
-      </div>}
-      <div className="site-footer">
+    <footer className="site-footer">
       <div className="container">
+        {showWordmark && <Link to="/" className="site-footer__wordmark" aria-label="Vocalis">vocalis</Link>}
         <div className="site-footer__grid">
           <div className="site-footer__brand">
-            <Link to="/" className="brand">
-              <img src="/brand/vocalis-mark-256.png" alt="" width="42" height="38" />
-              Vocalis
-            </Link>
-            <p style={{ marginTop: 16 }}>An AI receptionist for independent clinics.</p>
+            {!showWordmark && (
+              <Link to="/" className="brand">
+                <img src="/brand/vocalis-mark-256.png" alt="" width="42" height="38" />
+                Vocalis
+              </Link>
+            )}
+            <p>An AI receptionist for independent clinics.</p>
           </div>
           <div>
             <h2>Product</h2>
@@ -75,7 +62,6 @@ export default function SiteFooter() {
         <div className="site-footer__legal">
           <span>&copy; <span suppressHydrationWarning>{new Date().getFullYear()}</span> Vocalis. All rights reserved.</span>
         </div>
-      </div>
       </div>
     </footer>
   );

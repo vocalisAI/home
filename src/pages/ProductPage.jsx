@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Tabs from "../components/ui/Tabs";
-import Disclosure from "../components/ui/Disclosure";
 import CtaBand from "../components/ui/CtaBand";
 import SeeItLive from "../components/ui/SeeItLive";
 import { useVideo } from "../components/ui/VideoContext";
@@ -73,7 +72,7 @@ export default function ProductPage() {
 
       <section className="section specs" aria-labelledby="specs-title">
         <div className="container specs__grid">
-          <h2 id="specs-title" className="h-display">On Every Call.</h2>
+          <h2 id="specs-title" className="h-display">Platform specifications</h2>
           <dl className="specs__list">
             {PLATFORM_SPECS.map(([k, v]) => (
               <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
@@ -84,14 +83,14 @@ export default function ProductPage() {
 
       <section className="section" aria-labelledby="product-answers">
         <div className="container container--narrow product-answers">
-          <h2 id="product-answers" className="h-display">What Can Vocalis Handle?</h2>
+          <h2 id="product-answers" className="h-display">Questions about clinic calls</h2>
           <dl>
             <dt>What calls can Vocalis answer?</dt>
             <dd>Vocalis can answer routine clinic questions, take appointment requests, collect insurance details by secure link, and queue callbacks. See <Link to="/workflows">examples of clinic calls</Link>.</dd>
             <dt>Can Vocalis book or reschedule appointments?</dt>
-            <dd>Vocalis can take booking, rescheduling, and cancellation requests. Calendar and EHR connections are scoped during onboarding. Your staff review requests unless your setup confirms them directly.</dd>
+            <dd>Vocalis can take booking, rescheduling, and cancellation requests. During setup, we check which calendar and EHR connections your clinic can use. Your staff review requests unless your setup confirms them directly.</dd>
             <dt>When does Vocalis hand a call to staff?</dt>
-            <dd>For requests that need a person, Vocalis uses your clinic’s handoff rules and passes along a short summary. These administrative workflows leave medical advice and insurance coverage decisions to the appropriate professionals.</dd>
+            <dd>For requests that need a person, Vocalis uses your clinic’s handoff rules and passes along a short summary. Clinicians give medical advice. Insurers decide coverage.</dd>
             <dt>What does Vocalis show after a call?</dt>
             <dd>Your team can see why the patient called, what blocked the request, and the suggested next step. The dashboard also groups calls by reason and time of day so staff can spot recurring problems.</dd>
           </dl>
@@ -102,8 +101,8 @@ export default function ProductPage() {
       <section className="section overview-band" id="demo-transcript" aria-labelledby="overview-title">
         <div className="container overview">
           <div>
-            <h2 id="overview-title" className="h-display">See It Live.</h2>
-            <p className="muted overview__text">Follow an example call from the first hello to the clinic dashboard.</p>
+            <h2 id="overview-title" className="h-display">Product walkthrough</h2>
+            <p className="muted overview__text">Watch an insurance follow-up call and see the appointment it creates.</p>
             <p><a href="/media/vocalis-overview.mp4">Open the silent product demo video</a></p>
           </div>
           <button type="button" className="poster js-only" onClick={openVideo} aria-label="See it live: open the video and transcript">
@@ -113,15 +112,6 @@ export default function ProductPage() {
         </div>
         <div className="container container--narrow overview-transcript">
           <VideoTranscript />
-        </div>
-      </section>
-
-      <section className="section" aria-label="How the pieces fit together">
-        <div className="container container--narrow">
-          <Disclosure title="How the Pieces Fit Together">
-            <p>A call comes in and Vocalis answers. The conversation becomes a structured record. Booking, reminders and waitlist backfill run against your calendar and EHR, and your staff review anything that needs a person. Call patterns collect in your clinic dashboard.</p>
-            <p>How Vocalis connects to your systems depends on your setup. We’ll walk through it during a demo.</p>
-          </Disclosure>
         </div>
       </section>
 

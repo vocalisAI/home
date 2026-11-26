@@ -28,9 +28,9 @@ export default function VocalisDefinition({ id = "definition", headingLevel = 2 
             />
           </figure>
           <div className="definition__brand" id="why-the-name">
-            <h3 className="eyebrow">Why the Name</h3>
+            <h3 className="eyebrow">Why the name</h3>
             <p>
-              The vocalis muscle fine-tunes pitch and tone. We build voice production models with natural, human-centered speech, and we named the company for that precision. How a clinic sounds on the phone matters.
+              We named Vocalis after the muscle that helps control the human voice. When we build a voice for the receptionist, we listen for the same things a caller hears, including changes in pitch and tone.
             </p>
           </div>
         </div>
